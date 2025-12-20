@@ -27,30 +27,44 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
 }
 
-/* ANA BAŞLIK */
-.main-title {
-    font-family: "Times New Roman", Georgia, serif;
+/* ===== ANA BAŞLIK KARTI ===== */
+.header-card {
+    background: rgba(15, 42, 68, 0.65);
+    padding: 30px;
+    border-radius: 22px;
     text-align: center;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.35);
     transition: transform 0.3s ease;
 }
-.main-title:hover {
-    transform: scale(1.05);
+.header-card:hover {
+    transform: scale(1.04);
 }
 
-/* BÖLÜM BAŞLIKLARI */
+/* ===== ANA BAŞLIK ===== */
+.main-title {
+    font-family: "Times New Roman", Georgia, serif;
+    margin-bottom: 10px;
+}
+
+/* ===== BÖLÜM BAŞLIKLARI ===== */
 .section-title {
     transition: transform 0.25s ease;
 }
 .section-title:hover {
-    transform: scale(1.04);
+    transform: scale(1.05);
+}
+.section-title::before {
+    content: "● ";
+    color: #5dade2;
+    font-weight: bold;
 }
 
-/* Slider rengi (YEŞİL) */
+/* ===== SLIDER (YEŞİL) ===== */
 div[data-baseweb="slider"] > div > div {
     background-color: #2ecc71 !important;
 }
 
-/* BUTON */
+/* ===== BUTON ===== */
 .stButton > button {
     background-color: #1f6fb2;
     color: #ffffff;
@@ -63,10 +77,10 @@ div[data-baseweb="slider"] > div > div {
 }
 .stButton > button:hover {
     background-color: #164f82;
-    transform: scale(1.1);
+    transform: scale(1.12);
 }
 
-/* SONUÇ KARTI */
+/* ===== SONUÇ KARTI ===== */
 .result-card {
     background: linear-gradient(135deg, #0f2a44, #123a5f);
     padding: 30px;
@@ -76,10 +90,10 @@ div[data-baseweb="slider"] > div > div {
     transition: transform 0.3s ease;
 }
 .result-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
 
-/* TABLO */
+/* ===== TABLO ===== */
 .custom-table {
     background-color: rgba(15, 42, 68, 0.85);
     border-radius: 16px;
@@ -105,18 +119,18 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # BAŞLIK
 # =========================
 st.markdown("""
-<h1 class="main-title">
-Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
-</h1>
-
-<p style="text-align:center;">
-Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
-</p>
-
-<p style="text-align:center; font-size:14px;">
-Bu sistem, klinik parametrelere dayalı <b>olasılıksal bir evre tahmini</b> sunar.<br>
-Sonuçlar <b>tanısal doğruluk garantisi içermez</b> ve klinik kararların yerine geçmez.
-</p>
+<div class="header-card">
+    <h1 class="main-title">
+        Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
+    </h1>
+    <p>
+        Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
+    </p>
+    <p style="font-size:14px;">
+        Bu sistem, klinik parametrelere dayalı <b>olasılıksal bir evre tahmini</b> sunar.<br>
+        Sonuçlar <b>tanısal doğruluk garantisi içermez</b> ve klinik kararların yerine geçmez.
+    </p>
+</div>
 """, unsafe_allow_html=True)
 
 st.divider()
@@ -212,28 +226,40 @@ if predict_btn:
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    st.subheader("Evre Olasılıkları")
-    for s, p in zip(le_stage.classes_, probs):
-        st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
-
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
+    # =========================
+    # HASTA BAZLI PARAMETRE ANALİZİ
+    # =========================
     st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
     st.write(
-        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye en fazla katkı sağlayan "
-        "klinik parametreler listelenmektedir."
+        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
+        "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
     )
 
-    base = np.argmax(probs)
-    impacts = []
-    for col in model.feature_names_in_:
-        temp = input_df.copy()
-        temp[col] = 0
-        diff = probs[base] - model.predict_proba(temp)[0][base]
-        impacts.append([col, diff])
+    base_index = np.argmax(probs)
+    impact_results = []
 
-    impact_df = pd.DataFrame(impacts, columns=["Parametre", "Etki Büyüklüğü"])\
-        .sort_values("Etki Büyüklüğü", ascending=False).head(5)
+    for col in model.feature_names_in_:
+        temp_df = input_df.copy()
+        temp_df[col] = 0
+        temp_proba = model.predict_proba(temp_df)[0]
+        diff = probs[base_index] - temp_proba[base_index]
+
+        if diff > 0:
+            yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor."
+        elif diff < 0:
+            yorum = "Evre tahminini azaltıcı yönde etkili."
+        else:
+            yorum = "Belirgin etkisi yok."
+
+        impact_results.append({
+            "Parametre": col,
+            "Etki Büyüklüğü": diff,
+            "Klinik Yorum": yorum
+        })
+
+    impact_df = pd.DataFrame(impact_results)\
+        .sort_values("Etki Büyüklüğü", ascending=False)\
+        .head(5)
 
     st.markdown(f"""
     <div class="custom-table">
