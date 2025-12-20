@@ -106,7 +106,7 @@ st.markdown("""
     <h1>Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi</h1>
     <p><b>Eğitim ve klinik simülasyon amaçlıdır.</b></p>
     <p style="font-size:14px;">
-        Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir.  
+        ⚠️Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir.  
         Klinik kararların yerine geçmez.
     </p>
 </div>
