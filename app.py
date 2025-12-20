@@ -36,6 +36,13 @@ h2, h3, label, p {
     color: #f2f4f8 !important;
 }
 
+/* Madde işaretleri maviydi, tekrar ekledim */
+h3::before {
+    content: "● ";
+    color: #5dade2;
+    font-weight: bold;
+}
+
 /* Slider rengi */
 div[data-baseweb="slider"] > div > div {
     background-color: #1f6fb2 !important;
@@ -81,20 +88,20 @@ st.divider()
 # GİRDİLER
 # =========================
 
-st.markdown("<h3>● Demografik Bilgiler</h3>", unsafe_allow_html=True)
+st.markdown("<h3>Demografik Bilgiler</h3>", unsafe_allow_html=True)
 age = st.slider("Yaş", 1, 100, 50)
 sex = st.radio("Cinsiyet", ["Female", "Male"], horizontal=True)
 
 st.divider()
 
-st.markdown("<h3>● Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
+st.markdown("<h3>Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
 n_days = st.slider("Takip Süresi (N_Days)", 0, 5000, 1000)
 status = st.radio("Hasta Durumu (Status)", ["C", "CL", "D"], horizontal=True)
 drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horizontal=True)
 
 st.divider()
 
-st.markdown("<h3>● Klinik Bulgular</h3>", unsafe_allow_html=True)
+st.markdown("<h3>Klinik Bulgular</h3>", unsafe_allow_html=True)
 ascites = st.selectbox("Ascites", ["Yok", "Var"])
 hepatomegaly = st.selectbox("Hepatomegaly", ["Yok", "Var"])
 spiders = st.selectbox("Spiders", ["Yok", "Var"])
@@ -102,7 +109,7 @@ edema = st.selectbox("Edema", ["0", "1", "2"])
 
 st.divider()
 
-st.markdown("<h3>● Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
+st.markdown("<h3>Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
 bilirubin = st.slider("Bilirubin", 0.1, 30.0, 1.0)
 cholesterol = st.slider("Cholesterol", 100.0, 500.0, 250.0)
 albumin = st.slider("Albumin", 1.0, 6.0, 3.5)
@@ -164,7 +171,7 @@ if predict_btn:
     st.divider()
 
     # =========================
-    # SONUÇ KARTI (DÜZELTİLDİ)
+    # SONUÇ KARTI
     # =========================
     st.markdown(f"""
     <div style="
@@ -188,5 +195,22 @@ if predict_btn:
         "Özellik": model.feature_names_in_,
         "Önem": model.feature_importances_
     }).sort_values(by="Önem", ascending=False).head(10)
-
     st.bar_chart(fi_df.set_index("Özellik"))
+
+    # =========================
+    # KİŞİYE ÖZEL RİSK ANALİZİ
+    # =========================
+    st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
+    base_proba = model.predict_proba(input_df)[0]
+    base_stage_index = np.argmax(base_proba)
+
+    impact_results = []
+    for col in model.feature_names_in_:
+        temp_df = input_df.copy()
+        temp_df[col] = 0
+        temp_proba = model.predict_proba(temp_df)[0]
+        diff = base_proba[base_stage_index] - temp_proba[base_stage_index]
+        impact_results.append({"Parametre": col, "Etkisi": diff})
+
+    impact_df = pd.DataFrame(impact_results).sort_values(by="Etkisi", ascending=False).head(5)
+    st.dataframe(impact_df.style.format({"Etkisi": "{:.4f}"}))
