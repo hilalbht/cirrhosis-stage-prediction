@@ -47,7 +47,7 @@ st.markdown("""
 .section-title {
     transition: transform 0.25s ease;
     font-family: "Times New Roman", Georgia, serif;
-    font-size: 26px;
+    font-size: 30px;
 
 }
 
