@@ -18,7 +18,6 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
-/* ===== GENEL ===== */
 .stApp {
     background: linear-gradient(90deg,
         rgba(99,159,176,1) 0%,
@@ -29,12 +28,6 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
 }
 
-/* ===== YEŞİL TEMA ===== */
-:root {
-    --accent-green: #2e8b57;
-    --accent-green-dark: #1f6b42;
-}
-
 /* ===== BAŞLIK KARTI ===== */
 .header-card {
     background: rgba(15, 42, 68, 0.55);
@@ -42,6 +35,11 @@ st.markdown("""
     border-radius: 20px;
     padding: 30px;
     margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.header-card:hover {
+    transform: scale(1.03);
 }
 
 .main-title {
@@ -59,72 +57,84 @@ st.markdown("""
     transform: scale(1.04);
 }
 
-/* ===== SLIDER (KALIN / TEK RENK / ALT ÇİZGİ YOK) ===== */
-div[data-baseweb="slider"] > div {
-    padding: 10px 0;
+/* =========================
+   SLIDER – ALT GÖLGE TAMAMEN YOK
+   ========================= */
+
+/* slider container */
+div[data-baseweb="slider"] {
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 
-/* aktif track */
+/* PASİF / ALT TRACK TAM KAPAT */
+div[data-baseweb="slider"] div[aria-hidden="true"] {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* aktif track (TEK RENK – KALIN) */
 div[data-baseweb="slider"] > div > div {
     height: 14px !important;
-    background-color: var(--accent-green) !important;
+    background-color: #1f6fb2 !important;
     border-radius: 10px;
+    box-shadow: none !important;
 }
 
-/* slider thumb */
+/* thumb */
 div[data-baseweb="slider"] span {
-    width: 26px !important;
-    height: 26px !important;
-    background-color: var(--accent-green) !important;
+    width: 24px !important;
+    height: 24px !important;
+    background-color: #1f6fb2 !important;
     border: none !important;
-    box-shadow: 0 0 0 3px rgba(46,139,87,0.35);
+    box-shadow: 0 0 0 3px rgba(31,111,178,0.35);
 }
 
-/* pasif / alt track tamamen kapalı */
-div[data-baseweb="slider"] div[aria-hidden="true"] {
-    background-color: transparent !important;
+/* =========================
+   RADIO
+   ========================= */
+div[role="radiogroup"] label {
+    transform: scale(1.08);
+    margin-right: 10px;
 }
 
-/* ===== RADIO ===== */
-div[role="radiogroup"] input:checked + div {
-    background-color: var(--accent-green) !important;
-    border-color: var(--accent-green) !important;
-}
-
-/* ===== PROGRESS BAR ===== */
-.stProgress > div > div > div {
-    background-color: var(--accent-green) !important;
-}
-
-/* ===== SELECTBOX FOCUS ===== */
-div[data-baseweb="select"] > div:focus {
-    border-color: var(--accent-green) !important;
-}
-
-/* ===== BUTON ===== */
+/* =========================
+   BUTON
+   ========================= */
 .stButton > button {
-    background-color: var(--accent-green);
+    background-color: #1f6fb2;
     color: #ffffff;
     border-radius: 18px;
     padding: 16px 70px;
     font-size: 22px;
     font-weight: 800;
+    transition: transform 0.3s ease;
 }
 
 .stButton > button:hover {
-    background-color: var(--accent-green-dark);
+    background-color: #164f82;
+    transform: scale(1.08);
 }
 
-/* ===== SONUÇ KARTI ===== */
+/* =========================
+   SONUÇ KARTI
+   ========================= */
 .result-card {
     background: linear-gradient(135deg, #0f2a44, #123a5f);
     padding: 30px;
     border-radius: 18px;
     text-align: center;
     box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease;
 }
 
-/* ===== TABLO ===== */
+.result-card:hover {
+    transform: scale(1.05);
+}
+
+/* =========================
+   TABLO
+   ========================= */
 .custom-table {
     background-color: rgba(15, 42, 68, 0.85);
     border-radius: 16px;
@@ -168,8 +178,9 @@ st.markdown("""
     <p style="text-align:center;">
     Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
     </p>
-    <p style="text-align:center; font-size:14px;">
-    ⚠️ Bu sistem tanısal karar yerine geçmez.
+    <p style="text-align:center; font-size:14px; opacity:0.9;">
+    ⚠️Bu sistem, klinik parametrelere dayalı <b>olasılıksal bir evre tahmini</b> sunar.<br>
+    Sonuçlar <b>tanısal doğruluk garantisi içermez</b> ve klinik kararların yerine geçmez.
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -258,6 +269,10 @@ if predict_btn:
     <div class="result-card">
         <h2>Tahmin Edilen Siroz Evresi</h2>
         <h1 style="font-size:48px;">Stage {stage}</h1>
+        <p style="font-size:14px;">
+        Not: Gösterilen evre, modelin mevcut verilere dayanarak yaptığı
+        <b>istatistiksel bir tahmindir</b>.
+        </p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -266,7 +281,6 @@ if predict_btn:
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
     st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
-
     base_stage = np.argmax(probs)
     impacts = []
 
