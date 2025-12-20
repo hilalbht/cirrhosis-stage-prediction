@@ -47,7 +47,7 @@ st.markdown("""
 .section-title {
     transition: transform 0.25s ease;
     font-family: "Times New Roman", Georgia, serif;
-    font-size: 30px;
+    font-size: 26px;
 
 }
 
@@ -55,6 +55,7 @@ st.markdown("""
     content: "● ";
     color: #5dade2;
     font-weight: bold;
+    Streamlit UI for XGBoost cirrhosis stage predictionfont-size: 26px;
 }
 
 /* ===== BUTON ===== */
