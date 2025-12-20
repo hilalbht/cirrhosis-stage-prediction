@@ -27,25 +27,14 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
 }
 
-/* ===== ANA BAŞLIK KARTI ===== */
 .header-card {
     background: rgba(15, 42, 68, 0.65);
     padding: 30px;
     border-radius: 22px;
     text-align: center;
     box-shadow: 0px 10px 30px rgba(0,0,0,0.35);
-    transition: transform 0.3s ease;
-}
-.header-card:hover {
-    transform: scale(1.04);
 }
 
-/* ===== ANA BAŞLIK ===== */
-.main-title {
-    font-family: "Times New Roman", Georgia, serif;
-}
-
-/* ===== BÖLÜM BAŞLIKLARI ===== */
 .section-title {
     transition: transform 0.25s ease;
 }
@@ -58,46 +47,27 @@ st.markdown("""
     font-weight: bold;
 }
 
-/* ===== SLIDER (KOYU GRİ) ===== */
-div[data-baseweb="slider"] > div > div {
-    background-color: #1f2933 !important;
-}
-
-/* ===== BUTON ===== */
 .stButton > button {
     background: linear-gradient(135deg, #111827, #1f2933);
     color: #ffffff;
     border-radius: 22px;
     padding: 22px 90px;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 900;
-    letter-spacing: 1.8px;
-    box-shadow: 0px 10px 35px rgba(0,0,0,0.45);
-    transition: all 0.3s ease;
-}
-.stButton > button:hover {
-    transform: scale(1.18);
+    letter-spacing: 1.5px;
 }
 
-/* ===== SONUÇ KARTI ===== */
 .result-card {
     background: linear-gradient(135deg, #0f2a44, #123a5f);
     padding: 30px;
     border-radius: 18px;
     text-align: center;
-    box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
-    transition: transform 0.3s ease;
-}
-.result-card:hover {
-    transform: scale(1.06);
 }
 
-/* ===== TABLO ===== */
 .custom-table {
     background-color: rgba(15, 42, 68, 0.85);
     border-radius: 16px;
     padding: 20px;
-    margin-top: 25px;
 }
 .custom-table th {
     color: #bcdcff;
@@ -119,12 +89,11 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # =========================
 st.markdown("""
 <div class="header-card">
-    <h1 class="main-title">
-        Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
-    </h1>
-    <p>Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.</p>
+    <h1>Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi</h1>
+    <p><b>Eğitim ve klinik simülasyon amaçlıdır.</b></p>
     <p style="font-size:14px;">
-        Bu sistem <b>olasılıksal bir tahmin</b> sunar ve klinik kararların yerine geçmez.
+        Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir.  
+        Klinik kararların yerine geçmez.
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -179,45 +148,87 @@ with col2:
 # TAHMİN
 # =========================
 if predict_btn:
-    with st.spinner("Model hesaplama yapıyor..."):
+    sex_val = 1 if sex == "Male" else 0
+    status_val = {"C":0,"CL":1,"D":2}[status]
+    drug_val = 1 if drug == "D-penicillamine" else 0
 
-        sex_val = 1 if sex == "Male" else 0
-        status_val = {"C":0,"CL":1,"D":2}[status]
-        drug_val = 1 if drug == "D-penicillamine" else 0
+    input_df = pd.DataFrame([{
+        "N_Days": n_days,
+        "Status": status_val,
+        "Drug": drug_val,
+        "Age": age,
+        "Sex": sex_val,
+        "Ascites": 1 if ascites=="Var" else 0,
+        "Hepatomegaly": 1 if hepatomegaly=="Var" else 0,
+        "Spiders": 1 if spiders=="Var" else 0,
+        "Edema": int(edema),
+        "Bilirubin": bilirubin,
+        "Cholesterol": cholesterol,
+        "Albumin": albumin,
+        "Copper": copper,
+        "Alk_Phos": alk_phos,
+        "SGOT": sgot,
+        "Tryglicerides": trig,
+        "Platelets": platelets,
+        "Prothrombin": prothrombin,
+        "Status_label": status_val,
+        "Drug_label": drug_val
+    }])[model.feature_names_in_]
 
-        input_df = pd.DataFrame([{
-            "N_Days": n_days,
-            "Status": status_val,
-            "Drug": drug_val,
-            "Age": age,
-            "Sex": sex_val,
-            "Ascites": 1 if ascites=="Var" else 0,
-            "Hepatomegaly": 1 if hepatomegaly=="Var" else 0,
-            "Spiders": 1 if spiders=="Var" else 0,
-            "Edema": int(edema),
-            "Bilirubin": bilirubin,
-            "Cholesterol": cholesterol,
-            "Albumin": albumin,
-            "Copper": copper,
-            "Alk_Phos": alk_phos,
-            "SGOT": sgot,
-            "Tryglicerides": trig,
-            "Platelets": platelets,
-            "Prothrombin": prothrombin,
-            "Status_label": status_val,
-            "Drug_label": drug_val
-        }])[model.feature_names_in_]
-
-        probs = model.predict_proba(input_df)[0]
-        stage = le_stage.inverse_transform([np.argmax(probs)])[0]
+    probs = model.predict_proba(input_df)[0]
+    stage = le_stage.inverse_transform([np.argmax(probs)])[0]
 
     st.markdown(f"""
     <div class="result-card">
         <h2>Tahmin Edilen Siroz Evresi</h2>
         <h1 style="font-size:48px;">Stage {stage}</h1>
+        <p style="font-size:14px;">
+        Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
+        </p>
     </div>
     """, unsafe_allow_html=True)
 
     st.subheader("Evre Olasılıkları")
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
+
+    # =========================
+    # HASTA BAZLI PARAMETRE ANALİZİ
+    # =========================
+    st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
+    st.write(
+        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
+        "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
+    )
+
+    base_index = np.argmax(probs)
+    impact_results = []
+
+    for col in model.feature_names_in_:
+        temp_df = input_df.copy()
+        temp_df[col] = 0
+        temp_proba = model.predict_proba(temp_df)[0]
+        diff = probs[base_index] - temp_proba[base_index]
+
+        if diff > 0:
+            yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor."
+        elif diff < 0:
+            yorum = "Evre tahminini azaltıcı yönde etkili."
+        else:
+            yorum = "Belirgin etkisi yok."
+
+        impact_results.append({
+            "Parametre": col,
+            "Etki Büyüklüğü": diff,
+            "Klinik Yorum": yorum
+        })
+
+    impact_df = pd.DataFrame(impact_results)\
+        .sort_values("Etki Büyüklüğü", ascending=False)\
+        .head(5)
+
+    st.markdown(f"""
+    <div class="custom-table">
+        {impact_df.to_html(index=False)}
+    </div>
+    """, unsafe_allow_html=True)
