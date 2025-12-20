@@ -36,7 +36,7 @@ h2, h3, label, p {
     color: #f2f4f8 !important;
 }
 
-/* Madde işaretleri maviydi, tekrar ekledim */
+/* Madde işaretleri */
 h3::before {
     content: "● ";
     color: #5dade2;
@@ -75,7 +75,7 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # =========================
 st.markdown("""
 <h1 style="text-align:center;">
-🩺 Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
+ Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
 </h1>
 <p style="text-align:center;">
 Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
@@ -87,7 +87,6 @@ st.divider()
 # =========================
 # GİRDİLER
 # =========================
-
 st.markdown("<h3>Demografik Bilgiler</h3>", unsafe_allow_html=True)
 age = st.slider("Yaş", 1, 100, 50)
 sex = st.radio("Cinsiyet", ["Female", "Male"], horizontal=True)
@@ -102,10 +101,10 @@ drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horiz
 st.divider()
 
 st.markdown("<h3>Klinik Bulgular</h3>", unsafe_allow_html=True)
-ascites = st.selectbox("Ascites", ["Yok", "Var"])
-hepatomegaly = st.selectbox("Hepatomegaly", ["Yok", "Var"])
-spiders = st.selectbox("Spiders", ["Yok", "Var"])
-edema = st.selectbox("Edema", ["0", "1", "2"])
+ascites = st.selectbox("Ascites (Karın içi sıvı birikimi)", ["Yok", "Var"])
+hepatomegaly = st.selectbox("Hepatomegaly (Karaciğer büyümesi)", ["Yok", "Var"])
+spiders = st.selectbox("Spiders (Örümcek anjiyom)", ["Yok", "Var"])
+edema = st.selectbox("Edema (Ödem durumu)", ["0", "1", "2"])
 
 st.divider()
 
@@ -186,11 +185,11 @@ if predict_btn:
     </div>
     """, unsafe_allow_html=True)
 
-    st.subheader("📊 Evre Olasılıkları")
+    st.subheader("Evre Olasılıkları")
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
-    st.subheader("🧠 Modelin Karar Mekanizması")
+    st.subheader("Karar Mekanizmasını Etkileyen Baskın Faktörler")
     fi_df = pd.DataFrame({
         "Özellik": model.feature_names_in_,
         "Önem": model.feature_importances_
@@ -198,9 +197,11 @@ if predict_btn:
     st.bar_chart(fi_df.set_index("Özellik"))
 
     # =========================
-    # KİŞİYE ÖZEL RİSK ANALİZİ
+    # KİŞİYE ÖZEL RİSK ANALİZİ (RENKLİ)
     # =========================
     st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
+    st.subheader(" Bu Hasta Neden Bu Evrede?")
+
     base_proba = model.predict_proba(input_df)[0]
     base_stage_index = np.argmax(base_proba)
 
@@ -210,7 +211,22 @@ if predict_btn:
         temp_df[col] = 0
         temp_proba = model.predict_proba(temp_df)[0]
         diff = base_proba[base_stage_index] - temp_proba[base_stage_index]
-        impact_results.append({"Parametre": col, "Etkisi": diff})
+
+        if diff > 0:
+            yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor"
+            color = 'color:red; font-weight:bold;'
+        elif diff < 0:
+            yorum = "Bu parametre evreyi düşürüyor / koruyucu etki"
+            color = 'color:green; font-weight:bold;'
+        else:
+            yorum = "Etkisi yok"
+            color = 'color:gray;'
+
+        impact_results.append({
+            "Parametre": f"<span style='{color}'>{col}</span>",
+            "Etkisi": diff,
+            "Yorum": yorum
+        })
 
     impact_df = pd.DataFrame(impact_results).sort_values(by="Etkisi", ascending=False).head(5)
-    st.dataframe(impact_df.style.format({"Etkisi": "{:.4f}"}))
+    st.write(impact_df.to_html(escape=False, index=False), unsafe_allow_html=True)
