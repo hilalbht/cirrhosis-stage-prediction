@@ -16,7 +16,7 @@ st.set_page_config(
 # =========================
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
 .stApp {
     background: linear-gradient(90deg,
@@ -28,43 +28,60 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
 }
 
-/* BAŞLIK */
-.main-title {
-    font-family: "Times New Roman", Georgia, serif;
-    color: #f2f4f8;
-    text-align: center;
+/* ===== BAŞLIK KARTI ===== */
+.header-card {
+    background: rgba(15, 42, 68, 0.55);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 20px;
     transition: transform 0.3s ease;
 }
 
-.main-title:hover {
-    transform: scale(1.05);
+.header-card:hover {
+    transform: scale(1.03);
 }
 
-/* Alt başlıklar */
-h2, h3, label, p {
-    color: #f2f4f8 !important;
+.main-title {
+    font-family: "Times New Roman", Georgia, serif;
+    text-align: center;
+    color: #f2f4f8;
 }
 
-/* Madde işareti */
-h3::before {
-    content: "● ";
-    color: #5dade2;
-    font-weight: bold;
+/* ===== BÖLÜM BAŞLIKLARI ===== */
+.section-title {
+    transition: transform 0.25s ease;
 }
 
-/* Slider rengi */
+.section-title:hover {
+    transform: scale(1.04);
+}
+
+/* ===== SLIDER ===== */
 div[data-baseweb="slider"] > div > div {
-    background-color: #7b1e3b !important;
+    height: 8px !important;
+    background-color: #1f6fb2 !important;
 }
 
-/* BUTON */
+div[data-baseweb="slider"] span {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+/* ===== RADIO ===== */
+div[role="radiogroup"] label {
+    transform: scale(1.08);
+    margin-right: 10px;
+}
+
+/* ===== BUTON ===== */
 .stButton > button {
     background-color: #1f6fb2;
     color: #ffffff;
     border-radius: 18px;
     padding: 16px 70px;
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 800;
     transition: transform 0.3s ease;
 }
 
@@ -73,7 +90,7 @@ div[data-baseweb="slider"] > div > div {
     transform: scale(1.08);
 }
 
-/* SONUÇ KARTI */
+/* ===== SONUÇ KARTI ===== */
 .result-card {
     background: linear-gradient(135deg, #0f2a44, #123a5f);
     padding: 30px;
@@ -87,7 +104,7 @@ div[data-baseweb="slider"] > div > div {
     transform: scale(1.05);
 }
 
-/* TABLO */
+/* ===== TABLO ===== */
 .custom-table {
     background-color: rgba(15, 42, 68, 0.85);
     border-radius: 16px;
@@ -124,47 +141,45 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # BAŞLIK
 # =========================
 st.markdown("""
-<h1 class="main-title">
-Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
-</h1>
-
-<p style="text-align:center;">
-Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
-</p>
-
-<p style="text-align:center; font-size:14px; opacity:0.9;">
-Bu sistem, klinik parametrelere dayalı <b>olasılıksal bir evre tahmini</b> sunar.<br>
-Sonuçlar <b>tanısal doğruluk garantisi içermez</b> ve klinik kararların yerine geçmez.
-</p>
+<div class="header-card">
+    <h1 class="main-title">
+    Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
+    </h1>
+    <p style="text-align:center;">
+    Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
+    </p>
+    <p style="text-align:center; font-size:14px; opacity:0.9;">
+    Bu sistem, klinik parametrelere dayalı <b>olasılıksal bir evre tahmini</b> sunar.<br>
+    Sonuçlar <b>tanısal doğruluk garantisi içermez</b> ve klinik kararların yerine geçmez.
+    </p>
+</div>
 """, unsafe_allow_html=True)
-
-st.divider()
 
 # =========================
 # GİRDİLER
 # =========================
-st.markdown("<h3>Demografik Bilgiler</h3>", unsafe_allow_html=True)
+st.markdown("<h3 class='section-title'>Demografik Bilgiler</h3>", unsafe_allow_html=True)
 age = st.slider("Yaş", 1, 100, 50)
 sex = st.radio("Cinsiyet", ["Female", "Male"], horizontal=True)
 
 st.divider()
 
-st.markdown("<h3>Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
+st.markdown("<h3 class='section-title'>Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
 n_days = st.slider("Takip Süresi (N_Days)", 0, 5000, 1000)
 status = st.radio("Hasta Durumu (Status)", ["C", "CL", "D"], horizontal=True)
 drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horizontal=True)
 
 st.divider()
 
-st.markdown("<h3>Klinik Bulgular</h3>", unsafe_allow_html=True)
-ascites = st.selectbox("Ascites (Karın içi sıvı birikimi)", ["Yok", "Var"])
-hepatomegaly = st.selectbox("Hepatomegaly (Karaciğer büyümesi)", ["Yok", "Var"])
-spiders = st.selectbox("Spiders (Örümcek anjiyom)", ["Yok", "Var"])
-edema = st.selectbox("Edema (Ödem durumu)", ["0", "1", "2"])
+st.markdown("<h3 class='section-title'>Klinik Bulgular</h3>", unsafe_allow_html=True)
+ascites = st.selectbox("Ascites", ["Yok", "Var"])
+hepatomegaly = st.selectbox("Hepatomegaly", ["Yok", "Var"])
+spiders = st.selectbox("Spiders", ["Yok", "Var"])
+edema = st.selectbox("Edema", ["0", "1", "2"])
 
 st.divider()
 
-st.markdown("<h3>Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
+st.markdown("<h3 class='section-title'>Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
 bilirubin = st.slider("Bilirubin", 0.1, 30.0, 1.0)
 cholesterol = st.slider("Cholesterol", 100.0, 500.0, 250.0)
 albumin = st.slider("Albumin", 1.0, 6.0, 3.5)
@@ -240,6 +255,10 @@ if predict_btn:
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
+    st.write(
+        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye en fazla katkı sağlayan "
+        "klinik parametreler yer almaktadır."
+    )
 
     base_stage = np.argmax(probs)
     impacts = []
