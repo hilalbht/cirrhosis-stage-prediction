@@ -13,8 +13,27 @@ st.set_page_config(
 st.markdown(
     """
     <style>
+    /* Arka plan */
     .stApp {
         background-color: #f7f9fc;
+        color: #1a1a1a;
+    }
+
+    /* Genel yazılar */
+    h1, h2, h3, h4, h5, h6, p, span, label {
+        color: #1a1a1a !important;
+    }
+
+    /* Slider ve input yazıları */
+    .stSlider label,
+    .stRadio label,
+    .stSelectbox label {
+        color: #1a1a1a !important;
+    }
+
+    /* Progress bar yazıları */
+    .stProgress > div > div > div > div {
+        color: #1a1a1a !important;
     }
     </style>
     """,
