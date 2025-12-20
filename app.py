@@ -27,14 +27,20 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
 }
 
+/* ===== ANA BAŞLIK KARTI ===== */
 .header-card {
     background: rgba(15, 42, 68, 0.65);
     padding: 30px;
     border-radius: 22px;
     text-align: center;
     box-shadow: 0px 10px 30px rgba(0,0,0,0.35);
+    transition: transform 0.35s ease;
+}
+.header-card:hover {
+    transform: scale(1.06);
 }
 
+/* ===== BÖLÜM BAŞLIKLARI ===== */
 .section-title {
     transition: transform 0.25s ease;
 }
@@ -47,16 +53,23 @@ st.markdown("""
     font-weight: bold;
 }
 
+/* ===== BUTON ===== */
 .stButton > button {
     background: linear-gradient(135deg, #111827, #1f2933);
     color: #ffffff;
     border-radius: 22px;
-    padding: 22px 90px;
-    font-size: 26px;
+    padding: 26px 110px;
+    font-size: 30px;
     font-weight: 900;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
+    box-shadow: 0px 12px 40px rgba(0,0,0,0.45);
+    transition: all 0.3s ease;
+}
+.stButton > button:hover {
+    transform: scale(1.18);
 }
 
+/* ===== SONUÇ KARTI ===== */
 .result-card {
     background: linear-gradient(135deg, #0f2a44, #123a5f);
     padding: 30px;
@@ -64,6 +77,7 @@ st.markdown("""
     text-align: center;
 }
 
+/* ===== TABLO ===== */
 .custom-table {
     background-color: rgba(15, 42, 68, 0.85);
     border-radius: 16px;
@@ -191,6 +205,9 @@ if predict_btn:
     st.subheader("Evre Olasılıkları")
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
+
+    # BOŞLUK (SADECE BU EKLENDİ)
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
 
     # =========================
     # HASTA BAZLI PARAMETRE ANALİZİ
