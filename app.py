@@ -61,6 +61,31 @@ div[data-baseweb="slider"] > div > div {
 .stButton > button:hover {
     background-color: #164f82;
 }
+
+/* Özel tablo */
+.custom-table {
+    background-color: rgba(15, 42, 68, 0.85);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.custom-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table th {
+    color: #bcdcff;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #2e5a88;
+}
+
+.custom-table td {
+    color: #f2f4f8;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -75,10 +100,15 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # =========================
 st.markdown("""
 <h1 style="text-align:center;">
- Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
+Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
 </h1>
 <p style="text-align:center;">
 Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
+</p>
+
+<p style="text-align:center; font-size:14px; opacity:0.9;">
+Bu sistem, klinik parametrelere dayalı <b>olasılıksal bir evre tahmini</b> sunar.<br>
+Sonuçlar <b>tanısal doğruluk garantisi içermez</b> ve klinik kararların yerine geçmez.
 </p>
 """, unsafe_allow_html=True)
 
@@ -182,6 +212,10 @@ if predict_btn:
     ">
         <h2 style="color:#dcefff;">Tahmin Edilen Siroz Evresi</h2>
         <h1 style="color:#ffffff; font-size:48px;">Stage {stage}</h1>
+        <p style="color:#cbdff5; font-size:14px;">
+        Not: Gösterilen evre, modelin mevcut verilere dayanarak yaptığı
+        <b>istatistiksel bir tahmindir</b>.
+        </p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -189,18 +223,14 @@ if predict_btn:
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
-    st.subheader("Karar Mekanizmasını Etkileyen Baskın Faktörler")
-    fi_df = pd.DataFrame({
-        "Özellik": model.feature_names_in_,
-        "Önem": model.feature_importances_
-    }).sort_values(by="Önem", ascending=False).head(10)
-    st.bar_chart(fi_df.set_index("Özellik"))
-
     # =========================
-    # KİŞİYE ÖZEL RİSK ANALİZİ (RENKLİ)
+    # KİŞİYE ÖZEL RİSK ANALİZİ
     # =========================
     st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
-    st.subheader(" Bu Hasta Neden Bu Evrede?")
+    st.write(
+        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye en fazla katkı sağlayan "
+        "klinik parametreler yer almaktadır."
+    )
 
     base_proba = model.predict_proba(input_df)[0]
     base_stage_index = np.argmax(base_proba)
@@ -213,20 +243,27 @@ if predict_btn:
         diff = base_proba[base_stage_index] - temp_proba[base_stage_index]
 
         if diff > 0:
-            yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor"
-            color = 'color:red; font-weight:bold;'
+            yorum = "Evre tahminini artırıcı yönde etkili"
         elif diff < 0:
-            yorum = "Bu parametre evreyi düşürüyor / koruyucu etki"
-            color = 'color:green; font-weight:bold;'
+            yorum = "Evre tahminini azaltıcı yönde etkili"
         else:
-            yorum = "Etkisi yok"
-            color = 'color:gray;'
+            yorum = "Belirgin etkisi yok"
 
         impact_results.append({
-            "Parametre": f"<span style='{color}'>{col}</span>",
-            "Etkisi": diff,
-            "Yorum": yorum
+            "Parametre": col,
+            "Etki Büyüklüğü": diff,
+            "Klinik Yorum": yorum
         })
 
-    impact_df = pd.DataFrame(impact_results).sort_values(by="Etkisi", ascending=False).head(5)
-    st.write(impact_df.to_html(escape=False, index=False), unsafe_allow_html=True)
+    impact_df = pd.DataFrame(impact_results)\
+        .sort_values(by="Etki Büyüklüğü", ascending=False)\
+        .head(5)
+
+    st.markdown(
+        f"""
+        <div class="custom-table">
+            {impact_df.to_html(index=False)}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
