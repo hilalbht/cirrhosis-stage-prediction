@@ -16,109 +16,57 @@ st.set_page_config(
 # =========================
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 .stApp {
     background: linear-gradient(90deg,
-        rgba(99,159,176,1) 0%,
-        rgba(33,33,110,1) 0%,
-        rgba(31,42,118,1) 29%,
+        rgba(88,88,112,1) 28%,
+        rgba(66,66,179,1) 68%,
         rgba(0,212,255,1) 100%);
     color: #f2f4f8;
     font-family: 'Inter', sans-serif;
 }
 
-/* ===== BAŞLIK KARTI ===== */
-.header-card {
-    background: rgba(15, 42, 68, 0.55);
-    backdrop-filter: blur(6px);
-    border-radius: 20px;
-    padding: 30px;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease;
-}
-
-.header-card:hover {
-    transform: scale(1.03);
-}
-
+/* ANA BAŞLIK */
 .main-title {
     font-family: "Times New Roman", Georgia, serif;
     text-align: center;
-    color: #f2f4f8;
+    transition: transform 0.3s ease;
+}
+.main-title:hover {
+    transform: scale(1.05);
 }
 
-/* ===== BÖLÜM BAŞLIKLARI ===== */
+/* BÖLÜM BAŞLIKLARI */
 .section-title {
     transition: transform 0.25s ease;
 }
-
 .section-title:hover {
     transform: scale(1.04);
 }
 
-/* =========================
-   SLIDER – ALT GÖLGE TAMAMEN YOK
-   ========================= */
-
-/* slider container */
-div[data-baseweb="slider"] {
-    padding-top: 12px;
-    padding-bottom: 12px;
-}
-
-/* PASİF / ALT TRACK TAM KAPAT */
-div[data-baseweb="slider"] div[aria-hidden="true"] {
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
-/* aktif track (TEK RENK – KALIN) */
+/* Slider rengi (YEŞİL) */
 div[data-baseweb="slider"] > div > div {
-    height: 14px !important;
-    background-color: #1f6fb2 !important;
-    border-radius: 10px;
-    box-shadow: none !important;
+    background-color: #2ecc71 !important;
 }
 
-/* thumb */
-div[data-baseweb="slider"] span {
-    width: 24px !important;
-    height: 24px !important;
-    background-color: #1f6fb2 !important;
-    border: none !important;
-    box-shadow: 0 0 0 3px rgba(31,111,178,0.35);
-}
-
-/* =========================
-   RADIO
-   ========================= */
-div[role="radiogroup"] label {
-    transform: scale(1.08);
-    margin-right: 10px;
-}
-
-/* =========================
-   BUTON
-   ========================= */
+/* BUTON */
 .stButton > button {
     background-color: #1f6fb2;
     color: #ffffff;
     border-radius: 18px;
     padding: 16px 70px;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 800;
+    letter-spacing: 1px;
     transition: transform 0.3s ease;
 }
-
 .stButton > button:hover {
     background-color: #164f82;
-    transform: scale(1.08);
+    transform: scale(1.1);
 }
 
-/* =========================
-   SONUÇ KARTI
-   ========================= */
+/* SONUÇ KARTI */
 .result-card {
     background: linear-gradient(135deg, #0f2a44, #123a5f);
     padding: 30px;
@@ -127,36 +75,22 @@ div[role="radiogroup"] label {
     box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
     transition: transform 0.3s ease;
 }
-
 .result-card:hover {
     transform: scale(1.05);
 }
 
-/* =========================
-   TABLO
-   ========================= */
+/* TABLO */
 .custom-table {
     background-color: rgba(15, 42, 68, 0.85);
     border-radius: 16px;
     padding: 20px;
     margin-top: 25px;
 }
-
-.custom-table table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
 .custom-table th {
     color: #bcdcff;
-    padding: 10px;
-    border-bottom: 1px solid #2e5a88;
 }
-
 .custom-table td {
     color: #f2f4f8;
-    padding: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -171,19 +105,21 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # BAŞLIK
 # =========================
 st.markdown("""
-<div class="header-card">
-    <h1 class="main-title">
-    Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
-    </h1>
-    <p style="text-align:center;">
-    Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
-    </p>
-    <p style="text-align:center; font-size:14px; opacity:0.9;">
-    ⚠️Bu sistem, klinik parametrelere dayalı <b>olasılıksal bir evre tahmini</b> sunar.<br>
-    Sonuçlar <b>tanısal doğruluk garantisi içermez</b> ve klinik kararların yerine geçmez.
-    </p>
-</div>
+<h1 class="main-title">
+Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
+</h1>
+
+<p style="text-align:center;">
+Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
+</p>
+
+<p style="text-align:center; font-size:14px;">
+Bu sistem, klinik parametrelere dayalı <b>olasılıksal bir evre tahmini</b> sunar.<br>
+Sonuçlar <b>tanısal doğruluk garantisi içermez</b> ve klinik kararların yerine geçmez.
+</p>
 """, unsafe_allow_html=True)
+
+st.divider()
 
 # =========================
 # GİRDİLER
@@ -227,15 +163,14 @@ st.divider()
 # =========================
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
-    predict_btn = st.button("EVRE TAHMİNİ YAP")
+    predict_btn = st.button("🔍 EVRE TAHMİNİ YAP")
 
 # =========================
 # TAHMİN
 # =========================
 if predict_btn:
-
     sex_val = 1 if sex == "Male" else 0
-    status_val = {"C":0, "CL":1, "D":2}[status]
+    status_val = {"C":0,"CL":1,"D":2}[status]
     drug_val = 1 if drug == "D-penicillamine" else 0
 
     input_df = pd.DataFrame([{
@@ -244,9 +179,9 @@ if predict_btn:
         "Drug": drug_val,
         "Age": age,
         "Sex": sex_val,
-        "Ascites": 1 if ascites == "Var" else 0,
-        "Hepatomegaly": 1 if hepatomegaly == "Var" else 0,
-        "Spiders": 1 if spiders == "Var" else 0,
+        "Ascites": 1 if ascites=="Var" else 0,
+        "Hepatomegaly": 1 if hepatomegaly=="Var" else 0,
+        "Spiders": 1 if spiders=="Var" else 0,
         "Edema": int(edema),
         "Bilirubin": bilirubin,
         "Cholesterol": cholesterol,
@@ -261,9 +196,8 @@ if predict_btn:
         "Drug_label": drug_val
     }])[model.feature_names_in_]
 
-    pred = model.predict(input_df)
     probs = model.predict_proba(input_df)[0]
-    stage = le_stage.inverse_transform(pred)[0]
+    stage = le_stage.inverse_transform([np.argmax(probs)])[0]
 
     st.markdown(f"""
     <div class="result-card">
@@ -276,24 +210,30 @@ if predict_btn:
     </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
     st.subheader("Evre Olasılıkları")
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
-    st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
-    base_stage = np.argmax(probs)
-    impacts = []
+    st.markdown("<br><br>", unsafe_allow_html=True)
 
+    st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
+    st.write(
+        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye en fazla katkı sağlayan "
+        "klinik parametreler listelenmektedir."
+    )
+
+    base = np.argmax(probs)
+    impacts = []
     for col in model.feature_names_in_:
         temp = input_df.copy()
         temp[col] = 0
-        diff = probs[base_stage] - model.predict_proba(temp)[0][base_stage]
+        diff = probs[base] - model.predict_proba(temp)[0][base]
         impacts.append([col, diff])
 
-    impact_df = pd.DataFrame(
-        impacts,
-        columns=["Parametre", "Etki Büyüklüğü"]
-    ).sort_values("Etki Büyüklüğü", ascending=False).head(5)
+    impact_df = pd.DataFrame(impacts, columns=["Parametre", "Etki Büyüklüğü"])\
+        .sort_values("Etki Büyüklüğü", ascending=False).head(5)
 
     st.markdown(f"""
     <div class="custom-table">
