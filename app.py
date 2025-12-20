@@ -16,27 +16,36 @@ st.set_page_config(
 # =========================
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 .stApp {
     background: linear-gradient(90deg,
-        rgba(2, 0, 36, 1) 0%,
-        rgba(9, 9, 121, 1) 51%,
-        rgba(0, 212, 255, 1) 100%);
+        rgba(99,159,176,1) 0%,
+        rgba(33,33,110,1) 0%,
+        rgba(31,42,118,1) 29%,
+        rgba(0,212,255,1) 100%);
     color: #f2f4f8;
     font-family: 'Inter', sans-serif;
 }
 
-h1 {
-    font-family: 'Playfair Display', serif;
-    color: #f2f4f8 !important;
+/* BAŞLIK */
+.main-title {
+    font-family: "Times New Roman", Georgia, serif;
+    color: #f2f4f8;
+    text-align: center;
+    transition: transform 0.3s ease;
 }
 
+.main-title:hover {
+    transform: scale(1.05);
+}
+
+/* Alt başlıklar */
 h2, h3, label, p {
     color: #f2f4f8 !important;
 }
 
-/* Madde işaretleri */
+/* Madde işareti */
 h3::before {
     content: "● ";
     color: #5dade2;
@@ -45,28 +54,45 @@ h3::before {
 
 /* Slider rengi */
 div[data-baseweb="slider"] > div > div {
-    background-color: #1f6fb2 !important;
+    background-color: #7b1e3b !important;
 }
 
-/* Buton */
+/* BUTON */
 .stButton > button {
     background-color: #1f6fb2;
     color: #ffffff;
-    border-radius: 16px;
-    padding: 14px 60px;
+    border-radius: 18px;
+    padding: 16px 70px;
     font-size: 22px;
     font-weight: 600;
+    transition: transform 0.3s ease;
 }
 
 .stButton > button:hover {
     background-color: #164f82;
+    transform: scale(1.08);
 }
 
-/* Özel tablo */
+/* SONUÇ KARTI */
+.result-card {
+    background: linear-gradient(135deg, #0f2a44, #123a5f);
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease;
+}
+
+.result-card:hover {
+    transform: scale(1.05);
+}
+
+/* TABLO */
 .custom-table {
     background-color: rgba(15, 42, 68, 0.85);
     border-radius: 16px;
     padding: 20px;
+    margin-top: 25px;
 }
 
 .custom-table table {
@@ -76,7 +102,6 @@ div[data-baseweb="slider"] > div > div {
 
 .custom-table th {
     color: #bcdcff;
-    text-align: left;
     padding: 10px;
     border-bottom: 1px solid #2e5a88;
 }
@@ -84,13 +109,13 @@ div[data-baseweb="slider"] > div > div {
 .custom-table td {
     color: #f2f4f8;
     padding: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 </style>
 """, unsafe_allow_html=True)
 
 # =========================
-# MODEL YÜKLE
+# MODEL
 # =========================
 model = joblib.load("xgboost_stage_model.pkl")
 le_stage = joblib.load("stage_label_encoder.pkl")
@@ -99,9 +124,10 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # BAŞLIK
 # =========================
 st.markdown("""
-<h1 style="text-align:center;">
+<h1 class="main-title">
 Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
 </h1>
+
 <p style="text-align:center;">
 Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
 </p>
@@ -152,9 +178,9 @@ prothrombin = st.slider("Prothrombin", 8.0, 20.0, 12.0)
 st.divider()
 
 # =========================
-# BUTON (ORTALANMIŞ)
+# BUTON
 # =========================
-col1, col2, col3 = st.columns([1, 2, 1])
+col1, col2, col3 = st.columns([1,2,1])
 with col2:
     predict_btn = st.button("🔍 EVRE TAHMİNİ YAP")
 
@@ -164,8 +190,7 @@ with col2:
 if predict_btn:
 
     sex_val = 1 if sex == "Male" else 0
-    status_map = {"C": 0, "CL": 1, "D": 2}
-    status_val = status_map[status]
+    status_val = {"C":0, "CL":1, "D":2}[status]
     drug_val = 1 if drug == "D-penicillamine" else 0
 
     input_df = pd.DataFrame([{
@@ -189,81 +214,48 @@ if predict_btn:
         "Prothrombin": prothrombin,
         "Status_label": status_val,
         "Drug_label": drug_val
-    }])
-
-    input_df = input_df[model.feature_names_in_]
+    }])[model.feature_names_in_]
 
     pred = model.predict(input_df)
     probs = model.predict_proba(input_df)[0]
     stage = le_stage.inverse_transform(pred)[0]
 
-    st.divider()
-
-    # =========================
-    # SONUÇ KARTI
-    # =========================
     st.markdown(f"""
-    <div style="
-        background: linear-gradient(135deg, #0f2a44, #123a5f);
-        padding:30px;
-        border-radius:18px;
-        text-align:center;
-        box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
-    ">
-        <h2 style="color:#dcefff;">Tahmin Edilen Siroz Evresi</h2>
-        <h1 style="color:#ffffff; font-size:48px;">Stage {stage}</h1>
-        <p style="color:#cbdff5; font-size:14px;">
+    <div class="result-card">
+        <h2>Tahmin Edilen Siroz Evresi</h2>
+        <h1 style="font-size:48px;">Stage {stage}</h1>
+        <p style="font-size:14px;">
         Not: Gösterilen evre, modelin mevcut verilere dayanarak yaptığı
         <b>istatistiksel bir tahmindir</b>.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
     st.subheader("Evre Olasılıkları")
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
-    # =========================
-    # KİŞİYE ÖZEL RİSK ANALİZİ
-    # =========================
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
     st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
-    st.write(
-        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye en fazla katkı sağlayan "
-        "klinik parametreler yer almaktadır."
-    )
 
-    base_proba = model.predict_proba(input_df)[0]
-    base_stage_index = np.argmax(base_proba)
+    base_stage = np.argmax(probs)
+    impacts = []
 
-    impact_results = []
     for col in model.feature_names_in_:
-        temp_df = input_df.copy()
-        temp_df[col] = 0
-        temp_proba = model.predict_proba(temp_df)[0]
-        diff = base_proba[base_stage_index] - temp_proba[base_stage_index]
+        temp = input_df.copy()
+        temp[col] = 0
+        diff = probs[base_stage] - model.predict_proba(temp)[0][base_stage]
+        impacts.append([col, diff])
 
-        if diff > 0:
-            yorum = "Evre tahminini artırıcı yönde etkili"
-        elif diff < 0:
-            yorum = "Evre tahminini azaltıcı yönde etkili"
-        else:
-            yorum = "Belirgin etkisi yok"
-
-        impact_results.append({
-            "Parametre": col,
-            "Etki Büyüklüğü": diff,
-            "Klinik Yorum": yorum
-        })
-
-    impact_df = pd.DataFrame(impact_results)\
-        .sort_values(by="Etki Büyüklüğü", ascending=False)\
+    impact_df = pd.DataFrame(impacts, columns=["Parametre", "Etki Büyüklüğü"])\
+        .sort_values("Etki Büyüklüğü", ascending=False)\
         .head(5)
 
-    st.markdown(
-        f"""
-        <div class="custom-table">
-            {impact_df.to_html(index=False)}
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown(f"""
+    <div class="custom-table">
+        {impact_df.to_html(index=False)}
+    </div>
+    """, unsafe_allow_html=True)
