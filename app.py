@@ -10,7 +10,6 @@ st.set_page_config(
     layout="centered"
 )
 
-# Açık arka plan (göz yormaz)
 st.markdown(
     """
     <style>
@@ -32,46 +31,102 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # BAŞLIK
 # =========================
 st.title("🩺 Siroz Evresi Tahmin Sistemi")
-st.write("Klinik ve laboratuvar değerlerini giriniz:")
+st.caption(
+    "Bu sistem, hastaya ait klinik ve laboratuvar verilerini kullanarak "
+    "siroz hastalığının evresini (Stage) makine öğrenmesi ile tahmin eder."
+)
 
 st.divider()
 
 # =========================
-# KULLANICI GİRDİLERİ
+# DEMOGRAFİK BİLGİLER
 # =========================
+st.subheader("👤 Demografik Bilgiler")
+st.caption("Hastaya ait temel bilgiler")
 
-# Sayısal
 age = st.slider("Yaş", 1, 100, 50)
-n_days = st.slider("Takip Süresi (N_Days)", 0, 5000, 1000)
-
-bilirubin = st.slider("Bilirubin", 0.1, 30.0, 1.0)
-cholesterol = st.slider("Cholesterol", 100.0, 500.0, 250.0)
-albumin = st.slider("Albumin", 1.0, 6.0, 3.5)
-copper = st.slider("Copper", 0.0, 300.0, 50.0)
-alk_phos = st.slider("Alk_Phos", 50.0, 3000.0, 500.0)
-sgot = st.slider("SGOT", 10.0, 500.0, 50.0)
-trig = st.slider("Tryglicerides", 50.0, 500.0, 150.0)
-platelets = st.slider("Platelets", 50.0, 500.0, 250.0)
-prothrombin = st.slider("Prothrombin", 8.0, 20.0, 12.0)
+sex = st.radio("Cinsiyet", ["Female", "Male"])
 
 st.divider()
 
-# Kategorik
-sex = st.radio("Cinsiyet", ["Female", "Male"])
-status = st.radio("Hasta Durumu (Status)", ["C", "D"])
-drug = st.radio("İlaç (Drug)", ["Placebo", "D-penicillamine"])
+# =========================
+# TAKİP & TEDAVİ
+# =========================
+st.subheader("📅 Takip ve Tedavi Bilgileri")
+st.caption("Hastanın izlem süresi ve aldığı tedavi")
 
-ascites = st.selectbox("Ascites", ["Yok", "Var"])
-hepatomegaly = st.selectbox("Hepatomegaly", ["Yok", "Var"])
-spiders = st.selectbox("Spiders", ["Yok", "Var"])
-edema = st.selectbox("Edema", ["0", "1", "2"])
+n_days = st.slider(
+    "Takip Süresi (Gün)",
+    0, 5000, 1000,
+    help="Hastanın çalışmaya dahil edildiği günden itibaren takip süresi"
+)
+
+status = st.radio(
+    "Hasta Durumu (Status)",
+    ["C", "D"],
+    help="C: Yaşıyor, D: Vefat etmiş"
+)
+
+drug = st.radio(
+    "Kullanılan İlaç",
+    ["Placebo", "D-penicillamine"],
+    help="Hastanın aldığı tedavi türü"
+)
+
+st.divider()
 
 # =========================
-# TAHMİN BUTONU
+# KLİNİK BULGULAR
 # =========================
-if st.button("🔍 Tahmin Et"):
+st.subheader("🧬 Klinik Bulgular")
+st.caption("Fiziksel muayene ve gözleme dayalı bulgular")
 
-    # Kategorik → sayısal
+ascites = st.selectbox(
+    "Ascites (Karında Sıvı Birikimi)",
+    ["Yok", "Var"]
+)
+
+hepatomegaly = st.selectbox(
+    "Hepatomegaly (Karaciğer Büyümesi)",
+    ["Yok", "Var"]
+)
+
+spiders = st.selectbox(
+    "Spiders (Örümcek Anjiomları)",
+    ["Yok", "Var"]
+)
+
+edema = st.selectbox(
+    "Edema (Ödem Seviyesi)",
+    ["0", "1", "2"],
+    help="0: Yok, 1: Hafif, 2: Şiddetli"
+)
+
+st.divider()
+
+# =========================
+# LABORATUVAR DEĞERLERİ
+# =========================
+st.subheader("🧪 Laboratuvar Bulguları")
+st.caption("Kan testlerinden elde edilen biyokimyasal değerler")
+
+bilirubin = st.slider("Bilirubin (mg/dL)", 0.1, 30.0, 1.0)
+cholesterol = st.slider("Cholesterol (mg/dL)", 100.0, 500.0, 250.0)
+albumin = st.slider("Albumin (g/dL)", 1.0, 6.0, 3.5)
+copper = st.slider("Copper (µg/dL)", 0.0, 300.0, 50.0)
+alk_phos = st.slider("Alkalen Fosfataz", 50.0, 3000.0, 500.0)
+sgot = st.slider("SGOT (AST)", 10.0, 500.0, 50.0)
+trig = st.slider("Trigliserid", 50.0, 500.0, 150.0)
+platelets = st.slider("Platelets (10³/µL)", 50.0, 500.0, 250.0)
+prothrombin = st.slider("Prothrombin Time", 8.0, 20.0, 12.0)
+
+st.divider()
+
+# =========================
+# TAHMİN
+# =========================
+if st.button("🔍 Siroz Evresini Tahmin Et"):
+
     sex_val = 1 if sex == "Male" else 0
     status_val = 1 if status == "D" else 0
     drug_val = 1 if drug == "D-penicillamine" else 0
@@ -81,7 +136,6 @@ if st.button("🔍 Tahmin Et"):
     spiders_val = 1 if spiders == "Var" else 0
     edema_val = int(edema)
 
-    # Model input
     input_df = pd.DataFrame([{
         "N_Days": n_days,
         "Status": status_val,
@@ -105,27 +159,21 @@ if st.button("🔍 Tahmin Et"):
         "Drug_label": drug_val
     }])
 
-    # Sütun sırası
     input_df = input_df[model.feature_names_in_]
 
-    # Tahmin
     pred = model.predict(input_df)
     probs = model.predict_proba(input_df)[0]
-
     stage = le_stage.inverse_transform(pred)[0]
 
-    st.divider()
+    st.markdown("---")
 
-    # =========================
-    # SONUÇ GÖSTERİMİ
-    # =========================
     st.markdown(
         f"""
         <div style="
             background-color:#ffffff;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 0 10px rgba(0,0,0,0.05);
+            padding:25px;
+            border-radius:12px;
+            box-shadow:0 0 12px rgba(0,0,0,0.08);
             text-align:center;
         ">
             <h2>🧬 Tahmin Edilen Siroz Evresi</h2>
@@ -135,6 +183,8 @@ if st.button("🔍 Tahmin Et"):
         unsafe_allow_html=True
     )
 
-    st.subheader("📊 Evre Olasılıkları")
+    st.subheader("📊 Evre Olasılık Dağılımı")
+    st.caption("Modelin her evre için hesapladığı olasılıklar")
+
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
