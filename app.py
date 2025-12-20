@@ -36,22 +36,23 @@ h2, h3, label, p {
     color: #f2f4f8 !important;
 }
 
+/* Slider rengi */
 div[data-baseweb="slider"] > div > div {
-    background-color: #7b1e3a !important;
+    background-color: #1f6fb2 !important;
 }
 
+/* Buton */
 .stButton > button {
-    background-color: #7b1e3a;
-    color: #f2f4f8;
-    border-radius: 14px;
-    padding: 14px 50px;
+    background-color: #1f6fb2;
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 14px 60px;
     font-size: 22px;
-    display: block;
-    margin: 0 auto;
+    font-weight: 600;
 }
 
 .stButton > button:hover {
-    background-color: #5a162b;
+    background-color: #164f82;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -80,36 +81,28 @@ st.divider()
 # GİRDİLER
 # =========================
 
-# --- DEMOGRAFİK BİLGİLER ---
-st.markdown("<h3><span style='color:#5dade2;'>●</span> Demografik Bilgiler</h3>", unsafe_allow_html=True)
-
+st.markdown("<h3>● Demografik Bilgiler</h3>", unsafe_allow_html=True)
 age = st.slider("Yaş", 1, 100, 50)
 sex = st.radio("Cinsiyet", ["Female", "Male"], horizontal=True)
 
 st.divider()
 
-# --- TAKİP ve TEDAVİ BİLGİLERİ ---
-st.markdown("<h3><span style='color:#5dade2;'>●</span> Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
-
+st.markdown("<h3>● Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
 n_days = st.slider("Takip Süresi (N_Days)", 0, 5000, 1000)
 status = st.radio("Hasta Durumu (Status)", ["C", "CL", "D"], horizontal=True)
 drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horizontal=True)
 
 st.divider()
 
-# --- KLİNİK BULGULAR ---
-st.markdown("<h3><span style='color:#5dade2;'>●</span> Klinik Bulgular</h3>", unsafe_allow_html=True)
-
-ascites = st.selectbox("Ascites (Karın içi sıvı birikimi)", ["Yok", "Var"])
-hepatomegaly = st.selectbox("Hepatomegaly (Karaciğer büyümesi)", ["Yok", "Var"])
-spiders = st.selectbox("Spiders (Örümcek anjiyom)", ["Yok", "Var"])
-edema = st.selectbox("Edema (Ödem durumu)", ["0", "1", "2"])
+st.markdown("<h3>● Klinik Bulgular</h3>", unsafe_allow_html=True)
+ascites = st.selectbox("Ascites", ["Yok", "Var"])
+hepatomegaly = st.selectbox("Hepatomegaly", ["Yok", "Var"])
+spiders = st.selectbox("Spiders", ["Yok", "Var"])
+edema = st.selectbox("Edema", ["0", "1", "2"])
 
 st.divider()
 
-# --- LABORATUVAR BULGULARI ---
-st.markdown("<h3><span style='color:#5dade2;'>●</span> Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
-
+st.markdown("<h3>● Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
 bilirubin = st.slider("Bilirubin", 0.1, 30.0, 1.0)
 cholesterol = st.slider("Cholesterol", 100.0, 500.0, 250.0)
 albumin = st.slider("Albumin", 1.0, 6.0, 3.5)
@@ -123,9 +116,16 @@ prothrombin = st.slider("Prothrombin", 8.0, 20.0, 12.0)
 st.divider()
 
 # =========================
+# BUTON (ORTALANMIŞ)
+# =========================
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    predict_btn = st.button("🔍 EVRE TAHMİNİ YAP")
+
+# =========================
 # TAHMİN
 # =========================
-if st.button("🔍 EVRE TAHMİNİ YAP"):
+if predict_btn:
 
     sex_val = 1 if sex == "Male" else 0
     status_map = {"C": 0, "CL": 1, "D": 2}
@@ -163,13 +163,19 @@ if st.button("🔍 EVRE TAHMİNİ YAP"):
 
     st.divider()
 
+    # =========================
+    # SONUÇ KARTI (DÜZELTİLDİ)
+    # =========================
     st.markdown(f"""
-    <div style="background-color:#ffffff;
-                padding:25px;
-                border-radius:16px;
-                text-align:center;">
-        <h2 style="color:#002244;">Tahmin Edilen Siroz Evresi</h2>
-        <h1 style="color:#7b1e3a;">Stage {stage}</h1>
+    <div style="
+        background: linear-gradient(135deg, #0f2a44, #123a5f);
+        padding:30px;
+        border-radius:18px;
+        text-align:center;
+        box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
+    ">
+        <h2 style="color:#dcefff;">Tahmin Edilen Siroz Evresi</h2>
+        <h1 style="color:#ffffff; font-size:48px;">Stage {stage}</h1>
     </div>
     """, unsafe_allow_html=True)
 
@@ -177,41 +183,10 @@ if st.button("🔍 EVRE TAHMİNİ YAP"):
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
-    # =========================
-    # FEATURE IMPORTANCE
-    # =========================
     st.subheader("🧠 Modelin Karar Mekanizması")
-
     fi_df = pd.DataFrame({
         "Özellik": model.feature_names_in_,
         "Önem": model.feature_importances_
     }).sort_values(by="Önem", ascending=False).head(10)
 
     st.bar_chart(fi_df.set_index("Özellik"))
-
-    # =========================
-    # KİŞİYE ÖZEL RİSK ANALİZİ
-    # =========================
-    st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
-
-    base_proba = model.predict_proba(input_df)[0]
-    base_stage_index = np.argmax(base_proba)
-
-    impact_results = []
-
-    for col in model.feature_names_in_:
-        temp_df = input_df.copy()
-        temp_df[col] = 0
-        temp_proba = model.predict_proba(temp_df)[0]
-        diff = base_proba[base_stage_index] - temp_proba[base_stage_index]
-
-        impact_results.append({
-            "Parametre": col,
-            "Etkisi": diff
-        })
-
-    impact_df = pd.DataFrame(impact_results)\
-        .sort_values(by="Etkisi", ascending=False)\
-        .head(5)
-
-    st.dataframe(impact_df.style.format({"Etkisi": "{:.4f}"}))
