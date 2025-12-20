@@ -42,18 +42,20 @@ st.markdown("""
 
 /* ===== BÖLÜM BAŞLIKLARI ===== */
 .section-title {
-    transition: transform 0.25s ease;
-}
-.section-title {
-    transition: transform 0.25s ease;
     font-family: "Times New Roman", Georgia, serif;
     font-size: 26px;
-
+    transition: transform 0.25s ease;
 }
 
+/* 🔹 HOVER BÜYÜME EFEKTİ (GERİ GELDİ) */
+.section-title:hover {
+    transform: scale(1.06);
+}
+
+/* 🔹 MADDE İŞARETİ – BUTON RENGİYLE AYNI */
 .section-title::before {
     content: "● ";
-    color: #5dade2;
+    color: #111827;   /* EVRE TAHMİNİ YAP butonu ile aynı ton */
     font-weight: bold;
     font-size: 26px;
 }
@@ -109,7 +111,7 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 st.markdown("""
 <div class="header-card">
     <h1>"Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi"</h1>
-    <p><b>Eğitim ve klinik simülasyon amaçlıdır.</b></p>
+    <p><b>⚠️Eğitim ve klinik simülasyon amaçlıdır.</b></p>
     <p style="font-size:14px;">
         ⚠️Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir.  
         Klinik kararların yerine geçmez.
@@ -211,12 +213,8 @@ if predict_btn:
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
-    # BOŞLUK (SADECE BU EKLENDİ)
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
-    # =========================
-    # HASTA BAZLI PARAMETRE ANALİZİ
-    # =========================
     st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
     st.write(
         "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
