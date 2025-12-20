@@ -43,7 +43,6 @@ st.markdown("""
 /* ===== ANA BAŞLIK ===== */
 .main-title {
     font-family: "Times New Roman", Georgia, serif;
-    margin-bottom: 10px;
 }
 
 /* ===== BÖLÜM BAŞLIKLARI ===== */
@@ -59,25 +58,25 @@ st.markdown("""
     font-weight: bold;
 }
 
-/* ===== SLIDER (YEŞİL) ===== */
+/* ===== SLIDER (KOYU GRİ) ===== */
 div[data-baseweb="slider"] > div > div {
-    background-color: #2ecc71 !important;
+    background-color: #1f2933 !important;
 }
 
 /* ===== BUTON ===== */
 .stButton > button {
-    background-color: #1f6fb2;
+    background: linear-gradient(135deg, #111827, #1f2933);
     color: #ffffff;
-    border-radius: 18px;
-    padding: 16px 70px;
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    transition: transform 0.3s ease;
+    border-radius: 22px;
+    padding: 22px 90px;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 1.8px;
+    box-shadow: 0px 10px 35px rgba(0,0,0,0.45);
+    transition: all 0.3s ease;
 }
 .stButton > button:hover {
-    background-color: #164f82;
-    transform: scale(1.12);
+    transform: scale(1.18);
 }
 
 /* ===== SONUÇ KARTI ===== */
@@ -123,12 +122,9 @@ st.markdown("""
     <h1 class="main-title">
         Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi
     </h1>
-    <p>
-        Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.
-    </p>
+    <p>Eğitim ve klinik simülasyon amaçlı geliştirilmiştir.</p>
     <p style="font-size:14px;">
-        Bu sistem, klinik parametrelere dayalı <b>olasılıksal bir evre tahmini</b> sunar.<br>
-        Sonuçlar <b>tanısal doğruluk garantisi içermez</b> ve klinik kararların yerine geçmez.
+        Bu sistem <b>olasılıksal bir tahmin</b> sunar ve klinik kararların yerine geçmez.
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -154,7 +150,7 @@ st.divider()
 st.markdown("<h3 class='section-title'>Klinik Bulgular</h3>", unsafe_allow_html=True)
 ascites = st.selectbox("Ascites", ["Yok", "Var"])
 hepatomegaly = st.selectbox("Hepatomegaly", ["Yok", "Var"])
-spiders = st.selectbox("Spiders", ["Yok", "Var"])
+spiders = st.selectbox("Spiders (Örümcek anjiyom)", ["Yok", "Var"])
 edema = st.selectbox("Edema", ["0", "1", "2"])
 
 st.divider()
@@ -177,92 +173,51 @@ st.divider()
 # =========================
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
-    predict_btn = st.button("🔍 EVRE TAHMİNİ YAP")
+    predict_btn = st.button("EVRE TAHMİNİ YAP")
 
 # =========================
 # TAHMİN
 # =========================
 if predict_btn:
-    sex_val = 1 if sex == "Male" else 0
-    status_val = {"C":0,"CL":1,"D":2}[status]
-    drug_val = 1 if drug == "D-penicillamine" else 0
+    with st.spinner("Model hesaplama yapıyor..."):
 
-    input_df = pd.DataFrame([{
-        "N_Days": n_days,
-        "Status": status_val,
-        "Drug": drug_val,
-        "Age": age,
-        "Sex": sex_val,
-        "Ascites": 1 if ascites=="Var" else 0,
-        "Hepatomegaly": 1 if hepatomegaly=="Var" else 0,
-        "Spiders": 1 if spiders=="Var" else 0,
-        "Edema": int(edema),
-        "Bilirubin": bilirubin,
-        "Cholesterol": cholesterol,
-        "Albumin": albumin,
-        "Copper": copper,
-        "Alk_Phos": alk_phos,
-        "SGOT": sgot,
-        "Tryglicerides": trig,
-        "Platelets": platelets,
-        "Prothrombin": prothrombin,
-        "Status_label": status_val,
-        "Drug_label": drug_val
-    }])[model.feature_names_in_]
+        sex_val = 1 if sex == "Male" else 0
+        status_val = {"C":0,"CL":1,"D":2}[status]
+        drug_val = 1 if drug == "D-penicillamine" else 0
 
-    probs = model.predict_proba(input_df)[0]
-    stage = le_stage.inverse_transform([np.argmax(probs)])[0]
+        input_df = pd.DataFrame([{
+            "N_Days": n_days,
+            "Status": status_val,
+            "Drug": drug_val,
+            "Age": age,
+            "Sex": sex_val,
+            "Ascites": 1 if ascites=="Var" else 0,
+            "Hepatomegaly": 1 if hepatomegaly=="Var" else 0,
+            "Spiders": 1 if spiders=="Var" else 0,
+            "Edema": int(edema),
+            "Bilirubin": bilirubin,
+            "Cholesterol": cholesterol,
+            "Albumin": albumin,
+            "Copper": copper,
+            "Alk_Phos": alk_phos,
+            "SGOT": sgot,
+            "Tryglicerides": trig,
+            "Platelets": platelets,
+            "Prothrombin": prothrombin,
+            "Status_label": status_val,
+            "Drug_label": drug_val
+        }])[model.feature_names_in_]
+
+        probs = model.predict_proba(input_df)[0]
+        stage = le_stage.inverse_transform([np.argmax(probs)])[0]
 
     st.markdown(f"""
     <div class="result-card">
         <h2>Tahmin Edilen Siroz Evresi</h2>
         <h1 style="font-size:48px;">Stage {stage}</h1>
-        <p style="font-size:14px;">
-        Not: Gösterilen evre, modelin mevcut verilere dayanarak yaptığı
-        <b>istatistiksel bir tahmindir</b>.
-        </p>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # =========================
-    # HASTA BAZLI PARAMETRE ANALİZİ
-    # =========================
-    st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
-    st.write(
-        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
-        "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
-    )
-
-    base_index = np.argmax(probs)
-    impact_results = []
-
-    for col in model.feature_names_in_:
-        temp_df = input_df.copy()
-        temp_df[col] = 0
-        temp_proba = model.predict_proba(temp_df)[0]
-        diff = probs[base_index] - temp_proba[base_index]
-
-        if diff > 0:
-            yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor."
-        elif diff < 0:
-            yorum = "Evre tahminini azaltıcı yönde etkili."
-        else:
-            yorum = "Belirgin etkisi yok."
-
-        impact_results.append({
-            "Parametre": col,
-            "Etki Büyüklüğü": diff,
-            "Klinik Yorum": yorum
-        })
-
-    impact_df = pd.DataFrame(impact_results)\
-        .sort_values("Etki Büyüklüğü", ascending=False)\
-        .head(5)
-
-    st.markdown(f"""
-    <div class="custom-table">
-        {impact_df.to_html(index=False)}
-    </div>
-    """, unsafe_allow_html=True)
+    st.subheader("Evre Olasılıkları")
+    for s, p in zip(le_stage.classes_, probs):
+        st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
