@@ -44,9 +44,11 @@ st.markdown("""
 .section-title {
     transition: transform 0.25s ease;
 }
-.section-title:hover {
-    transform: scale(1.05);
+.section-title {
+    transition: transform 0.25s ease;
+    font-family: "Times New Roman", Georgia, serif;
 }
+
 .section-title::before {
     content: "● ";
     color: #5dade2;
