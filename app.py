@@ -217,46 +217,51 @@ if predict_btn:
     </div>
     """, unsafe_allow_html=True)
 
-    st.subheader("Evre Olasılıkları")
-    for s, p in zip(le_stage.classes_, probs):
-        st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
+    # ===== YAN YANA SÜTUNLAR =====
+    col1, col2 = st.columns(2, gap="large")
 
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    # ===== Sütun 1: Evre Olasılıkları =====
+    with col1:
+        st.subheader("Evre Olasılıkları")
+        for s, p in zip(le_stage.classes_, probs):
+            st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
-    st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
-    st.write(
-        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
-        "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
-    )
+    # ===== Sütun 2: Hasta Bazlı Parametre Etki Analizi =====
+    with col2:
+        st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
+        st.write(
+            "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
+            "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
+        )
 
-    base_index = np.argmax(probs)
-    impact_results = []
+        base_index = np.argmax(probs)
+        impact_results = []
 
-    for col in model.feature_names_in_:
-        temp_df = input_df.copy()
-        temp_df[col] = 0
-        temp_proba = model.predict_proba(temp_df)[0]
-        diff = probs[base_index] - temp_proba[base_index]
+        for col in model.feature_names_in_:
+            temp_df = input_df.copy()
+            temp_df[col] = 0
+            temp_proba = model.predict_proba(temp_df)[0]
+            diff = probs[base_index] - temp_proba[base_index]
 
-        if diff > 0:
-            yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor."
-        elif diff < 0:
-            yorum = "Evre tahminini azaltıcı yönde etkili."
-        else:
-            yorum = "Belirgin etkisi yok."
+            if diff > 0:
+                yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor."
+            elif diff < 0:
+                yorum = "Evre tahminini azaltıcı yönde etkili."
+            else:
+                yorum = "Belirgin etkisi yok."
 
-        impact_results.append({
-            "Parametre": col,
-            "Etki Büyüklüğü": diff,
-            "Klinik Yorum": yorum
-        })
+            impact_results.append({
+                "Parametre": col,
+                "Etki Büyüklüğü": diff,
+                "Klinik Yorum": yorum
+            })
 
-    impact_df = pd.DataFrame(impact_results)\
-        .sort_values("Etki Büyüklüğü", ascending=False)\
-        .head(5)
+        impact_df = pd.DataFrame(impact_results)\
+            .sort_values("Etki Büyüklüğü", ascending=False)\
+            .head(5)
 
-    st.markdown(f"""
-    <div class="custom-table">
-        {impact_df.to_html(index=False)}
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="custom-table">
+            {impact_df.to_html(index=False)}
+        </div>
+        """, unsafe_allow_html=True)
