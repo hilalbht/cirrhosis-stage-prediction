@@ -101,7 +101,7 @@ st.markdown("""
 .section-title + .stSlider,
 .section-title + .stRadio,
 .section-title + .stSelectbox {
-    margin-left: 60px; /* İhtiyaca göre değeri arttırabilirsin */
+    margin-left: 100px; /* İhtiyaca göre değeri arttırabilirsin */
 }
 
 </style>
