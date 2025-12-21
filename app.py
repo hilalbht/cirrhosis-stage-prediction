@@ -105,7 +105,7 @@ st.markdown("""
 }
             /* ===== SÜTUN İÇİN TABLO DÜZENİ ===== */
 .custom-table table {
-    width: 100% !important;  /* Tablo genişliği %95 yapıldı */
+    width: 50% !important;  /* Tablo genişliği %95 yapıldı */
     margin-left: auto;       /* Ortalanma yerine sağa kaydırma için */
     margin-right: auto;
     border-collapse: collapse;
