@@ -103,6 +103,33 @@ st.markdown("""
 .section-title + .stSelectbox {
     margin-left: 100px; /* İhtiyaca göre değeri arttırabilirsin */
 }
+            /* ===== SÜTUN İÇİN TABLO DÜZENİ ===== */
+.custom-table table {
+    width: 100% !important;  /* Sütun genişliğini doldur */
+    border-collapse: collapse;
+}
+
+.custom-table th, .custom-table td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.custom-table th {
+    background-color: rgba(15, 42, 68, 0.95);
+}
+
+.custom-table tr:nth-child(even) {
+    background-color: rgba(15, 42, 68, 0.75);
+}
+
+.custom-table tr:nth-child(odd) {
+    background-color: rgba(15, 42, 68, 0.85);
+}
+
+.custom-table {
+    overflow-x: auto; /* Taşmaları kaydırma ile göster */
+}
+
 
 </style>
 """, unsafe_allow_html=True)
