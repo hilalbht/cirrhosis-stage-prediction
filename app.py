@@ -96,6 +96,14 @@ st.markdown("""
 .custom-table td {
     color: #f2f4f8;
 }
+            /* ===== BAŞLIK ALTINDAKİ INPUTLARI SAĞA KAYDIR ===== */
+.section-title + div,
+.section-title + .stSlider,
+.section-title + .stRadio,
+.section-title + .stSelectbox {
+    margin-left: 40px; /* İhtiyaca göre değeri arttırabilirsin */
+}
+
 </style>
 """, unsafe_allow_html=True)
 
