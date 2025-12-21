@@ -55,7 +55,7 @@ st.markdown("""
 /* 🔹 MADDE İŞARETİ – BUTON RENGİYLE AYNI */
 .section-title::before {
     content: "● ";
-    color: #111827;   /* EVRE TAHMİNİ YAP butonu ile aynı ton */
+    color: rgba(15, 42, 68, 0.65);  
     font-weight: bold;
     font-size: 26px;
 }
