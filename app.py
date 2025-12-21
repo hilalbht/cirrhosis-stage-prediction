@@ -105,12 +105,14 @@ st.markdown("""
 }
             /* ===== SÜTUN İÇİN TABLO DÜZENİ ===== */
 .custom-table table {
-    width: 100% !important;  /* Sütun genişliğini doldur */
+    width: 95% !important;  /* Tablo genişliği %95 yapıldı */
+    margin-left: auto;       /* Ortalanma yerine sağa kaydırma için */
+    margin-right: auto;
     border-collapse: collapse;
 }
 
 .custom-table th, .custom-table td {
-    padding: 8px 12px;
+    padding: 12px 20px;      /* Hücreler arası boşluk artırıldı */
     text-align: left;
 }
 
@@ -127,8 +129,9 @@ st.markdown("""
 }
 
 .custom-table {
-    overflow-x: auto; /* Taşmaları kaydırma ile göster */
+    overflow-x: auto; /* Sütun taşarsa kaydırma */
 }
+
 
 
 </style>
