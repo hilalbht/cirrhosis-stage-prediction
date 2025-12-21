@@ -55,7 +55,7 @@ st.markdown("""
 /* 🔹 MADDE İŞARETİ – BUTON RENGİYLE AYNI */
 .section-title::before {
     content: "● ";
-    color: rgba(15, 42, 68, 0.65);  
+    color: #0f2a44; 
     font-weight: bold;
     font-size: 26px;
 }
