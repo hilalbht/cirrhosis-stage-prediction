@@ -19,13 +19,15 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 .stApp {
-    background: linear-gradient(90deg,
-        rgba(88,88,112,1) 28%,
-        rgba(66,66,179,1) 68%,
-        rgba(0,212,255,1) 100%);
-    color: #f2f4f8;
+    background: #d4d4d4;
+    background: radial-gradient(
+        circle,
+        rgba(212, 212, 212, 1) 0%,
+        rgba(66, 168, 146, 1) 100%
+    );
     font-family: 'Inter', sans-serif;
 }
+
 
 /* ===== ANA BAŞLIK KARTI ===== */
 .header-card {
@@ -128,6 +130,36 @@ st.markdown("""
         ⚠️Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir.  
         Klinik kararların yerine geçmez.
     </p>
+            
+            /* ===== GENEL METİN RENGİ (KARTLAR HARİÇ) ===== */
+.stApp,
+.stMarkdown,
+label,
+span,
+p,
+div,
+h1, h2, h3, h4, h5, h6 {
+    color: #111827 !important; /* koyu siyaha yakın */
+}
+
+/* ===== BAŞLIK KARTI İÇİN BEYAZ METİN ===== */
+.header-card,
+.header-card * {
+    color: #f8fafc !important;
+}
+
+/* ===== SONUÇ KARTI İÇİN BEYAZ METİN ===== */
+.result-card,
+.result-card * {
+    color: #f8fafc !important;
+}
+
+/* ===== TABLO İÇERİĞİ BEYAZ KALSIN ===== */
+.custom-table,
+.custom-table * {
+    color: #f2f4f8 !important;
+}
+
 </div>
 """, unsafe_allow_html=True)
 
