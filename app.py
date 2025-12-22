@@ -64,6 +64,11 @@ st.markdown("""
     font-weight: bold;
     font-size: 26px;
 }
+/* ===== SECTION TITLE RENGİNİ ZORLA ===== */
+.stMarkdown h3.section-title {
+    color: #0f2a44 !important;
+}
+
 
 /* ===== BUTON ===== */
 .stButton > button {
