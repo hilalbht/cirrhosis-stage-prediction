@@ -146,10 +146,10 @@ drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horiz
 st.divider()
 
 st.markdown("<h3 class='section-title'>Klinik Bulgular</h3>", unsafe_allow_html=True)
-ascites = st.selectbox("Ascites", ["Yok", "Var"])
-hepatomegaly = st.selectbox("Hepatomegaly", ["Yok", "Var"])
+ascites = st.selectbox("Ascites (Asit)", ["Yok", "Var"])
+hepatomegaly = st.selectbox("Hepatomegaly (Hepatomegali)", ["Yok", "Var"])
 spiders = st.selectbox("Spiders (Örümcek anjiyom)", ["Yok", "Var"])
-edema = st.selectbox("Edema", ["0", "1", "2"])
+edema = st.selectbox("Edema (Ödem)", ["0", "1", "2"])
 
 st.divider()
 
