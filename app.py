@@ -126,7 +126,7 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # =========================
 st.markdown("""
 <div class="header-card">
-    <h1>"Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi"</h1>
+    <h1>Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi</h1>
     <p><b>⚠️Eğitim ve klinik simülasyon amaçlıdır.</b></p>
     <p style="font-size:14px;">
         ⚠️Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir.  
