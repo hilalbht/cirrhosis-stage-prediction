@@ -19,14 +19,15 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 .stApp {
-    background: #d4d4d4;
+    background: #72b59b;
     background: radial-gradient(
         circle,
-        rgba(212, 212, 212, 1) 0%,
+        rgba(114, 181, 155, 1) 0%,
         rgba(66, 168, 146, 1) 100%
     );
     font-family: 'Inter', sans-serif;
 }
+
 
 
 /* ===== ANA BAŞLIK KARTI ===== */
