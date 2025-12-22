@@ -19,14 +19,15 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 .stApp {
-    background: #72b59b;
+    background: #508194;
     background: radial-gradient(
         circle,
-        rgba(114, 181, 155, 1) 0%,
+        rgba(80, 129, 148, 1) 0%,
         rgba(66, 168, 146, 1) 100%
     );
     font-family: 'Inter', sans-serif;
 }
+
 
 
 
