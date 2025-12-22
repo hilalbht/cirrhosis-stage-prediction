@@ -48,8 +48,7 @@ st.markdown("""
 .section-title {
     font-family: "Times New Roman", Georgia, serif;
     font-size: 26px;
-    color: #0f2a44; 
-
+    color: #0f2a44;   /* 🔹 başlık rengi */
     transition: transform 0.25s ease;
 }
 
