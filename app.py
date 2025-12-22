@@ -103,6 +103,10 @@ st.markdown("""
 .section-title + .stSelectbox {
     margin-left: 100px; /* İhtiyaca göre değeri arttırabilirsin */
 }
+/* ===== SLIDER TURUNCU RENGİNİ KAPAT ===== */
+div[data-baseweb="slider"] {
+    --accent-color: #0f2a44; /* senin tema rengine yakın koyu mavi */
+}
 
 </style>
 """, unsafe_allow_html=True)
