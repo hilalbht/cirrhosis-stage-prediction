@@ -131,34 +131,7 @@ st.markdown("""
         Klinik kararların yerine geçmez.
     </p>
             
-            /* ===== GENEL METİN RENGİ (KARTLAR HARİÇ) ===== */
-.stApp,
-.stMarkdown,
-label,
-span,
-p,
-div,
-h1, h2, h3, h4, h5, h6 {
-    color: #111827 !important; /* koyu siyaha yakın */
-}
-
-/* ===== BAŞLIK KARTI İÇİN BEYAZ METİN ===== */
-.header-card,
-.header-card * {
-    color: #f8fafc !important;
-}
-
-/* ===== SONUÇ KARTI İÇİN BEYAZ METİN ===== */
-.result-card,
-.result-card * {
-    color: #f8fafc !important;
-}
-
-/* ===== TABLO İÇERİĞİ BEYAZ KALSIN ===== */
-.custom-table,
-.custom-table * {
-    color: #f2f4f8 !important;
-}
+   
 
 </div>
 """, unsafe_allow_html=True)
