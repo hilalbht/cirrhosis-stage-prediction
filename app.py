@@ -28,9 +28,6 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
 }
 
-
-
-
 /* ===== ANA BAŞLIK KARTI ===== */
 .header-card {
     background: rgba(15, 42, 68, 0.65);
@@ -48,27 +45,33 @@ st.markdown("""
 .section-title {
     font-family: "Times New Roman", Georgia, serif;
     font-size: 26px;
-    color: #0f2a44;   /* 🔹 başlık rengi */
+    color: #0f2a44;
     transition: transform 0.25s ease;
 }
-
-/* 🔹 HOVER BÜYÜME EFEKTİ (GERİ GELDİ) */
 .section-title:hover {
     transform: scale(1.06);
 }
-
-/* 🔹 MADDE İŞARETİ – BUTON RENGİYLE AYNI */
 .section-title::before {
     content: "● ";
-    color: #0f2a44; 
+    color: #0f2a44;
     font-weight: bold;
     font-size: 26px;
 }
-/* ===== SECTION TITLE RENGİNİ ZORLA ===== */
 .stMarkdown h3.section-title {
     color: #0f2a44 !important;
 }
 
+/* ===== SECTION ALT AYIRICI ===== */
+.section-divider {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(15, 42, 68, 0.9),
+        rgba(15, 42, 68, 0.2)
+    );
+    margin: 6px 0 18px 0;
+}
 
 /* ===== BUTON ===== */
 .stButton > button {
@@ -106,18 +109,19 @@ st.markdown("""
 .custom-table td {
     color: #f2f4f8;
 }
-            /* ===== BAŞLIK ALTINDAKİ INPUTLARI SAĞA KAYDIR ===== */
+
+/* ===== INPUT KAYDIRMA ===== */
 .section-title + div,
 .section-title + .stSlider,
 .section-title + .stRadio,
 .section-title + .stSelectbox {
-    margin-left: 100px; /* İhtiyaca göre değeri arttırabilirsin */
-}
-/* ===== SLIDER TURUNCU RENGİNİ KAPAT ===== */
-div[data-baseweb="slider"] {
-    --accent-color: #0f2a44; /* senin tema rengine yakın koyu mavi */
+    margin-left: 100px;
 }
 
+/* ===== SLIDER RENGİ ===== */
+div[data-baseweb="slider"] {
+    --accent-color: #0f2a44;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -138,9 +142,6 @@ st.markdown("""
         ⚠️Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir.  
         Klinik kararların yerine geçmez.
     </p>
-            
-   
-
 </div>
 """, unsafe_allow_html=True)
 
@@ -150,12 +151,14 @@ st.divider()
 # GİRDİLER
 # =========================
 st.markdown("<h3 class='section-title'>Demografik Bilgiler</h3>", unsafe_allow_html=True)
+st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
 age = st.slider("Yaş", 1, 100, 50)
 sex = st.radio("Cinsiyet", ["Female", "Male"], horizontal=True)
 
 st.divider()
 
 st.markdown("<h3 class='section-title'>Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
+st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
 n_days = st.slider("Takip Süresi (N_Days)", 0, 5000, 1000)
 status = st.radio("Hasta Durumu (Status)", ["C", "CL", "D"], horizontal=True)
 drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horizontal=True)
@@ -163,6 +166,7 @@ drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horiz
 st.divider()
 
 st.markdown("<h3 class='section-title'>Klinik Bulgular</h3>", unsafe_allow_html=True)
+st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
 ascites = st.selectbox("Ascites (Asit)", ["Yok", "Var"])
 hepatomegaly = st.selectbox("Hepatomegaly (Hepatomegali)", ["Yok", "Var"])
 spiders = st.selectbox("Spiders (Örümcek anjiyom)", ["Yok", "Var"])
@@ -171,6 +175,7 @@ edema = st.selectbox("Edema (Ödem)", ["0", "1", "2"])
 st.divider()
 
 st.markdown("<h3 class='section-title'>Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
+st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
 bilirubin = st.slider("Bilirubin", 0.1, 30.0, 1.0)
 cholesterol = st.slider("Cholesterol", 100.0, 500.0, 250.0)
 albumin = st.slider("Albumin", 1.0, 6.0, 3.5)
@@ -182,7 +187,6 @@ platelets = st.slider("Platelets", 50.0, 500.0, 250.0)
 prothrombin = st.slider("Prothrombin", 8.0, 20.0, 12.0)
 
 st.divider()
-
 # =========================
 # BUTON
 # =========================
