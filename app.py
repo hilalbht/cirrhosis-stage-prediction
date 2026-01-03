@@ -309,9 +309,10 @@ status = st.radio(
 
 drug = st.radio(
     "Uygulanan Tedavi",
-    ["Plasebo", "D-penisilamin"],
+    ["Plasebo", " D-penisilamin"],
     horizontal=True
 )
+
 
 st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
