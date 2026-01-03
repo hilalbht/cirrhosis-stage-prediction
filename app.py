@@ -333,6 +333,8 @@ div.stButton > button {
         temp_df[col] = 0  # parametreyi sıfırlayarak etkisini ölç
         temp_proba = model.predict_proba(temp_df)[0]
         diff = probs[base_index] - temp_proba[base_index]
+        effect_percent = diff * 100
+
 
         if diff > 0:
             yorum =( "⚠️ Risk artırıcı etkisi var. "
@@ -351,13 +353,13 @@ div.stButton > button {
 
         impact_results.append({
             "Parametre": f"🔵 Klinik Parametre: {col}",
-            "Etki Büyüklüğü": diff,
+            "Etki Büyüklüğü (%)": round(effect_percent, 2),
             "Klinik Yorum": yorum
         })
 
     # En etkili 5 parametreyi göster
     impact_df = pd.DataFrame(impact_results)\
-        .sort_values("Etki Büyüklüğü", ascending=False)\
+        .sort_values("Etki Büyüklüğü (%)", ascending=False)\
         .head(5)
 
     # Güzel görselleştirme
