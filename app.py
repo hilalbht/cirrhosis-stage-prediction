@@ -279,42 +279,63 @@ if st.button("EVRE TAHMİNİ YAP"):
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
-    # Hasta bazlı parametre etki analizi
-    st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
-    st.write(
-        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
-        "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
-    )
+   # Hasta bazlı parametre etki analizi
+st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
+st.write(
+    "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
+    "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
+)
 
-    base_index = np.argmax(probs)
-    impact_results = []
+base_index = np.argmax(probs)
+impact_results = []
 
-    for col in model.feature_names_in_:
-        temp_df = input_df.copy()
-        temp_df[col] = 0
-        temp_proba = model.predict_proba(temp_df)[0]
-        diff = probs[base_index] - temp_proba[base_index]
+for col in model.feature_names_in_:
+    temp_df = input_df.copy()
+    temp_df[col] = 0
+    temp_proba = model.predict_proba(temp_df)[0]
+    diff = probs[base_index] - temp_proba[base_index]
 
-        if diff > 0:
-            yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor."
-        elif diff < 0:
-            yorum = "Evre tahminini azaltıcı yönde etkili."
-        else:
-            yorum = "Belirgin etkisi yok."
+    if diff > 0:
+        yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor."
+    elif diff < 0:
+        yorum = "Evre tahminini azaltıcı yönde etkili."
+    else:
+        yorum = "Belirgin etkisi yok."
 
-        # Kullanıcıya açıklayıcı isimlerle göster
-        parametre_adi = col
-        impact_results.append({
-            "Parametre": parametre_adi,
-            "Etki Büyüklüğü": diff,
-            "Klinik Yorum": yorum
-        })
+    # Kullanıcıya açıklayıcı isimlerle göster
+    parametre_adi = col
+    impact_results.append({
+        "Parametre": parametre_adi,
+        "Etki Büyüklüğü": diff,
+        "Klinik Yorum": yorum
+    })
 
-    # Sadece en etkili 5 parametreyi göster
-    impact_df = pd.DataFrame(impact_results)\
-        .sort_values("Etki Büyüklüğü", ascending=False)\
-        .head(5)
-    
+# Sadece en etkili 5 parametreyi seç
+impact_df = pd.DataFrame(impact_results)\
+    .sort_values("Etki Büyüklüğü", ascending=False)\
+    .head(5)
+
+# Tabloyu göster
+st.markdown(f"""
+<div class="custom-table">
+    {impact_df.to_html(index=False)}
+</div>
+""", unsafe_allow_html=True)
+
+# =========================
+# Çubuk grafik ile görselleştirme
+# =========================
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(6,3))
+# Etki pozitif → kırmızı (risk artırıyor), negatif → yeşil (risk azaltıyor)
+colors = ["#F44336" if x > 0 else "#4CAF50" for x in impact_df["Etki Büyüklüğü"]]
+plt.barh(impact_df["Parametre"], impact_df["Etki Büyüklüğü"], color=colors)
+plt.xlabel("Etkisi")
+plt.title("Hasta Bazlı Parametre Etkisi")
+plt.gca().invert_yaxis()  # En etkili parametre üstte olsun
+plt.tight_layout()
+st.pyplot(plt)
 
     st.markdown(f"""
     <div class="custom-table">
