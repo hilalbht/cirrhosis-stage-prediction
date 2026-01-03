@@ -239,7 +239,7 @@ if st.button("EVRE TAHMİNİ YAP"):
         display: block;
         margin: 0px auto;
         margin-left: auto;
-        margin-right: 0;
+        margin-right: 50;
     }
     </style>
     """, unsafe_allow_html=True)
