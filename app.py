@@ -232,16 +232,21 @@ prothrombin = st.slider("Prothrombin (%)", 8.0, 20.0, 12.0)
 # =========================
 if st.button("EVRE TAHMİNİ YAP"):
     
-    # Butonu ortalamak için CSS kullanıyoruz
     st.markdown("""
-    <style>
-    div.stButton > button {
-        display: block;
-        margin-left: auto;
-        margin-right: 50;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+<style>
+div.stButton > button {
+    display: block;
+    margin-left: auto;
+    margin-right: 50px;  /* px eklemeyi unutma */
+    padding: 12px 24px;
+    font-size: 18px;
+    background-color: #0f2a44;
+    color: white;
+    border-radius: 12px;
+}
+</style>
+""", unsafe_allow_html=True)
+
 
     # Modelin beklediği input dataframe
     input_df = pd.DataFrame([{
