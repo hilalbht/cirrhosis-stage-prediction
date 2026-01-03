@@ -8,7 +8,7 @@ import numpy as np
 # =========================
 st.set_page_config(
     page_title="Klinik Parametrelere Dayalı Siroz Evre Tahmin Sistemi",
-    layout="centered"
+    layout="centered" 
 )
 
 # =========================
