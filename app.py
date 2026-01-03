@@ -191,6 +191,22 @@ div[data-baseweb="slider"] div[role="slider"] {
     border-color: #1f2933 !important;
 }
 
+            /* Slider ve Number Input'u aynı yatay çizgide hizalar */
+[data-testid="column"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Number input'un üstündeki gereksiz boşluğu kaldırır */
+div[data-testid="stNumberInput"] label {
+    display: none;
+}
+
+/* Number input kutusunu biraz daha aşağı kaydırarak slider ile tam hizalar */
+div[data-testid="stNumberInput"] {
+    margin-top: 15px;
+}
 
 
 
@@ -222,23 +238,30 @@ def slider_plus(key, label, minv, maxv, default, step=1, help=None):
     if key not in st.session_state:
         st.session_state[key] = default
 
-    c1, c2 = st.columns([3,1])
+    # Başlığı slider'ın hemen üstüne koyalım (Fonksiyon dışına da alınabilir)
+    st.markdown(f"**{label}**") 
+    
+    c1, c2 = st.columns([4, 1.2]) # Oranları ekran genişliğine göre ayarladık
+    
     with c1:
         st.session_state[key] = st.slider(
             label, minv, maxv,
             st.session_state[key],
             step=step,
             label_visibility="collapsed",
+            key=f"slider_{key}", # Çakışmayı önlemek için farklı key
             help=help
         )
     with c2:
+        # On_change kullanmak istersen buraya ekleyebilirsin
         st.session_state[key] = st.number_input(
-            " ", minv, maxv,
+            label, minv, maxv,
             st.session_state[key],
-            step=step
+            step=step,
+            label_visibility="collapsed",
+            key=f"num_{key}"
         )
     return st.session_state[key]
-
 # =========================
 # DEMOGRAFİ
 # =========================
