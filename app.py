@@ -237,7 +237,7 @@ if st.button("EVRE TAHMİNİ YAP"):
     <style>
     div.stButton > button {
         display: block;
-        margin: 40 auto;
+        margin: 40;
     }
     </style>
     """, unsafe_allow_html=True)
