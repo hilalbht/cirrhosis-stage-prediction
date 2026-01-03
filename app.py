@@ -228,10 +228,19 @@ prothrombin = st.slider("Prothrombin (%)", 8.0, 20.0, 12.0)
 
 
 # =========================
-# =========================
 # TAHMİN BUTONU
 # =========================
 if st.button("EVRE TAHMİNİ YAP"):
+    
+    # Butonu ortalamak için CSS kullanıyoruz
+    st.markdown("""
+    <style>
+    div.stButton > button {
+        display: block;
+        margin: 0 auto;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
     # Modelin beklediği input dataframe
     input_df = pd.DataFrame([{
@@ -261,22 +270,38 @@ if st.button("EVRE TAHMİNİ YAP"):
     probs = model.predict_proba(input_df)[0]
     stage = le_stage.inverse_transform([np.argmax(probs)])[0]
 
+    # Boşluk eklemek için st.markdown kullanabiliriz
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
     # Sonuç kartı
     st.markdown(f"""
-    <div class="result-card">
-        <h2>Tahmin Edilen Siroz Evresi</h2>
-        <h1 style="font-size:48px;">Stage {stage}</h1>
-        <p style="font-size:14px;">
+    <div class="result-card" style="margin-bottom:40px;">
+        <h2 style="text-align:center;">Tahmin Edilen Siroz Evresi</h2>
+        <h1 style="font-size:48px; text-align:center;">Stage {stage}</h1>
+        <p style="font-size:14px; text-align:center;">
         Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
         Klinik kararların yerine geçmez.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Evre olasılıkları
-    st.subheader("EVRE OLASILIKLARI")
+    # Sonuç kartı ile evre olasılıkları arasında boşluk
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # Evre olasılıkları başlığı ortalanmış, büyütülmüş ve renkli
+    st.markdown("""
+    <h2 style="
+        text-align:center; 
+        font-size:32px; 
+        color:#0f2a44; 
+        font-weight:bold;
+        margin-bottom:20px;
+    ">EVRE OLASILIKLARI</h2>
+    """, unsafe_allow_html=True)
+
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
+
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
