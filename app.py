@@ -331,62 +331,45 @@ div.stButton > button {
         temp_df[col] = 0  # parametreyi sıfırlayarak etkisini ölç
         temp_proba = model.predict_proba(temp_df)[0]
         diff = probs[base_index] - temp_proba[base_index]
-for col in model.feature_names_in_:
-    temp_df = input_df.copy()
-    temp_df[col] = 0  # parametreyi sıfırlayarak etkisini ölç
-    temp_proba = model.predict_proba(temp_df)[0]
-    diff = probs[base_index] - temp_proba[base_index]
 
-    if diff > 0:
-        # Risk artırıcı parametreler için uzun açıklama
-        yorum = (
-            "⚠️ Risk artırıcı etkisi var. "
-            "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
-            "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir."
-        )
-        bg_color = "linear-gradient(135deg, #FF4C4C, #B22222)"  # kırmızı tonları
-        text_color = "#0f2a44"  # lacivert yazı
-        font_size = "18px"  # yazı boyutu büyük
-    elif diff < 0:
-        yorum = "✅ Tahmini azaltıcı etkisi var"
-        bg_color = "linear-gradient(135deg, #4CAF50, #2E7D32)"  # yeşil tonları
-        text_color = "#ffffff"
-        font_size = "16px"
-    else:
-        yorum = "➖ Belirgin etkisi yok"
-        bg_color = "linear-gradient(135deg, #607D8B, #455A64)"  # gri tonları
-        text_color = "#ffffff"
-        font_size = "16px"
+        if diff > 0:
+            yorum = "⚠️ Risk artırıcı etkisi var"
+                    
+        elif diff < 0:
+            yorum = (
+        "⚠️ Risk artırıcı etkisi var. "
+        "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
+        "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir."
+    )
+        else:
+            yorum = "➖ Belirgin etkisi yok"
 
-    impact_results.append({
-        "Parametre": col,
-        "Etki Büyüklüğü": diff,
-        "Klinik Yorum": yorum,
-        "bg_color": bg_color,
-        "text_color": text_color,
-        "font_size": font_size
-    })
+        impact_results.append({
+            "Parametre": col,
+            "Etki Büyüklüğü": diff,
+            "Klinik Yorum": yorum
+        })
 
-# En etkili 5 parametreyi göster
-impact_df = pd.DataFrame(impact_results)\
-    .sort_values("Etki Büyüklüğü", ascending=False)\
-    .head(5)
+    # En etkili 5 parametreyi göster
+    impact_df = pd.DataFrame(impact_results)\
+        .sort_values("Etki Büyüklüğü", ascending=False)\
+        .head(5)
 
-# Güzel görselleştirme
-for idx, row in impact_df.iterrows():
-    st.markdown(f"""
-    <div style="
-        background: {row['bg_color']};
-        padding: 16px;
-        margin-bottom: 12px;
-        border-radius: 12px;
-        color: {row['text_color']};
-        font-size: {row['font_size']};
-        box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
-    ">
-        <h4 style="margin:0;">{row['Parametre']}</h4>
-        <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
-        <p style="margin:0;">{row['Klinik Yorum']}</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # Güzel görselleştirme
+    for idx, row in impact_df.iterrows():
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #FF4C4C, #B22222);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            color: #ffffff;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+        ">
+            <h4 style="margin:0;">{row['Parametre']}</h4>
+            <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
+            <p style="margin:0;">{row['Klinik Yorum']}</p>
+        </div>
+        """, unsafe_allow_html=True)
+
 
