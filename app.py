@@ -288,31 +288,22 @@ if st.button("EVRE TAHMİNİ YAP"):
     # Sonuç kartı ile evre olasılıkları arasında boşluk
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-   # =========================
-# EVRE OLASILIKLARI KARTI
-# =========================
-st.markdown(f"""
-<div style="
-    background: rgba(255, 255, 255, 0.1);  /* saydam beyaz */
-    padding: 24px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    text-align:center;
-    margin-bottom: 40px;
-">
+    # Evre olasılıkları başlığı ortalanmış, büyütülmüş ve renkli
+    st.markdown("""
     <h2 style="
-        font-size:32px;
-        color:#0f2a44;  /* koyu lacivert */
+        text-align:center; 
+        font-size:32px; 
+        color:#0f2a44; 
         font-weight:bold;
         margin-bottom:20px;
     ">EVRE OLASILIKLARI</h2>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-for s, p in zip(le_stage.classes_, probs):
-    st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
+    for s, p in zip(le_stage.classes_, probs):
+        st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
-    st.markdown("</div>", unsafe_allow_html=True)  # kart divini kapat
 
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
 
     # =========================
     # Hasta bazlı parametre etki analizi
