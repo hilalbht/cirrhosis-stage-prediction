@@ -314,55 +314,12 @@ if st.button("EVRE TAHMİNİ YAP"):
     impact_df = pd.DataFrame(impact_results)\
         .sort_values("Etki Büyüklüğü", ascending=False)\
         .head(5)
+    
 
     st.markdown(f"""
     <div class="custom-table">
         {impact_df.to_html(index=False)}
     </div>
     """, unsafe_allow_html=True)
-    import altair as alt
-
-# Hasta bazlı parametre etki analizi
-st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
-st.write(
-    "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
-    "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
-)
-
-base_index = np.argmax(probs)
-impact_results = []
-
-for col in model.feature_names_in_:
-    temp_df = input_df.copy()
-    temp_df[col] = 0
-    temp_proba = model.predict_proba(temp_df)[0]
-    diff = probs[base_index] - temp_proba[base_index]
-
-    if diff > 0:
-        yorum = "Tahmini artırıyor / risk oluşturuyor"
-    elif diff < 0:
-        yorum = "Tahmini azaltıcı yönde etkili"
-    else:
-        yorum = "Belirgin etkisi yok"
-
-    impact_results.append({
-        "Parametre": col,
-        "Etki Büyüklüğü": diff,
-        "Klinik Yorum": yorum
-    })
-
-impact_df = pd.DataFrame(impact_results).sort_values("Etki Büyüklüğü", ascending=False).head(5)
-
-# Tablo gösterimi
-st.markdown("<div class='custom-table'>"+impact_df.to_html(index=False)+"</div>", unsafe_allow_html=True)
-
-# Bar chart ile görselleştirme
-chart = alt.Chart(impact_df).mark_bar().encode(
-    x=alt.X("Etki Büyüklüğü", title="Evreye Etki Büyüklüğü"),
-    y=alt.Y("Parametre", sort='-x', title="Parametre"),
-    tooltip=["Parametre", "Etki Büyüklüğü", "Klinik Yorum"]
-).properties(height=300)
-
-st.altair_chart(chart, use_container_width=True)
-
+    
 
