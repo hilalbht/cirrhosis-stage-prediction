@@ -301,6 +301,45 @@ drug = st.radio(
 
 st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
+# =========================
+# DEMOGRAFİ
+# =========================
+st.markdown('<div class="section-header">Demografik Bilgiler</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-content">', unsafe_allow_html=True)
+
+age = slider_plus("age", "Yaş", 1, 100, 50)
+sex = st.radio("Cinsiyet", ["Kadın", "Erkek"], horizontal=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+st.divider()
+
+# =========================
+# TAKİP
+# =========================
+st.markdown('<div class="section-header">Takip ve Tedavi</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-content">', unsafe_allow_html=True)
+
+n_days = slider_plus(
+    "n_days", "Takip Süresi (gün)",
+    0, 5000, 1000, step=50,
+    help="Tanıdan itibaren takip süresi"
+)
+
+status = st.radio(
+    "Hasta Durumu",
+    ["Stabil", "Komplikasyon gelişmiş", "Vefat"],
+    horizontal=True
+)
+
+drug = st.radio(
+    "Uygulanan Tedavi",
+    ["Plasebo", "D-penisilamin"],
+    horizontal=True
+)
+
+st.markdown('</div>', unsafe_allow_html=True)
+st.divider()
+
 
 # =========================
 # KLİNİK
