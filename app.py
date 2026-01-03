@@ -134,20 +134,20 @@ div[data-baseweb="slider"] div[role="slider"] > div {
 div[data-baseweb="slider"] span {
     color: #047857 !important;
 }
-/* ===== MEDİKAL YEŞİL SLIDER ===== */
+/* ===== STREAMLIT SLIDER GERÇEK RENK OVERRIDE ===== */
 
-/* Pasif arka çizgi */
-div[data-baseweb="slider"] div[aria-hidden="true"] {
+/* Pasif track */
+div[data-baseweb="slider"] [data-testid="stTickBar"] {
     background-color: rgba(255, 255, 255, 0.35) !important;
 }
 
-/* Aktif (dolu) çizgi */
-div[data-baseweb="slider"] div[role="slider"] + div {
+/* Aktif (filled) track */
+div[data-baseweb="slider"] [data-testid="stSliderTrack"] {
     background-color: #16a34a !important; /* medikal yeşil */
 }
 
-/* Slider topu (thumb) */
-div[data-baseweb="slider"] div[role="slider"] {
+/* Slider topu */
+div[data-baseweb="slider"] [role="slider"] {
     background-color: #16a34a !important;
     border-color: #16a34a !important;
 }
