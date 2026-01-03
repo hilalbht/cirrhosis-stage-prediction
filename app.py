@@ -153,7 +153,7 @@ st.divider()
 
 
 # --- Demografik Bilgiler ---
-st.subheader("DEMOGRAFİK BİLGİLER")
+st.subheader(" 🔴DEMOGRAFİK BİLGİLER")
 
 age = st.slider("Yaş (1-100)", 1, 100, 50)
 
@@ -164,7 +164,7 @@ sex_val = sex_map[sex_input]  # model input
 st.divider()
 
 # --- Takip ve Tedavi ---
-st.subheader("TAKİP ve TEDAVİ BİLGİLERİ")
+st.subheader(" 🔴TAKİP ve TEDAVİ BİLGİLERİ")
 
 n_days = st.slider("Takip Süresi (Gün)", 0, 5000, 1000)
 
@@ -173,7 +173,7 @@ status_map = {
     "Kısmen Sağ / Fonksiyonel": 1,
     "Kaybedilmiş / Fonksiyon Kaybı": 2
 }
-status_input = st.radio("HASTA DURUMU", list(status_map.keys()), horizontal=True)
+status_input = st.radio(" 🔴HASTA DURUMU", list(status_map.keys()), horizontal=True)
 status_val = status_map[status_input]  # model input
 
 drug_map = {"Hiçbir Tedavi Uygulanmıyor (Plasebo)": 0, "D-penisilamin": 1}
@@ -183,7 +183,7 @@ drug_val = drug_map[drug_input]  # model input
 st.divider()
 
 # --- Klinik Bulgular ---
-st.subheader("FİZİKSEL BULGULAR")
+st.subheader(" 🔴FİZİKSEL BULGULAR")
 
 ascites_map = {
     "Karın Boşluğunda Sıvı Birikimi Yok": 0,
@@ -214,7 +214,7 @@ edema_val = edema_map[edema_input]
 st.divider()
 
 # --- Laboratuvar Bulguları ---
-st.subheader("TEST SONUÇLARI")
+st.subheader(" 🔴TEST SONUÇLARI")
 
 bilirubin = st.slider("Bilirubin (mg/dL)", 0.1, 30.0, 1.0)
 cholesterol = st.slider("Cholesterol (mg/dL)", 100.0, 500.0, 250.0)
@@ -230,7 +230,7 @@ prothrombin = st.slider("Prothrombin (%)", 8.0, 20.0, 12.0)
 # =========================
 # TAHMİN BUTONU
 # =========================
-if st.button("EVRE TAHMİNİ YAP"):
+if st.button(" EVRE TAHMİNİ YAP"):
     
     st.markdown("""
 <style>
