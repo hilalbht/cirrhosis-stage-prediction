@@ -8,7 +8,7 @@ import numpy as np
 # =========================
 st.set_page_config(
     page_title="Klinik Parametrelere Dayalı Siroz Evre Tahmin Sistemi",
-    layout="centered"
+    layout="centered" 
 )
 
 # =========================
@@ -152,100 +152,41 @@ st.divider()
 # =========================
 st.markdown("<h3 class='section-title'>Demografik Bilgiler</h3>", unsafe_allow_html=True)
 st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-
-# Age
 age = st.slider("Yaş", 1, 100, 50)
-
-# Sex
-# Sex: 0 = Kadın, 1 = Erkek
-sex = st.radio(
-    "Cinsiyet",
-    ["Kadın", "Erkek"],
-    horizontal=True
-)
+sex = st.radio("Cinsiyet", ["Female", "Male"], horizontal=True)
 
 st.divider()
 
 st.markdown("<h3 class='section-title'>Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
 st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-
-# N_Days: Hastanın takip süresi (gün)
-n_days = st.slider(
-    "Takip Süresi (gün)",
-    0, 5000, 1000,
-    help="Hastanın tanıdan itibaren klinik olarak takip edildiği toplam süreyi ifade eder."
-)
-
-# Status
-# C  -> Stabil
-# CL -> Komplikasyon gelişmiş
-# D  -> Vefat
-status = st.radio(
-    "Hasta Durumu",
-    ["Stabil", "Komplikasyon gelişmiş", "Vefat"],
-    help="Hastanın klinik takip sürecindeki genel durumunu ifade eder.",
-    horizontal=True
-)
-
-# Drug
-# Drug: 0 = Placebo, 1 = D-penicillamine
-drug = st.radio(
-    "Uygulanan Tedavi",
-    ["Plasebo", "D-penisilamin"],
-    horizontal=True
-)
+n_days = st.slider("Takip Süresi (N_Days)", 0, 5000, 1000)
+status = st.radio("Hasta Durumu (Status)", ["C", "CL", "D"], horizontal=True)
+drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horizontal=True)
 
 st.divider()
 
 st.markdown("<h3 class='section-title'>Klinik Bulgular</h3>", unsafe_allow_html=True)
 st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-
-# Ascites: Karın içi sıvı birikimi
-ascites = st.selectbox(
-    "Karın İçi Sıvı Birikimi",
-    ["Yok", "Var"],
-    help="Karın boşluğunda sıvı birikmesi durumudur."
-)
-
-# Hepatomegaly: Karaciğer büyümesi
-hepatomegaly = st.selectbox(
-    "Karaciğer Büyümesi",
-    ["Yok", "Var"],
-    help="Karaciğerin normal boyutlarının üzerine çıkması durumudur."
-)
-
-# Spiders: Örümcek anjiyom
-spiders = st.selectbox(
-    "Örümcek Anjiyom",
-    ["Yok", "Var"],
-    help="Cilt yüzeyinde görülen kılcal damar genişlemeleridir."
-)
-
-# Edema: Ödem derecesi (0-2)
-edema = st.selectbox(
-    "Ödem Düzeyi",
-    ["0", "1", "2"],
-    help="0: Yok, 1: Hafif, 2: Belirgin ödem"
-)
+ascites = st.selectbox("Ascites (Asit)", ["Yok", "Var"])
+hepatomegaly = st.selectbox("Hepatomegaly (Hepatomegali)", ["Yok", "Var"])
+spiders = st.selectbox("Spiders (Örümcek anjiyom)", ["Yok", "Var"])
+edema = st.selectbox("Edema (Ödem)", ["0", "1", "2"])
 
 st.divider()
 
 st.markdown("<h3 class='section-title'>Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
 st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-
-# Laboratuvar parametreleri
 bilirubin = st.slider("Bilirubin", 0.1, 30.0, 1.0)
-cholesterol = st.slider("Kolesterol", 100.0, 500.0, 250.0)
+cholesterol = st.slider("Cholesterol", 100.0, 500.0, 250.0)
 albumin = st.slider("Albumin", 1.0, 6.0, 3.5)
-copper = st.slider("Serum Bakır Düzeyi", 0.0, 300.0, 50.0)
-alk_phos = st.slider("Alkalen Fosfataz", 50.0, 3000.0, 500.0)
-sgot = st.slider("AST (SGOT)", 10.0, 500.0, 50.0)
-trig = st.slider("Trigliserid", 50.0, 500.0, 150.0)
-platelets = st.slider("Trombosit Sayısı", 50.0, 500.0, 250.0)
-prothrombin = st.slider("Protrombin Zamanı", 8.0, 20.0, 12.0)
+copper = st.slider("Copper", 0.0, 300.0, 50.0)
+alk_phos = st.slider("Alk_Phos", 50.0, 3000.0, 500.0)
+sgot = st.slider("SGOT", 10.0, 500.0, 50.0)
+trig = st.slider("Tryglicerides", 50.0, 500.0, 150.0)
+platelets = st.slider("Platelets", 50.0, 500.0, 250.0)
+prothrombin = st.slider("Prothrombin", 8.0, 20.0, 12.0)
 
 st.divider()
-
 # =========================
 # BUTON
 # =========================
@@ -257,15 +198,9 @@ with col2:
 # TAHMİN
 # =========================
 if predict_btn:
-    sex_val = 1 if sex == "Erkek" else 0
-
-    status_val = {
-        "Stabil": 0,
-        "Komplikasyon gelişmiş": 1,
-        "Vefat": 2
-    }[status]
-
-    drug_val = 1 if drug == "D-penisilamin" else 0
+    sex_val = 1 if sex == "Male" else 0
+    status_val = {"C":0,"CL":1,"D":2}[status]
+    drug_val = 1 if drug == "D-penicillamine" else 0
 
     input_df = pd.DataFrame([{
         "N_Days": n_days,
@@ -273,9 +208,9 @@ if predict_btn:
         "Drug": drug_val,
         "Age": age,
         "Sex": sex_val,
-        "Ascites": 1 if ascites == "Var" else 0,
-        "Hepatomegaly": 1 if hepatomegaly == "Var" else 0,
-        "Spiders": 1 if spiders == "Var" else 0,
+        "Ascites": 1 if ascites=="Var" else 0,
+        "Hepatomegaly": 1 if hepatomegaly=="Var" else 0,
+        "Spiders": 1 if spiders=="Var" else 0,
         "Edema": int(edema),
         "Bilirubin": bilirubin,
         "Cholesterol": cholesterol,
