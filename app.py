@@ -168,9 +168,9 @@ st.subheader("TAKİP ve TEDAVİ BİLGİLERİ")
 n_days = st.slider("Takip Süresi (Gün)", 0, 5000, 1000)
 
 status_map = {
-    "Canlı / Fonksiyonel": 0,
-    "Kısmi Fonksiyonel": 1,
-    "Öldü": 2
+    "Tam Fonksiyonel / Sağlıklı": 0,
+    "Kısmen Sağ / Fonksiyonel": 1,
+    "Kaybedilmiş / Fonksiyon Kaybı": 2
 }
 status_input = st.radio("HASTA DURUMU", list(status_map.keys()), horizontal=True)
 status_val = status_map[status_input]
@@ -184,15 +184,15 @@ st.divider()
 # --- Klinik Bulgular ---
 st.subheader("FİZİKSEL BULGULAR")
 
-ascites_map = {"Yok":0, "Var (Karın boşluğunda sıvı birikimi)":1}
+ascites_map = {"Karın Boşluğunda Sıvı Birikimi Yok()":0, "Karın Boşluğunda Sıvı Birikimi Var )":1}
 ascites_input = st.selectbox("Ascites (Asit)", list(ascites_map.keys()))
 ascites_val = ascites_map[ascites_input]
 
-hepatomegaly_map = {"Yok":0, "Var (Karaciğer büyümesi)":1}
+hepatomegaly_map = {"Karaciğer Büyümesi Yok":0, "Karaciğer Büyümesi Var":1}
 hepatomegaly_input = st.selectbox("Hepatomegaly", list(hepatomegaly_map.keys()))
 hepatomegaly_val = hepatomegaly_map[hepatomegaly_input]
 
-spiders_map = {"Yok":0, "Var (Ciltte örümcek damarlar şeklinde genişleme)":1}
+spiders_map = {"Ciltte Örümcek Damarlar Şeklinde Genişleme Yok":0, "Ciltte Örümcek Damarlar Şeklinde Genişleme Var )":1}
 spiders_input = st.selectbox("Spiders (Örümcek damarlar)", list(spiders_map.keys()))
 spiders_val = spiders_map[spiders_input]
 
