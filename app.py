@@ -151,6 +151,9 @@ div[data-baseweb="slider"] [role="slider"] {
     background-color: #16a34a !important;
     border-color: #16a34a !important;
 }
+div[data-baseweb="slider"] * {
+    accent-color: #16a34a !important;
+}
 
 
 </style>
