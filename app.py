@@ -164,21 +164,7 @@ div[data-baseweb="input"] input {
     background: transparent !important;
 }
 
-/* + ve - butonları */
-div[data-baseweb="input"] button {
-    background: rgba(15, 42, 68, 0.25) !important;
-    color: #0f2a44 !important;
-    border-radius: 10px !important;
-}
-
-/* Hover olunca */
-div[data-baseweb="input"] button:hover {
-    background: rgba(15, 42, 68, 0.45) !important;
-    color: #ffffff !important;
-}
-
-/* Focus (tıklanınca mavi parlama) */
-div[data-baseweb="input"]:focus-within {
+[data-baseweb="input"]:focus-within {
     box-shadow: 0 0 0 2px rgba(66, 168, 146, 0.6) !important;
 }
 
