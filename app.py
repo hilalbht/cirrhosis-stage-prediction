@@ -273,6 +273,7 @@ if st.button("EVRE TAHMİNİ YAP"):
     </div>
     """, unsafe_allow_html=True)
 
+
     # Evre olasılıkları
     st.subheader("EVRE OLASILIKLARI")
     for s, p in zip(le_stage.classes_, probs):
@@ -284,8 +285,9 @@ if st.button("EVRE TAHMİNİ YAP"):
     # Hasta bazlı parametre etki analizi
     # =========================
     st.markdown("""
-<h3 style="color:#0f2a44;">⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ</h3>
-""", unsafe_allow_html=True)
+     <h3 style="color:#0f2a44; font-weight:bold;">⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ</h3>
+     """, unsafe_allow_html=True)
+
 
     st.write(
         "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
