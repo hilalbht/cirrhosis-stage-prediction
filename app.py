@@ -155,8 +155,6 @@ div[data-baseweb="input"] {
     background: rgba(64, 224, 208, 0.3) !important; /* turkuaz şeffaf */
     border: none !important; /* çerçeve kaldırıldı */
     border-radius: 14px !important;
-    transform: translateY(-6px); /* yukarı taşı */
-    padding: 2px 6px !important; /* iç boşluğu optimize */
 }
 
 /* İçindeki sayı ve yazı stili */
