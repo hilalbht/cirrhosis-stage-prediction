@@ -122,17 +122,20 @@ st.markdown("""
 /* ===== SLIDER TOP (THUMB) ===== */
 div[data-baseweb="slider"] div[role="slider"] {
     background-color: #000000 !important;   /* top */
-    border-color: #000000 !important;
+    border-color: #1f2933
+ !important;
 }
 
             /* ===== SLIDER VALUE (33 YAZISI) ===== */
 div[data-baseweb="slider-value"] {
-    color: #000000 !important;
+    color: #1f2933
+ !important;
 }
 
 /* İçindeki span ihtimaline karşı */
 div[data-baseweb="slider-value"] span {
-    color: #000000 !important;
+    color: #1f2933
+ !important;
 }
 
 
