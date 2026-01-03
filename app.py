@@ -148,23 +148,47 @@ div[data-baseweb="slider-value"] * {
 div[data-baseweb="slider"] {
     --accent-color: #000000 !important;
 }
-/* ===== NUMBER INPUT + / - KUTUSU GÜNCELLEME ===== */
+/* ===== NUMBER INPUT + / - KUTUSU VE SLIDER VALUE ===== */
+
+/* Kutu arka planı ve kenarlık */
 div[data-baseweb="input"] {
     background: rgba(64, 224, 208, 0.3) !important; /* turkuaz şeffaf */
-    border: 1.5px solid rgba(64, 224, 208, 0.6) !important; 
+    border: 1.5px solid rgba(64, 224, 208, 0.6) !important;
     border-radius: 14px !important;
 }
 
+/* İçindeki sayı ve yazı stili */
 div[data-baseweb="input"] input {
     color: #ffffff !important; /* beyaz */
     font-weight: 700 !important; /* kalın */
     background: transparent !important;
 }
 
-
-/* focus durumunda turkuaz glow */
+/* Odaklanınca glow efekti */
 [data-baseweb="input"]:focus-within {
     box-shadow: 0 0 0 2px rgba(64, 224, 208, 0.6) !important;
+}
+
+/* Slider value (üstündeki sayı) beyaz ve kalın */
+div[data-baseweb="slider-value"] {
+    color: #ffffff !important; /* beyaz */
+    font-weight: 700 !important; /* kalın */
+}
+
+div[data-baseweb="slider-value"] span {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+div[data-baseweb="slider-value"] * {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+/* Slider top (thumb) rengi */
+div[data-baseweb="slider"] div[role="slider"] {
+    background-color: #000000 !important; 
+    border-color: #1f2933 !important;
 }
 
 
