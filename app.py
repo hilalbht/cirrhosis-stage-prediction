@@ -151,6 +151,7 @@ st.divider()
 # GİRDİLER
 # =========================
 
+
 # --- Demografik Bilgiler ---
 st.subheader("DEMOGRAFİK BİLGİLER")
 
@@ -158,7 +159,7 @@ age = st.slider("Yaş (1-100)", 1, 100, 50)
 
 sex_map = {"Kadın": 0, "Erkek": 1}
 sex_input = st.radio("Cinsiyet", list(sex_map.keys()), horizontal=True)
-sex_val = sex_map[sex_input]
+sex_val = sex_map[sex_input]  # model input
 
 st.divider()
 
@@ -173,26 +174,32 @@ status_map = {
     "Kaybedilmiş / Fonksiyon Kaybı": 2
 }
 status_input = st.radio("HASTA DURUMU", list(status_map.keys()), horizontal=True)
-status_val = status_map[status_input]
+status_val = status_map[status_input]  # model input
 
-drug_map = {"Hiçbir Tedavi Uygulanmıyor (Plasebo)":0, "D-penisilamin":1}
+drug_map = {"Hiçbir Tedavi Uygulanmıyor (Plasebo)": 0, "D-penisilamin": 1}
 drug_input = st.radio("Uygulanan Tedavi", list(drug_map.keys()), horizontal=True)
-drug_val = drug_map[drug_input]
+drug_val = drug_map[drug_input]  # model input
 
 st.divider()
 
 # --- Klinik Bulgular ---
 st.subheader("FİZİKSEL BULGULAR")
 
-ascites_map = {"Karın Boşluğunda Sıvı Birikimi Yok()":0, "Karın Boşluğunda Sıvı Birikimi Var )":1}
+ascites_map = {
+    "Karın Boşluğunda Sıvı Birikimi Yok": 0,
+    "Karın Boşluğunda Sıvı Birikimi Var (Asit)": 1
+}
 ascites_input = st.selectbox("Ascites (Asit)", list(ascites_map.keys()))
 ascites_val = ascites_map[ascites_input]
 
-hepatomegaly_map = {"Karaciğer Büyümesi Yok":0, "Karaciğer Büyümesi Var":1}
+hepatomegaly_map = {"Karaciğer Büyümesi Yok": 0, "Karaciğer Büyümesi Var": 1}
 hepatomegaly_input = st.selectbox("Hepatomegaly", list(hepatomegaly_map.keys()))
 hepatomegaly_val = hepatomegaly_map[hepatomegaly_input]
 
-spiders_map = {"Ciltte Örümcek Damarlar Şeklinde Genişleme Yok":0, "Ciltte Örümcek Damarlar Şeklinde Genişleme Var )":1}
+spiders_map = {
+    "Ciltte Örümcek Damarlar Şeklinde Genişleme Yok": 0,
+    "Ciltte Örümcek Damarlar Şeklinde Genişleme Var": 1
+}
 spiders_input = st.selectbox("Spiders (Örümcek damarlar)", list(spiders_map.keys()))
 spiders_val = spiders_map[spiders_input]
 
@@ -219,14 +226,13 @@ trig = st.slider("Tryglicerides (mg/dL)", 50.0, 500.0, 150.0)
 platelets = st.slider("Platelets (10^3/µL)", 50.0, 500.0, 250.0)
 prothrombin = st.slider("Prothrombin (%)", 8.0, 20.0, 12.0)
 
-st.divider()
 
 # =========================
 # TAHMİN BUTONU
 # =========================
 if st.button("EVRE TAHMİNİ YAP"):
     
-    # Input dataframe oluştur
+    # Modelin beklediği input dataframe
     input_df = pd.DataFrame([{
         "N_Days": n_days,
         "Status": status_val,
@@ -249,25 +255,31 @@ if st.button("EVRE TAHMİNİ YAP"):
         "Status_label": status_val,
         "Drug_label": drug_val
     }])[model.feature_names_in_]
+
+    # Tahmin olasılıkları ve en yüksek olasılıklı evre
     probs = model.predict_proba(input_df)[0]
     stage = le_stage.inverse_transform([np.argmax(probs)])[0]
 
+    # Sonuç kartı
     st.markdown(f"""
     <div class="result-card">
         <h2>Tahmin Edilen Siroz Evresi</h2>
         <h1 style="font-size:48px;">Stage {stage}</h1>
         <p style="font-size:14px;">
         Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
+        Klinik kararların yerine geçmez.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
+    # Evre olasılıkları
     st.subheader("EVRE OLASILIKLARI")
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
+    # Hasta bazlı parametre etki analizi
     st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
     st.write(
         "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
@@ -290,12 +302,15 @@ if st.button("EVRE TAHMİNİ YAP"):
         else:
             yorum = "Belirgin etkisi yok."
 
+        # Kullanıcıya açıklayıcı isimlerle göster
+        parametre_adi = col
         impact_results.append({
-            "Parametre": col,
+            "Parametre": parametre_adi,
             "Etki Büyüklüğü": diff,
             "Klinik Yorum": yorum
         })
 
+    # Sadece en etkili 5 parametreyi göster
     impact_df = pd.DataFrame(impact_results)\
         .sort_values("Etki Büyüklüğü", ascending=False)\
         .head(5)
@@ -305,3 +320,4 @@ if st.button("EVRE TAHMİNİ YAP"):
         {impact_df.to_html(index=False)}
     </div>
     """, unsafe_allow_html=True)
+
