@@ -12,15 +12,177 @@ st.set_page_config(
 )
 
 # =========================
-# STİL (CSS) — AYNI
+# STİL (CSS)
 # =========================
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 .stApp {
-    background: radial-gradient(circle, rgba(80,129,148,1), rgba(66,168,146,1));
+    background: #508194;
+    background: radial-gradient(
+        circle,
+        rgba(80, 129, 148, 1) 0%,
+        rgba(66, 168, 146, 1) 100%
+    );
     font-family: 'Inter', sans-serif;
 }
+
+/* ===== ANA BAŞLIK KARTI ===== */
+.header-card {
+    background: rgba(15, 42, 68, 0.65);
+    padding: 30px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.35);
+    transition: transform 0.35s ease;
+}
+.header-card:hover {
+    transform: scale(1.06);
+}
+
+/* ===== BÖLÜM BAŞLIKLARI ===== */
+.section-title {
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 26px;
+    color: #0f2a44;
+    transition: transform 0.25s ease;
+}
+.section-title:hover {
+    transform: scale(1.06);
+}
+.section-title::before {
+    content: "● ";
+    color: #0f2a44;
+    font-weight: bold;
+    font-size: 26px;
+}
+.stMarkdown h3.section-title {
+    color: #0f2a44 !important;
+}
+
+/* ===== SECTION ALT AYIRICI ===== */
+.section-divider {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(15, 42, 68, 0.9),
+        rgba(15, 42, 68, 0.2)
+    );
+    margin: 6px 0 18px 0;
+}
+
+/* ===== BUTON ===== */
+.stButton > button {
+    background: linear-gradient(135deg, #111827, #1f2933);
+    color: #ffffff;
+    border-radius: 22px;
+    padding: 26px 110px;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    box-shadow: 0px 12px 40px rgba(0,0,0,0.45);
+    transition: all 0.3s ease;
+}
+.stButton > button:hover {
+    transform: scale(1.18);
+}
+
+/* ===== SONUÇ KARTI ===== */
+.result-card {
+    background: linear-gradient(135deg, #0f2a44, #123a5f);
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+}
+
+/* ===== TABLO ===== */
+.custom-table {
+    background-color: rgba(15, 42, 68, 0.85);
+    border-radius: 16px;
+    padding: 20px;
+}
+.custom-table th {
+    color: #bcdcff;
+}
+.custom-table td {
+    color: #f2f4f8;
+}
+
+/* ===== INPUT KAYDIRMA ===== */
+.section-title + div,
+.section-title + .stSlider,
+.section-title + .stRadio,
+.section-title + .stSelectbox {
+    margin-left: 100px;
+}
+
+/* ===== SLIDER RENGİ ===== */
+/* ===== SLIDER TOP (THUMB) ===== */
+div[data-baseweb="slider"] div[role="slider"] {
+    background-color: #000000 !important;   /* top */
+    border-color: #1f2933
+ !important;
+}
+
+            /* ===== SLIDER VALUE (33 YAZISI) ===== */
+div[data-baseweb="slider-value"] {
+    color: #1f2933
+ !important;
+}
+
+/* İçindeki span ihtimaline karşı */
+div[data-baseweb="slider-value"] span {
+    color: #1f2933
+ !important;
+}
+div[data-baseweb="slider-value"] * {
+    color: black !important;
+}
+/* ===== SLIDER VALUE ZORLA SİYAH ===== */
+:root {
+    --accent-color: #000000 !important;
+}
+
+div[data-baseweb="slider"] {
+    --accent-color: #000000 !important;
+}
+/* ===== NUMBER INPUT ( + / - KONTROLLER ) ===== */
+
+/* Dış kutu */
+div[data-baseweb="input"] {
+    background: rgba(15, 42, 68, 0.25) !important;
+    border: 1.5px solid rgba(15, 42, 68, 0.45) !important;
+    border-radius: 14px !important;
+}
+
+/* Yazı */
+div[data-baseweb="input"] input {
+    color: #0f2a44 !important;
+    font-weight: 600;
+    background: transparent !important;
+}
+
+/* + ve - butonları */
+div[data-baseweb="input"] button {
+    background: rgba(15, 42, 68, 0.25) !important;
+    color: #0f2a44 !important;
+    border-radius: 10px !important;
+}
+
+/* Hover olunca */
+div[data-baseweb="input"] button:hover {
+    background: rgba(15, 42, 68, 0.45) !important;
+    color: #ffffff !important;
+}
+
+/* Focus (tıklanınca mavi parlama) */
+div[data-baseweb="input"]:focus-within {
+    box-shadow: 0 0 0 2px rgba(66, 168, 146, 0.6) !important;
+}
+
+
 </style>
 """, unsafe_allow_html=True)
 
