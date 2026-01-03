@@ -280,70 +280,57 @@ if st.button("EVRE TAHMİNİ YAP"):
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
-   # =========================
-# Hasta bazlı parametre etki analizi
-# =========================
-st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
-st.write(
-    "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
-    "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
-)
+    # =========================
+    # Hasta bazlı parametre etki analizi
+    # =========================
+    st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
+    st.write(
+        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
+        "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
+    )
 
-base_index = np.argmax(probs)
-impact_results = []
+    base_index = np.argmax(probs)
+    impact_results = []
 
-for col in model.feature_names_in_:
-    temp_df = input_df.copy()
-    temp_df[col] = 0  # parametreyi sıfırlayarak etkisini ölç
-    temp_proba = model.predict_proba(temp_df)[0]
-    diff = probs[base_index] - temp_proba[base_index]
+    for col in model.feature_names_in_:
+        temp_df = input_df.copy()
+        temp_df[col] = 0  # parametreyi sıfırlayarak etkisini ölç
+        temp_proba = model.predict_proba(temp_df)[0]
+        diff = probs[base_index] - temp_proba[base_index]
 
-    if diff > 0:
-        yorum = "⚠️ Risk artırıcı etkisi var"
-        tooltip = "Model bu parametreden dolayı yüksek evre tahmini yapıyor. Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir."
-    elif diff < 0:
-        yorum = "✅ Tahmini azaltıcı etkisi var"
-        tooltip = "Bu parametre tahmin edilen evreyi düşürücü yönde etki ediyor."
-    else:
-        yorum = "➖ Belirgin etkisi yok"
-        tooltip = "Bu parametrenin belirgin bir etkisi yok."
+        if diff > 0:
+            yorum = "⚠️ Risk artırıcı etkisi var"
+        elif diff < 0:
+            yorum = "✅ Tahmini azaltıcı etkisi var"
+        else:
+            yorum = "➖ Belirgin etkisi yok"
 
-    impact_results.append({
-        "Parametre": col,
-        "Etki Büyüklüğü": diff,
-        "Klinik Yorum": yorum,
-        "Tooltip": tooltip
-    })
+        impact_results.append({
+            "Parametre": col,
+            "Etki Büyüklüğü": diff,
+            "Klinik Yorum": yorum
+        })
 
-# En etkili 5 parametreyi göster
-impact_df = pd.DataFrame(impact_results)\
-    .sort_values("Etki Büyüklüğü", ascending=False)\
-    .head(5)
+    # En etkili 5 parametreyi göster
+    impact_df = pd.DataFrame(impact_results)\
+        .sort_values("Etki Büyüklüğü", ascending=False)\
+        .head(5)
 
-# Güzel görselleştirme (tooltip ve renkler)
-for idx, row in impact_df.iterrows():
-    # Renkleri yorum türüne göre ayarla
-    if "Risk artırıcı" in row['Klinik Yorum']:
-        bg_color = "linear-gradient(135deg, #FF4C4C, #B22222)"  # kırmızı
-    elif "azaltıcı" in row['Klinik Yorum']:
-        bg_color = "linear-gradient(135deg, #4CAF50, #2E7D32)"  # yeşil
-    else:
-        bg_color = "linear-gradient(135deg, #888888, #555555)"  # gri
-
-    st.markdown(f"""
-    <div style="
-        background: {bg_color};
-        padding: 16px;
-        margin-bottom: 12px;
-        border-radius: 12px;
-        color: #ffffff;
-        box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
-    " title="{row['Tooltip']}">
-        <h4 style="margin:0;">{row['Parametre']}</h4>
-        <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
-        <p style="margin:0;">{row['Klinik Yorum'].split('.')[0]}...</p>
-    </div>
-    """, unsafe_allow_html=True)
-
+    # Güzel görselleştirme
+    for idx, row in impact_df.iterrows():
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #123a5f, #0f2a44);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            color: #ffffff;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+        ">
+            <h4 style="margin:0;">{row['Parametre']}</h4>
+            <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
+            <p style="margin:0;">{row['Klinik Yorum']}</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 
