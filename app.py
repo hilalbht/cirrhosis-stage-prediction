@@ -374,7 +374,7 @@ div.stButton > button {
             box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
         ">
             <h4 style="margin:0;">{row['Parametre']}</h4>
-            <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
+            <p style="margin:0;">Etki Büyüklüğü: %{row['Etki Büyüklüğü (%)']}</p>
             <p style="margin:0;">{row['Klinik Yorum']}</p>
         </div>
         """, unsafe_allow_html=True)
