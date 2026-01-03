@@ -175,7 +175,7 @@ status_map = {
 status_input = st.radio("HASTA DURUMU", list(status_map.keys()), horizontal=True)
 status_val = status_map[status_input]
 
-drug_map = {"Plasebo":0, "D-penisilamin":1}
+drug_map = {"Hiçbir Tedavi Uygulanmıyor (Plasebo)":0, "D-penisilamin":1}
 drug_input = st.radio("Uygulanan Tedavi", list(drug_map.keys()), horizontal=True)
 drug_val = drug_map[drug_input]
 
