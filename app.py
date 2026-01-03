@@ -104,7 +104,7 @@ def slider_plus(key, label, minv, maxv, default, step=1, help=None):
 # =========================
 # DEMOGRAFİK BİLGİLER
 # =========================
-st.markdown('<div class="section-header">Demografik Bilgiler</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header">KİŞİSEL & DEMOGRAFİK BİLGİLER</div>', unsafe_allow_html=True)
 st.markdown('<div class="section-content">', unsafe_allow_html=True)
 
 age = slider_plus("age", "Yaş", 1, 100, 50)
@@ -116,7 +116,7 @@ st.divider()
 # =========================
 # TAKİP VE TEDAVİ
 # =========================
-st.markdown('<div class="section-header">Takip ve Tedavi</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header">TAKİP & TEDAVİ</div>', unsafe_allow_html=True)
 st.markdown('<div class="section-content">', unsafe_allow_html=True)
 
 n_days = slider_plus("n_days", "Takip Süresi (gün)", 0, 5000, 1000, step=50,
@@ -131,7 +131,7 @@ st.divider()
 # =========================
 # KLİNİK BULGULAR
 # =========================
-st.markdown('<div class="section-header">Klinik Bulgular</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header">FİZİKSEL & KLİNİK BULGULAR</div>', unsafe_allow_html=True)
 st.markdown('<div class="section-content">', unsafe_allow_html=True)
 
 ascites = st.selectbox("Karın İçi Sıvı Birikimi", ["Yok", "Var"])
@@ -145,7 +145,7 @@ st.divider()
 # =========================
 # LABORATUVAR BULGULARI
 # =========================
-st.markdown('<div class="section-header">Laboratuvar Bulguları</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header">LABORATUVAR & TEST SONUÇLARI</div>', unsafe_allow_html=True)
 st.markdown('<div class="section-content">', unsafe_allow_html=True)
 
 bilirubin   = slider_plus("bilirubin", "Bilirubin", 0.1, 30.0, 1.0, 0.1)
