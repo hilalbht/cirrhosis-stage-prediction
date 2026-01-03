@@ -152,7 +152,7 @@ st.divider()
 # =========================
 
 # --- Demografik Bilgiler ---
-st.subheader("Demografik Bilgiler")
+st.subheader("DEMOGRAFİK BİLGİLER")
 
 age = st.slider("Yaş (1-100)", 1, 100, 50)
 
@@ -163,7 +163,7 @@ sex_val = sex_map[sex_input]
 st.divider()
 
 # --- Takip ve Tedavi ---
-st.subheader("Takip ve Tedavi Bilgileri")
+st.subheader("TAKİP ve TEDAVİ BİLGİLERİ")
 
 n_days = st.slider("Takip Süresi (Gün)", 0, 5000, 1000)
 
@@ -172,7 +172,7 @@ status_map = {
     "Kısmi Fonksiyonel": 1,
     "Öldü": 2
 }
-status_input = st.radio("Hasta Durumu", list(status_map.keys()), horizontal=True)
+status_input = st.radio("HASTA DURUMU", list(status_map.keys()), horizontal=True)
 status_val = status_map[status_input]
 
 drug_map = {"Plasebo":0, "D-penisilamin":1}
@@ -182,7 +182,7 @@ drug_val = drug_map[drug_input]
 st.divider()
 
 # --- Klinik Bulgular ---
-st.subheader("Klinik Bulgular")
+st.subheader("FİZİKSEL BULGULAR")
 
 ascites_map = {"Yok":0, "Var (Karın boşluğunda sıvı birikimi)":1}
 ascites_input = st.selectbox("Ascites (Asit)", list(ascites_map.keys()))
@@ -197,7 +197,7 @@ spiders_input = st.selectbox("Spiders (Örümcek damarlar)", list(spiders_map.ke
 spiders_val = spiders_map[spiders_input]
 
 edema_map = {
-    "Az (hafif vücutta ödem)": 0,
+    "Az (hafif ödem)": 0,
     "Orta (orta seviyede ödem)": 1,
     "Şiddetli (yaygın vücut ödemi)": 2
 }
@@ -207,7 +207,7 @@ edema_val = edema_map[edema_input]
 st.divider()
 
 # --- Laboratuvar Bulguları ---
-st.subheader("Laboratuvar Bulguları")
+st.subheader("TEST SONUÇLARI")
 
 bilirubin = st.slider("Bilirubin (mg/dL)", 0.1, 30.0, 1.0)
 cholesterol = st.slider("Cholesterol (mg/dL)", 100.0, 500.0, 250.0)
@@ -262,13 +262,13 @@ if st.button("EVRE TAHMİNİ YAP"):
     </div>
     """, unsafe_allow_html=True)
 
-    st.subheader("Evre Olasılıkları")
+    st.subheader("EVRE OLASILIKLARI")
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
-    st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
+    st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
     st.write(
         "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
         "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
