@@ -120,8 +120,9 @@ st.markdown("""
 
 /* ===== SLIDER RENGİ ===== */
 div[data-baseweb="slider"] {
-    --accent-color: #0f2a44;
+    --accent-color: #6d28d9;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
