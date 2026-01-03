@@ -145,6 +145,9 @@ div[data-baseweb="slider-value"] * {
     --accent-color: #000000 !important;
 }
 
+div[data-baseweb="slider"] {
+    --accent-color: #000000 !important;
+}
 
 
 </style>
