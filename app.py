@@ -228,10 +228,11 @@ prothrombin = st.slider("Prothrombin (%)", 8.0, 20.0, 12.0)
 
 
 # =========================
+# =========================
 # TAHMİN BUTONU
 # =========================
 if st.button("EVRE TAHMİNİ YAP"):
-    
+
     # Modelin beklediği input dataframe
     input_df = pd.DataFrame([{
         "N_Days": n_days,
@@ -279,7 +280,9 @@ if st.button("EVRE TAHMİNİ YAP"):
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
+    # =========================
     # Hasta bazlı parametre etki analizi
+    # =========================
     st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
     st.write(
         "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
@@ -291,35 +294,43 @@ if st.button("EVRE TAHMİNİ YAP"):
 
     for col in model.feature_names_in_:
         temp_df = input_df.copy()
-        temp_df[col] = 0
+        temp_df[col] = 0  # parametreyi sıfırlayarak etkisini ölç
         temp_proba = model.predict_proba(temp_df)[0]
         diff = probs[base_index] - temp_proba[base_index]
 
         if diff > 0:
-            yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor."
+            yorum = "⚠️ Risk artırıcı etkisi var"
         elif diff < 0:
-            yorum = "Evre tahminini azaltıcı yönde etkili."
+            yorum = "✅ Tahmini azaltıcı etkisi var"
         else:
-            yorum = "Belirgin etkisi yok."
+            yorum = "➖ Belirgin etkisi yok"
 
-        # Kullanıcıya açıklayıcı isimlerle göster
-        parametre_adi = col
         impact_results.append({
-            "Parametre": parametre_adi,
+            "Parametre": col,
             "Etki Büyüklüğü": diff,
             "Klinik Yorum": yorum
         })
 
-    # Sadece en etkili 5 parametreyi göster
+    # En etkili 5 parametreyi göster
     impact_df = pd.DataFrame(impact_results)\
         .sort_values("Etki Büyüklüğü", ascending=False)\
         .head(5)
-    
 
-    st.markdown(f"""
-    <div class="custom-table">
-        {impact_df.to_html(index=False)}
-    </div>
-    """, unsafe_allow_html=True)
-    
+    # Güzel görselleştirme
+    for idx, row in impact_df.iterrows():
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #123a5f, #0f2a44);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            color: #ffffff;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+        ">
+            <h4 style="margin:0;">{row['Parametre']}</h4>
+            <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
+            <p style="margin:0;">{row['Klinik Yorum']}</p>
+        </div>
+        """, unsafe_allow_html=True)
+
 
