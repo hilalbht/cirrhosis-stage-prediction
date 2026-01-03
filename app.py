@@ -150,68 +150,93 @@ st.divider()
 # =========================
 # GİRDİLER
 # =========================
-st.markdown("<h3 class='section-title'>Demografik Bilgiler</h3>", unsafe_allow_html=True)
-st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-age = st.slider("Yaş", 1, 100, 50)
-sex = st.radio("Cinsiyet", ["Female", "Male"], horizontal=True)
+
+# --- Demografik Bilgiler ---
+st.subheader("Demografik Bilgiler")
+
+age = st.slider("Yaş (1-100)", 1, 100, 50)
+
+sex_map = {"Kadın": 0, "Erkek": 1}
+sex_input = st.radio("Cinsiyet", list(sex_map.keys()), horizontal=True)
+sex_val = sex_map[sex_input]
 
 st.divider()
 
-st.markdown("<h3 class='section-title'>Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
-st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-n_days = st.slider("Takip Süresi (N_Days)", 0, 5000, 1000)
-status = st.radio("Hasta Durumu (Status)", ["C", "CL", "D"], horizontal=True)
-drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horizontal=True)
+# --- Takip ve Tedavi ---
+st.subheader("Takip ve Tedavi Bilgileri")
+
+n_days = st.slider("Takip Süresi (Gün)", 0, 5000, 1000)
+
+status_map = {
+    "Canlı / Fonksiyonel": 0,
+    "Kısmi Fonksiyonel": 1,
+    "Öldü": 2
+}
+status_input = st.radio("Hasta Durumu", list(status_map.keys()), horizontal=True)
+status_val = status_map[status_input]
+
+drug_map = {"Plasebo":0, "D-penisilamin":1}
+drug_input = st.radio("Uygulanan Tedavi", list(drug_map.keys()), horizontal=True)
+drug_val = drug_map[drug_input]
 
 st.divider()
 
-st.markdown("<h3 class='section-title'>Klinik Bulgular</h3>", unsafe_allow_html=True)
-st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-ascites = st.selectbox("Ascites (Asit)", ["Yok", "Var"])
-hepatomegaly = st.selectbox("Hepatomegaly (Hepatomegali)", ["Yok", "Var"])
-spiders = st.selectbox("Spiders (Örümcek anjiyom)", ["Yok", "Var"])
-edema = st.selectbox("Edema (Ödem)", ["0", "1", "2"])
+# --- Klinik Bulgular ---
+st.subheader("Klinik Bulgular")
+
+ascites_map = {"Yok":0, "Var (Karın boşluğunda sıvı birikimi)":1}
+ascites_input = st.selectbox("Ascites (Asit)", list(ascites_map.keys()))
+ascites_val = ascites_map[ascites_input]
+
+hepatomegaly_map = {"Yok":0, "Var (Karaciğer büyümesi)":1}
+hepatomegaly_input = st.selectbox("Hepatomegaly", list(hepatomegaly_map.keys()))
+hepatomegaly_val = hepatomegaly_map[hepatomegaly_input]
+
+spiders_map = {"Yok":0, "Var (Ciltte örümcek damarlar şeklinde genişleme)":1}
+spiders_input = st.selectbox("Spiders (Örümcek damarlar)", list(spiders_map.keys()))
+spiders_val = spiders_map[spiders_input]
+
+edema_map = {
+    "Az (hafif vücutta ödem)": 0,
+    "Orta (orta seviyede ödem)": 1,
+    "Şiddetli (yaygın vücut ödemi)": 2
+}
+edema_input = st.selectbox("Ödem", list(edema_map.keys()))
+edema_val = edema_map[edema_input]
 
 st.divider()
 
-st.markdown("<h3 class='section-title'>Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
-st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-bilirubin = st.slider("Bilirubin", 0.1, 30.0, 1.0)
-cholesterol = st.slider("Cholesterol", 100.0, 500.0, 250.0)
-albumin = st.slider("Albumin", 1.0, 6.0, 3.5)
-copper = st.slider("Copper", 0.0, 300.0, 50.0)
-alk_phos = st.slider("Alk_Phos", 50.0, 3000.0, 500.0)
-sgot = st.slider("SGOT", 10.0, 500.0, 50.0)
-trig = st.slider("Tryglicerides", 50.0, 500.0, 150.0)
-platelets = st.slider("Platelets", 50.0, 500.0, 250.0)
-prothrombin = st.slider("Prothrombin", 8.0, 20.0, 12.0)
+# --- Laboratuvar Bulguları ---
+st.subheader("Laboratuvar Bulguları")
+
+bilirubin = st.slider("Bilirubin (mg/dL)", 0.1, 30.0, 1.0)
+cholesterol = st.slider("Cholesterol (mg/dL)", 100.0, 500.0, 250.0)
+albumin = st.slider("Albumin (g/dL)", 1.0, 6.0, 3.5)
+copper = st.slider("Copper (µg/dL)", 0.0, 300.0, 50.0)
+alk_phos = st.slider("Alk_Phos (IU/L)", 50.0, 3000.0, 500.0)
+sgot = st.slider("SGOT (IU/L)", 10.0, 500.0, 50.0)
+trig = st.slider("Tryglicerides (mg/dL)", 50.0, 500.0, 150.0)
+platelets = st.slider("Platelets (10^3/µL)", 50.0, 500.0, 250.0)
+prothrombin = st.slider("Prothrombin (%)", 8.0, 20.0, 12.0)
 
 st.divider()
-# =========================
-# BUTON
-# =========================
-col1, col2, col3 = st.columns([1,2,1])
-with col2:
-    predict_btn = st.button("EVRE TAHMİNİ YAP")
 
 # =========================
-# TAHMİN
+# TAHMİN BUTONU
 # =========================
-if predict_btn:
-    sex_val = 1 if sex == "Male" else 0
-    status_val = {"C":0,"CL":1,"D":2}[status]
-    drug_val = 1 if drug == "D-penicillamine" else 0
-
+if st.button("EVRE TAHMİNİ YAP"):
+    
+    # Input dataframe oluştur
     input_df = pd.DataFrame([{
         "N_Days": n_days,
         "Status": status_val,
         "Drug": drug_val,
         "Age": age,
         "Sex": sex_val,
-        "Ascites": 1 if ascites=="Var" else 0,
-        "Hepatomegaly": 1 if hepatomegaly=="Var" else 0,
-        "Spiders": 1 if spiders=="Var" else 0,
-        "Edema": int(edema),
+        "Ascites": ascites_val,
+        "Hepatomegaly": hepatomegaly_val,
+        "Spiders": spiders_val,
+        "Edema": edema_val,
         "Bilirubin": bilirubin,
         "Cholesterol": cholesterol,
         "Albumin": albumin,
@@ -224,7 +249,6 @@ if predict_btn:
         "Status_label": status_val,
         "Drug_label": drug_val
     }])[model.feature_names_in_]
-
     probs = model.predict_proba(input_df)[0]
     stage = le_stage.inverse_transform([np.argmax(probs)])[0]
 
