@@ -60,6 +60,22 @@ st.markdown("""
 .stMarkdown h3.section-title {
     color: #0f2a44 !important;
 }
+            .section-header {
+    color: #0f2a44;  /* koyu lacivert */
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.section-header::before {
+    content: "● ";
+    color: #0f2a44;
+    font-weight: bold;
+    font-size: 26px;
+}
+.section-content {
+    margin-left: 30px; /* girinti */
+    margin-bottom: 20px;
+}
 
 /* ===== SECTION ALT AYIRICI ===== */
 .section-divider {
@@ -262,21 +278,8 @@ def slider_plus(key, label, minv, maxv, default, step=1, help=None):
             key=f"num_{key}"
         )
     return st.session_state[key]
-# =========================
-# DEMOGRAFİ
-# =========================
-st.subheader("Demografik Bilgiler")
-
-age = slider_plus("age", "Yaş", 1, 100, 50)
-
-sex = st.radio("Cinsiyet", ["Kadın", "Erkek"], horizontal=True)
-
-st.divider()
-
-# =========================
-# TAKİP
-# =========================
-st.subheader("Takip ve Tedavi")
+st.markdown('<div class="section-header">Takip ve Tedavi</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-content">', unsafe_allow_html=True)
 
 n_days = slider_plus(
     "n_days", "Takip Süresi (gün)",
@@ -296,24 +299,28 @@ drug = st.radio(
     horizontal=True
 )
 
+st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 
 # =========================
 # KLİNİK
 # =========================
-st.subheader("Klinik Bulgular")
+st.markdown('<div class="section-header">Klinik Bulgular</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-content">', unsafe_allow_html=True)
 
 ascites = st.selectbox("Karın İçi Sıvı Birikimi", ["Yok", "Var"])
 hepatomegaly = st.selectbox("Karaciğer Büyümesi", ["Yok", "Var"])
 spiders = st.selectbox("Örümcek Anjiyom", ["Yok", "Var"])
 edema = st.selectbox("Ödem Düzeyi", ["0", "1", "2"])
 
+st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 
 # =========================
 # LABORATUVAR (HEPSİ +/−)
 # =========================
-st.subheader("Laboratuvar Bulguları")
+st.markdown('<div class="section-header">Laboratuvar Bulguları</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-content">', unsafe_allow_html=True)
 
 bilirubin   = slider_plus("bilirubin", "Bilirubin", 0.1, 30.0, 1.0, 0.1)
 cholesterol = slider_plus("chol", "Kolesterol", 100.0, 500.0, 250.0, 10.0)
@@ -325,8 +332,8 @@ trig        = slider_plus("trig", "Trigliserid", 50.0, 500.0, 150.0, 10.0)
 platelets   = slider_plus("plt", "Trombosit", 50.0, 500.0, 250.0, 10.0)
 prothrombin = slider_plus("pt", "Protrombin", 8.0, 20.0, 12.0, 0.1)
 
+st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
-
 # =========================
 # BUTON
 # =========================
