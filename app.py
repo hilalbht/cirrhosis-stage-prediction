@@ -155,10 +155,10 @@ st.divider()
 # --- Demografik Bilgiler ---
 st.subheader(" 🔴DEMOGRAFİK BİLGİLER")
 
-age = st.slider("◽YAŞ (1-100)", 1, 100, 50)
+age = st.slider("🔹YAŞ (1-100)", 1, 100, 50)
 
 sex_map = {"Kadın": 0, "Erkek": 1}
-sex_input = st.radio("◽CİNSİYET", list(sex_map.keys()), horizontal=True)
+sex_input = st.radio("🔹CİNSİYET", list(sex_map.keys()), horizontal=True)
 sex_val = sex_map[sex_input]  # model input
 
 st.divider()
@@ -166,18 +166,18 @@ st.divider()
 # --- Takip ve Tedavi ---
 st.subheader(" 🔴TAKİP ve TEDAVİ BİLGİLERİ")
 
-n_days = st.slider("◽HASTA TAKİP SÜRESİ (Gün)", 0, 5000, 1000)
+n_days = st.slider("🔹HASTA TAKİP SÜRESİ (Gün)", 0, 5000, 1000)
 
 status_map = {
     "Tam Fonksiyonel / Sağlıklı": 0,
     "Kısmen Sağ / Fonksiyonel": 1,
     "Kaybedilmiş / Fonksiyon Kaybı": 2
 }
-status_input = st.radio("◽ HASTA DURUMU", list(status_map.keys()), horizontal=True)
+status_input = st.radio("🔹 HASTA DURUMU", list(status_map.keys()), horizontal=True)
 status_val = status_map[status_input]  # model input
 
 drug_map = {"Hiçbir Tedavi Uygulanmıyor (Plasebo)": 0, "D-penisilamin": 1}
-drug_input = st.radio("◽UYGULANAN TEDAVİ DURUMU", list(drug_map.keys()), horizontal=True)
+drug_input = st.radio("🔹UYGULANAN TEDAVİ DURUMU", list(drug_map.keys()), horizontal=True)
 drug_val = drug_map[drug_input]  # model input
 
 st.divider()
@@ -189,18 +189,18 @@ ascites_map = {
     "Karın Boşluğunda Sıvı Birikimi Yok": 0,
     "Karın Boşluğunda Sıvı Birikimi Var (Asit)": 1
 }
-ascites_input = st.selectbox("◽ASİT (Karın İçi Sıvı Birikimi)", list(ascites_map.keys()))
+ascites_input = st.selectbox("🔹ASİT (Karın İçi Sıvı Birikimi)", list(ascites_map.keys()))
 ascites_val = ascites_map[ascites_input]
 
 hepatomegaly_map = {"Karaciğer Büyümesi Yok": 0, "Karaciğer Büyümesi Var": 1}
-hepatomegaly_input = st.selectbox("◽HEPATOMEGALİ", list(hepatomegaly_map.keys()))
+hepatomegaly_input = st.selectbox("🔹HEPATOMEGALİ", list(hepatomegaly_map.keys()))
 hepatomegaly_val = hepatomegaly_map[hepatomegaly_input]
 
 spiders_map = {
     "Ciltte Örümcek Damarlar Şeklinde Genişleme Yok": 0,
     "Ciltte Örümcek Damarlar Şeklinde Genişleme Var": 1
 }
-spiders_input = st.selectbox("◽CİLTTE DAMAR GENİŞLEMESİ", list(spiders_map.keys()))
+spiders_input = st.selectbox("🔹CİLTTE DAMAR GENİŞLEMESİ", list(spiders_map.keys()))
 spiders_val = spiders_map[spiders_input]
 
 edema_map = {
@@ -208,7 +208,7 @@ edema_map = {
     "Orta (orta seviyede ödem)": 1,
     "Şiddetli (yaygın vücut ödemi)": 2
 }
-edema_input = st.selectbox("◽VÜCUTTAKİ ÖDEM MİKTARI", list(edema_map.keys()))
+edema_input = st.selectbox("🔹VÜCUTTAKİ ÖDEM MİKTARI", list(edema_map.keys()))
 edema_val = edema_map[edema_input]
 
 st.divider()
