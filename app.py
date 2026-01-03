@@ -122,6 +122,18 @@ st.markdown("""
 div[data-baseweb="slider"] {
     --accent-color: #047857;
 }
+/* ===== SLIDER RENK OVERRIDE (KESİN ÇÖZÜM) ===== */
+div[data-baseweb="slider"] div[role="slider"] {
+    background-color: #047857 !important;
+}
+
+div[data-baseweb="slider"] div[role="slider"] > div {
+    background-color: #047857 !important;
+}
+
+div[data-baseweb="slider"] span {
+    color: #047857 !important;
+}
 
 
 </style>
