@@ -308,51 +308,7 @@ div.stButton > button {
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
 
-         # EVRE OLASILIKLARI BAŞLIĞI
-    st.markdown("""
-    <h2 style="
-        text-align:center; 
-        font-size:32px; 
-        color:#0f2a44; 
-        font-weight:bold;
-        margin-bottom:20px;
-    ">EVRE OLASILIKLARI</h2>
-    """, unsafe_allow_html=True)
-
-    # -------------------
-    # Yatay çubuklar
-    # -------------------
-    for s, p in zip(le_stage.classes_, probs):
-        st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
-
-    # -------------------
-    # Pasta grafiği (Plotly)
-    # -------------------
-    import plotly.graph_objects as go
-
-    labels = [f"Stage {s}" for s in le_stage.classes_]
-    values = [float(p) for p in probs]
-
-    fig = go.Figure(
-        data=[go.Pie(
-            labels=labels,
-            values=values,
-            hole=0.4,
-            textinfo="label+percent",
-            marker=dict(colors=["#0f2a44", "#123a5f", "#4CAF50"]),
-            hoverinfo="label+value+percent"
-        )]
-    )
-
-    fig.update_layout(
-        title_text="Evre Olasılıkları (Görsel Gösterim)",
-        title_x=0.5,
-        font=dict(family="Inter, sans-serif", size=16, color="#0f2a44"),
-        margin=dict(t=40, b=40, l=40, r=40),
-        showlegend=True
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
+        
 
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
