@@ -134,6 +134,16 @@ div[data-baseweb="slider"] div[role="slider"] span {
 div[data-baseweb="slider"] div[role="slider"]:hover {
     background-color: #000000 !important;
 }
+            /* ===== SLIDER VALUE (33 YAZISI) ===== */
+div[data-baseweb="slider-value"] {
+    color: #000000 !important;
+}
+
+/* İçindeki span ihtimaline karşı */
+div[data-baseweb="slider-value"] span {
+    color: #000000 !important;
+}
+
 
 
 </style>
