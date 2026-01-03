@@ -148,25 +148,24 @@ div[data-baseweb="slider-value"] * {
 div[data-baseweb="slider"] {
     --accent-color: #000000 !important;
 }
-/* ===== NUMBER INPUT ( + / - KONTROLLER ) ===== */
-
-/* Dış kutu */
+/* ===== NUMBER INPUT + / - KUTUSU GÜNCELLEME ===== */
 div[data-baseweb="input"] {
-    background: rgba(15, 42, 68, 0.25) !important;
-    border: 1.5px solid rgba(15, 42, 68, 0.45) !important;
+    background: rgba(64, 224, 208, 0.3) !important; /* turkuaz şeffaf */
+    border: 1.5px solid rgba(64, 224, 208, 0.6) !important; 
     border-radius: 14px !important;
 }
 
-/* Yazı */
 div[data-baseweb="input"] input {
-    color: #0f2a44 !important;
+    color: #0f2a44 !important; /* koyu mavi, okunur */
     font-weight: 600;
     background: transparent !important;
 }
 
+/* focus durumunda turkuaz glow */
 [data-baseweb="input"]:focus-within {
-    box-shadow: 0 0 0 2px rgba(66, 168, 146, 0.6) !important;
+    box-shadow: 0 0 0 2px rgba(64, 224, 208, 0.6) !important;
 }
+
 
 
 </style>
