@@ -60,22 +60,6 @@ st.markdown("""
 .stMarkdown h3.section-title {
     color: #0f2a44 !important;
 }
-            .section-header {
-    color: #0f2a44;  /* koyu lacivert */
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-.section-header::before {
-    content: "● ";
-    color: #0f2a44;
-    font-weight: bold;
-    font-size: 26px;
-}
-.section-content {
-    margin-left: 30px; /* girinti */
-    margin-bottom: 20px;
-}
 
 /* ===== SECTION ALT AYIRICI ===== */
 .section-divider {
@@ -135,97 +119,9 @@ st.markdown("""
 }
 
 /* ===== SLIDER RENGİ ===== */
-/* ===== SLIDER TOP (THUMB) ===== */
-div[data-baseweb="slider"] div[role="slider"] {
-    background-color: #000000 !important;   /* top */
-    border-color: #1f2933
- !important;
-}
-
-            /* ===== SLIDER VALUE (33 YAZISI) ===== */
-div[data-baseweb="slider-value"] {
-    color: #1f2933
- !important;
-}
-
-/* İçindeki span ihtimaline karşı */
-div[data-baseweb="slider-value"] span {
-    color: #1f2933
- !important;
-}
-div[data-baseweb="slider-value"] * {
-    color: black !important;
-}
-/* ===== SLIDER VALUE ZORLA SİYAH ===== */
-:root {
-    --accent-color: #000000 !important;
-}
-
 div[data-baseweb="slider"] {
-    --accent-color: #000000 !important;
+    --accent-color: #0f2a44;
 }
-/* ===== NUMBER INPUT + / - KUTUSU VE SLIDER VALUE ===== */
-
-/* Kutu arka planı ve köşe */
-div[data-baseweb="input"] {
-    background: rgba(64, 224, 208, 0.3) !important; /* turkuaz şeffaf */
-    border: none !important; /* çerçeve kaldırıldı */
-    border-radius: 14px !important;
-}
-
-/* İçindeki sayı ve yazı stili */
-div[data-baseweb="input"] input {
-    color: #ffffff !important; /* beyaz */
-    font-weight: 700 !important; /* kalın */
-    background: transparent !important;
-}
-
-/* Odaklanınca glow efekti */
-[data-baseweb="input"]:focus-within {
-    box-shadow: 0 0 0 2px rgba(64, 224, 208, 0.6) !important; /* glow efekti */
-}
-
-/* Slider value (üstündeki sayı) beyaz ve kalın */
-div[data-baseweb="slider-value"] {
-    color: #ffffff !important; /* beyaz */
-    font-weight: 700 !important; /* kalın */
-}
-
-div[data-baseweb="slider-value"] span {
-    color: #ffffff !important;
-    font-weight: 700 !important;
-}
-
-div[data-baseweb="slider-value"] * {
-    color: #ffffff !important;
-    font-weight: 700 !important;
-}
-
-/* Slider top (thumb) rengi */
-div[data-baseweb="slider"] div[role="slider"] {
-    background-color: #000000 !important; 
-    border-color: #1f2933 !important;
-}
-
-            /* Slider ve Number Input'u aynı yatay çizgide hizalar */
-[data-testid="column"] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Number input'un üstündeki gereksiz boşluğu kaldırır */
-div[data-testid="stNumberInput"] label {
-    display: none;
-}
-
-/* Number input kutusunu biraz daha aşağı kaydırarak slider ile tam hizalar */
-div[data-testid="stNumberInput"] {
-    margin-top: 0px;
-}
-
-
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -236,135 +132,82 @@ model = joblib.load("xgboost_stage_model.pkl")
 le_stage = joblib.load("stage_label_encoder.pkl")
 
 # =========================
-# HEADER
+# BAŞLIK
 # =========================
 st.markdown("""
-<div style="background:rgba(15,42,68,.65);padding:30px;border-radius:22px;text-align:center">
-<h1>Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi</h1>
-<p><b>⚠️ Eğitim amaçlıdır</b></p>
+<div class="header-card">
+    <h1>Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi</h1>
+    <p><b>⚠️Eğitim ve klinik simülasyon amaçlıdır.</b></p>
+    <p style="font-size:14px;">
+        ⚠️Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir.  
+        Klinik kararların yerine geçmez.
+    </p>
 </div>
 """, unsafe_allow_html=True)
 
 st.divider()
 
 # =========================
-# YARDIMCI FONKSİYON
+# GİRDİLER
 # =========================
-def slider_plus(key, label, minv, maxv, default, step=1, help=None):
-    if key not in st.session_state:
-        st.session_state[key] = default
+st.markdown("<h3 class='section-title'>Demografik Bilgiler</h3>", unsafe_allow_html=True)
+st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
+age = st.slider("Yaş", 1, 100, 50)
+sex = st.radio("Cinsiyet", ["Female", "Male"], horizontal=True)
 
-    # Başlığı slider'ın hemen üstüne koyalım (Fonksiyon dışına da alınabilir)
-    st.markdown(f"**{label}**") 
-    
-    c1, c2 = st.columns([4, 1.2]) # Oranları ekran genişliğine göre ayarladık
-    
-    with c1:
-        st.session_state[key] = st.slider(
-            label, minv, maxv,
-            st.session_state[key],
-            step=step,
-            label_visibility="collapsed",
-            key=f"slider_{key}", # Çakışmayı önlemek için farklı key
-            help=help
-        )
-    with c2:
-        # On_change kullanmak istersen buraya ekleyebilirsin
-        st.session_state[key] = st.number_input(
-            label, minv, maxv,
-            st.session_state[key],
-            step=step,
-            label_visibility="collapsed",
-            key=f"num_{key}"
-        )
-    return st.session_state[key]
-
-
-# =========================
-# DEMOGRAFİK BİLGİLER
-# =========================
-st.markdown('<div class="section-header">DEMOGRAFİK BİLGİLER</div>', unsafe_allow_html=True)
-st.markdown('<div class="section-content">', unsafe_allow_html=True)
-
-age = slider_plus("age", "Yaş", 1, 100, 50)
-sex = st.radio("Cinsiyet", ["Kadın", "Erkek"], horizontal=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 
-st.markdown('<div class="section-header">TAKİP ve TEDAVİ DURUMU</div>', unsafe_allow_html=True)
-st.markdown('<div class="section-content">', unsafe_allow_html=True)
+st.markdown("<h3 class='section-title'>Takip ve Tedavi Bilgileri</h3>", unsafe_allow_html=True)
+st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
+n_days = st.slider("Takip Süresi (N_Days)", 0, 5000, 1000)
+status = st.radio("Hasta Durumu (Status)", ["C", "CL", "D"], horizontal=True)
+drug = st.radio("Uygulanan Tedavi (Drug)", ["Placebo", "D-penicillamine"], horizontal=True)
 
-n_days = slider_plus(
-    "n_days", "Takip Süresi (gün)",
-    0, 5000, 1000, step=50,
-    help="Tanıdan itibaren takip süresi"
-)
-
-status = st.radio(
-    "Hasta Durumu",
-    ["Stabil", "Komplikasyon gelişmiş", "Vefat"],
-    horizontal=True
-)
-
-drug = st.radio(
-    "Uygulanan Tedavi",
-    ["Plasebo", " D-penisilamin"],
-    horizontal=True
-)
-
-
-st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 
+st.markdown("<h3 class='section-title'>Klinik Bulgular</h3>", unsafe_allow_html=True)
+st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
+ascites = st.selectbox("Ascites (Asit)", ["Yok", "Var"])
+hepatomegaly = st.selectbox("Hepatomegaly (Hepatomegali)", ["Yok", "Var"])
+spiders = st.selectbox("Spiders (Örümcek anjiyom)", ["Yok", "Var"])
+edema = st.selectbox("Edema (Ödem)", ["0", "1", "2"])
 
-# =========================
-# KLİNİK
-# =========================
-st.markdown('<div class="section-header">FİZİKSEL BULGULAR</div>', unsafe_allow_html=True)
-st.markdown('<div class="section-content">', unsafe_allow_html=True)
-
-ascites = st.selectbox("Karın İçi Sıvı Birikimi", ["Yok", "Var"])
-hepatomegaly = st.selectbox("Karaciğer Büyümesi", ["Yok", "Var"])
-spiders = st.selectbox("Örümcek Anjiyom", ["Yok", "Var"])
-edema = st.selectbox("Ödem Düzeyi", ["0", "1", "2"])
-
-st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 
-# =========================
-# LABORATUVAR (HEPSİ +/−)
-# =========================
-st.markdown('<div class="section-header">TEST SONUÇLARI</div>', unsafe_allow_html=True)
-st.markdown('<div class="section-content">', unsafe_allow_html=True)
+st.markdown("<h3 class='section-title'>Laboratuvar Bulguları</h3>", unsafe_allow_html=True)
+st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
+bilirubin = st.slider("Bilirubin", 0.1, 30.0, 1.0)
+cholesterol = st.slider("Cholesterol", 100.0, 500.0, 250.0)
+albumin = st.slider("Albumin", 1.0, 6.0, 3.5)
+copper = st.slider("Copper", 0.0, 300.0, 50.0)
+alk_phos = st.slider("Alk_Phos", 50.0, 3000.0, 500.0)
+sgot = st.slider("SGOT", 10.0, 500.0, 50.0)
+trig = st.slider("Tryglicerides", 50.0, 500.0, 150.0)
+platelets = st.slider("Platelets", 50.0, 500.0, 250.0)
+prothrombin = st.slider("Prothrombin", 8.0, 20.0, 12.0)
 
-bilirubin   = slider_plus("bilirubin", "Bilirubin", 0.1, 30.0, 1.0, 0.1)
-cholesterol = slider_plus("chol", "Kolesterol", 100.0, 500.0, 250.0, 10.0)
-albumin     = slider_plus("albumin", "Albumin", 1.0, 6.0, 3.5, 0.1)
-copper      = slider_plus("copper", "Serum Bakır", 0.0, 300.0, 50.0, 5.0)
-alk_phos    = slider_plus("alk", "Alkalen Fosfataz", 50.0, 3000.0, 500.0, 50.0)
-sgot        = slider_plus("sgot", "AST (SGOT)", 10.0, 500.0, 50.0, 5.0)
-trig        = slider_plus("trig", "Trigliserid", 50.0, 500.0, 150.0, 10.0)
-platelets   = slider_plus("plt", "Trombosit", 50.0, 500.0, 250.0, 10.0)
-prothrombin = slider_plus("pt", "Protrombin", 8.0, 20.0, 12.0, 0.1)
-
-st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 # =========================
 # BUTON
 # =========================
-predict_btn = st.button("EVRE TAHMİNİ YAP")
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    predict_btn = st.button("EVRE TAHMİNİ YAP")
 
 # =========================
 # TAHMİN
 # =========================
 if predict_btn:
+    sex_val = 1 if sex == "Male" else 0
+    status_val = {"C":0,"CL":1,"D":2}[status]
+    drug_val = 1 if drug == "D-penicillamine" else 0
+
     input_df = pd.DataFrame([{
         "N_Days": n_days,
-        "Status": {"Stabil":0,"Komplikasyon gelişmiş":1,"Vefat":2}[status],
-        "Drug": 1 if drug=="D-penisilamin" else 0,
+        "Status": status_val,
+        "Drug": drug_val,
         "Age": age,
-        "Sex": 1 if sex=="Erkek" else 0,
+        "Sex": sex_val,
         "Ascites": 1 if ascites=="Var" else 0,
         "Hepatomegaly": 1 if hepatomegaly=="Var" else 0,
         "Spiders": 1 if spiders=="Var" else 0,
@@ -378,11 +221,63 @@ if predict_btn:
         "Tryglicerides": trig,
         "Platelets": platelets,
         "Prothrombin": prothrombin,
-        "Status_label": {"Stabil":0,"Komplikasyon gelişmiş":1,"Vefat":2}[status],
-        "Drug_label": 1 if drug=="D-penisilamin" else 0
+        "Status_label": status_val,
+        "Drug_label": drug_val
     }])[model.feature_names_in_]
 
     probs = model.predict_proba(input_df)[0]
     stage = le_stage.inverse_transform([np.argmax(probs)])[0]
 
-    st.success(f"Tahmin Edilen Evre: **Stage {stage}**")
+    st.markdown(f"""
+    <div class="result-card">
+        <h2>Tahmin Edilen Siroz Evresi</h2>
+        <h1 style="font-size:48px;">Stage {stage}</h1>
+        <p style="font-size:14px;">
+        Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.subheader("Evre Olasılıkları")
+    for s, p in zip(le_stage.classes_, probs):
+        st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
+
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+
+    st.subheader("⚠️ Hasta Bazlı Parametre Etki Analizi")
+    st.write(
+        "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
+        "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
+    )
+
+    base_index = np.argmax(probs)
+    impact_results = []
+
+    for col in model.feature_names_in_:
+        temp_df = input_df.copy()
+        temp_df[col] = 0
+        temp_proba = model.predict_proba(temp_df)[0]
+        diff = probs[base_index] - temp_proba[base_index]
+
+        if diff > 0:
+            yorum = "Bu parametre evreyi artırıyor / risk oluşturuyor."
+        elif diff < 0:
+            yorum = "Evre tahminini azaltıcı yönde etkili."
+        else:
+            yorum = "Belirgin etkisi yok."
+
+        impact_results.append({
+            "Parametre": col,
+            "Etki Büyüklüğü": diff,
+            "Klinik Yorum": yorum
+        })
+
+    impact_df = pd.DataFrame(impact_results)\
+        .sort_values("Etki Büyüklüğü", ascending=False)\
+        .head(5)
+
+    st.markdown(f"""
+    <div class="custom-table">
+        {impact_df.to_html(index=False)}
+    </div>
+    """, unsafe_allow_html=True)
