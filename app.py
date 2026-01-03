@@ -173,7 +173,7 @@ status_map = {
     "Kısmen Sağ / Fonksiyonel": 1,
     "Kaybedilmiş / Fonksiyon Kaybı": 2
 }
-status_input = st.radio(" 🔴HASTA DURUMU", list(status_map.keys()), horizontal=True)
+status_input = st.radio(" HASTA DURUMU", list(status_map.keys()), horizontal=True)
 status_val = status_map[status_input]  # model input
 
 drug_map = {"Hiçbir Tedavi Uygulanmıyor (Plasebo)": 0, "D-penisilamin": 1}
@@ -349,11 +349,15 @@ div.stButton > button {
         else:
             yorum = "➖ Belirgin etkisi yok"
 
-        impact_results.append({
-            "Parametre": col,
-            "Etki Büyüklüğü": diff,
-            "Klinik Yorum": yorum
-        })
+        parametre_gosterim = f"🔵Değerlendirilen Parametre: {col}"
+
+    impact_results.append({
+    "Parametre": parametre_gosterim,
+    "Etki Büyüklüğü": diff,
+    "Klinik Yorum": yorum
+})
+
+        
 
     # En etkili 5 parametreyi göster
     impact_df = pd.DataFrame(impact_results)\
