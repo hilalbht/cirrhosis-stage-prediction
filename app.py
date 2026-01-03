@@ -237,7 +237,6 @@ if st.button("EVRE TAHMİNİ YAP"):
     <style>
     div.stButton > button {
         display: block;
-        margin: 0px auto;
         margin-left: auto;
         margin-right: 50;
     }
