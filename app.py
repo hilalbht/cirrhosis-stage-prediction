@@ -231,24 +231,8 @@ prothrombin = st.slider("Prothrombin (%)", 8.0, 20.0, 12.0)
 # TAHMİN BUTONU
 # =========================
 if st.button("EVRE TAHMİNİ YAP"):
-    
-    st.markdown("""
-<style>
-div.stButton > button {
-    display: block;
-    margin-left: auto;
-    margin-right: 20px;  /* px eklemeyi unutma */
-    padding: 12px 24px;
-    font-size: 18px;
-    background-color: #0f2a44;
-    color: white;
-    border-radius: 12px;
-}
-</style>
-""", unsafe_allow_html=True)
 
-
-    # Modelin beklediği input dataframe
+    # Tahmin için input dataframe
     input_df = pd.DataFrame([{
         "N_Days": n_days,
         "Status": status_val,
@@ -272,11 +256,10 @@ div.stButton > button {
         "Drug_label": drug_val
     }])[model.feature_names_in_]
 
-    # Tahmin olasılıkları ve en yüksek olasılıklı evre
+    # Tahmin olasılıkları ve evre
     probs = model.predict_proba(input_df)[0]
     stage = le_stage.inverse_transform([np.argmax(probs)])[0]
 
-    # Boşluk eklemek için st.markdown kullanabiliriz
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     # Sonuç kartı
@@ -291,10 +274,9 @@ div.stButton > button {
     </div>
     """, unsafe_allow_html=True)
 
-    # Sonuç kartı ile evre olasılıkları arasında boşluk
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    # Evre olasılıkları başlığı ortalanmış, büyütülmüş ve renkli
+    # EVRE OLASILIKLARI BAŞLIĞI
     st.markdown("""
     <h2 style="
         text-align:center; 
@@ -305,8 +287,41 @@ div.stButton > button {
     ">EVRE OLASILIKLARI</h2>
     """, unsafe_allow_html=True)
 
+    # -------------------
+    # Yatay çubuklar (st.progress)
+    # -------------------
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
+
+    # -------------------
+    # Pasta grafiği (Plotly)
+    # -------------------
+    import plotly.graph_objects as go
+
+    labels = [f"Stage {s}" for s in le_stage.classes_]
+    values = [float(p) for p in probs]
+
+    fig = go.Figure(
+        data=[go.Pie(
+            labels=labels,
+            values=values,
+            hole=0.4,
+            textinfo="label+percent",
+            marker=dict(colors=["#0f2a44", "#123a5f", "#4CAF50"]),
+            hoverinfo="label+value+percent"
+        )]
+    )
+
+    fig.update_layout(
+        title_text="Evre Olasılıkları (Görsel Gösterim)",
+        title_x=0.5,
+        font=dict(family="Inter, sans-serif", size=16, color="#0f2a44"),
+        margin=dict(t=40, b=40, l=40, r=40),
+        showlegend=True
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
 
         
 
