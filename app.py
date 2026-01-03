@@ -238,6 +238,8 @@ if st.button("EVRE TAHMİNİ YAP"):
     div.stButton > button {
         display: block;
         margin: 0px auto;
+        margin-left: auto;
+        margin-right: 0;
     }
     </style>
     """, unsafe_allow_html=True)
