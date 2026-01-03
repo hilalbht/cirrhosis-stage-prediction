@@ -349,15 +349,11 @@ div.stButton > button {
         else:
             yorum = "➖ Belirgin etkisi yok"
 
-        parametre_gosterim = f"🔵Değerlendirilen Parametre: {col}"
-
-    impact_results.append({
-    "Parametre": parametre_gosterim,
-    "Etki Büyüklüğü": diff,
-    "Klinik Yorum": yorum
-})
-
-        
+        impact_results.append({
+            "Parametre": f"🔵 Klinik Parametre: {col}",
+            "Etki Büyüklüğü": diff,
+            "Klinik Yorum": yorum
+        })
 
     # En etkili 5 parametreyi göster
     impact_df = pd.DataFrame(impact_results)\
