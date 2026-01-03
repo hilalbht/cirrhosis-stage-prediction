@@ -333,7 +333,9 @@ div.stButton > button {
         diff = probs[base_index] - temp_proba[base_index]
 
         if diff > 0:
-            yorum = "⚠️ Risk artırıcı etkisi var"
+            yorum =( "⚠️ Risk artırıcı etkisi var. "
+        "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
+        "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir.")
                     
         elif diff < 0:
             yorum = (
