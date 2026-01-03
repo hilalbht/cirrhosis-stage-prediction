@@ -283,7 +283,10 @@ if st.button("EVRE TAHMİNİ YAP"):
     # =========================
     # Hasta bazlı parametre etki analizi
     # =========================
-    st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
+    st.markdown("""
+<h3 style="color:#0f2a44;">⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ</h3>
+""", unsafe_allow_html=True)
+
     st.write(
         "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
         "en fazla katkı sağlayan klinik parametreler gösterilmektedir."
