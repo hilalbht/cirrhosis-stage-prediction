@@ -205,7 +205,7 @@ div[data-testid="stNumberInput"] label {
 
 /* Number input kutusunu biraz daha aşağı kaydırarak slider ile tam hizalar */
 div[data-testid="stNumberInput"] {
-    margin-top: 5px;
+    margin-top: 0px;
 }
 
 
