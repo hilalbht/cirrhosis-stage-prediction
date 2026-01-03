@@ -285,7 +285,6 @@ div.stButton > button {
         <h2 style="text-align:center;">Tahmin Edilen Siroz Evresi</h2>
         <h1 style="font-size:48px; text-align:center;">Stage {stage}</h1>
         <p style="font-size:14px; text-align:center;">
-        ünlem
       ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
         Klinik kararların yerine geçmez.
         </p>
