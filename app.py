@@ -150,10 +150,10 @@ div[data-baseweb="slider"] {
 }
 /* ===== NUMBER INPUT + / - KUTUSU VE SLIDER VALUE ===== */
 
-/* Kutu arka planı ve kenarlık */
+/* Kutu arka planı ve köşe */
 div[data-baseweb="input"] {
     background: rgba(64, 224, 208, 0.3) !important; /* turkuaz şeffaf */
-    border: none !important;
+    border: none !important; /* çerçeve kaldırıldı */
     border-radius: 14px !important;
 }
 
@@ -166,7 +166,7 @@ div[data-baseweb="input"] input {
 
 /* Odaklanınca glow efekti */
 [data-baseweb="input"]:focus-within {
-    box-shadow: 0 0 0 2px rgba(64, 224, 208, 0.6) !important;
+    box-shadow: 0 0 0 2px rgba(64, 224, 208, 0.6) !important; /* glow efekti */
 }
 
 /* Slider value (üstündeki sayı) beyaz ve kalın */
@@ -190,6 +190,7 @@ div[data-baseweb="slider"] div[role="slider"] {
     background-color: #000000 !important; 
     border-color: #1f2933 !important;
 }
+
 
 
 
