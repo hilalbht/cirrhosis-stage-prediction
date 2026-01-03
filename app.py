@@ -350,21 +350,36 @@ div.stButton > button {
         .sort_values("Etki Büyüklüğü", ascending=False)\
         .head(5)
 
-    # Güzel görselleştirme
-    for idx, row in impact_df.iterrows():
-        st.markdown(f"""
-        <div style="
-            background: linear-gradient(135deg, #FF4C4C, #B22222);
-            padding: 16px;
-            margin-bottom: 12px;
-            border-radius: 12px;
-            color: #ffffff;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
-        ">
-            <h4 style="margin:0;">{row['Parametre']}</h4>
-            <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
-            <p style="margin:0;">{row['Klinik Yorum']}</p>
-        </div>
-        """, unsafe_allow_html=True)
+    # Kart görselleştirme
+for idx, row in impact_df.iterrows():
+    if "Risk artırıcı" in row['Klinik Yorum']:
+        renk = "linear-gradient(135deg, #FF4C4C, #B22222)"  # kırmızı
+        yorum_detay = (
+            "⚠️ Risk artırıcı etkisi var. "
+            "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
+            "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir."
+        )
+    elif "azaltıcı" in row['Klinik Yorum']:
+        renk = "linear-gradient(135deg, #4CAF50, #388E3C)"  # yeşil
+        yorum_detay = "✅ Tahmini azaltıcı etkisi var."
+    else:
+        renk = "linear-gradient(135deg, #607D8B, #455A64)"  # gri/mavi
+        yorum_detay = "➖ Belirgin etkisi yok."
+
+    st.markdown(f"""
+    <div style="
+        background: {renk};
+        padding: 16px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        color: #ffffff;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+    ">
+        <h4 style="margin:0;">{row['Parametre']}</h4>
+        <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
+        <p style="margin:0;">{yorum_detay}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 
