@@ -119,14 +119,22 @@ st.markdown("""
 }
 
 /* ===== SLIDER RENGİ ===== */
-div[data-baseweb="slider"] {
-    --accent-color: #000000;
+/* ===== SLIDER TOP (THUMB) ===== */
+div[data-baseweb="slider"] div[role="slider"] {
+    background-color: #000000 !important;   /* top */
+    border-color: #000000 !important;
 }
-            /* ===== SLIDER THUMB VE DEĞER RENGİ (SİYAH) ===== */
 
-div[data-baseweb="slider"] span {
-    color: #000000 !important; /* slider üzerindeki sayı */
+/* ===== SLIDER ÜSTÜNDEKİ SAYI ===== */
+div[data-baseweb="slider"] div[role="slider"] span {
+    color: #000000 !important;   /* sayı */
 }
+
+/* ===== HOVER / ACTIVE DURUMU ===== */
+div[data-baseweb="slider"] div[role="slider"]:hover {
+    background-color: #000000 !important;
+}
+
 
 </style>
 """, unsafe_allow_html=True)
