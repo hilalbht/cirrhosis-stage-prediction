@@ -19,49 +19,22 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 .stApp {
-    background: #508194;
-    background: radial-gradient(
-        circle,
-        rgba(80, 129, 148, 1) 0%,
-        rgba(66, 168, 146, 1) 100%
-    );
+    background: radial-gradient(circle, rgba(80, 129, 148, 1) 0%, rgba(66, 168, 146, 1) 100%);
     font-family: 'Inter', sans-serif;
 }
 
-/* ===== ANA BAŞLIK KARTI ===== */
+/* ===== HEADER ===== */
 .header-card {
     background: rgba(15, 42, 68, 0.65);
     padding: 30px;
     border-radius: 22px;
     text-align: center;
     box-shadow: 0px 10px 30px rgba(0,0,0,0.35);
-    transition: transform 0.35s ease;
-}
-.header-card:hover {
-    transform: scale(1.06);
 }
 
-/* ===== BÖLÜM BAŞLIKLARI ===== */
-.section-title {
-    font-family: "Times New Roman", Georgia, serif;
-    font-size: 26px;
-    color: #0f2a44;
-    transition: transform 0.25s ease;
-}
-.section-title:hover {
-    transform: scale(1.06);
-}
-.section-title::before {
-    content: "● ";
-    color: #0f2a44;
-    font-weight: bold;
-    font-size: 26px;
-}
-.stMarkdown h3.section-title {
-    color: #0f2a44 !important;
-}
-            .section-header {
-    color: #0f2a44;  /* koyu lacivert */
+/* ===== SECTION BAŞLIKLARI ===== */
+.section-header {
+    color: #0f2a44;  
     font-size: 26px;
     font-weight: 700;
     margin-bottom: 10px;
@@ -73,20 +46,8 @@ st.markdown("""
     font-size: 26px;
 }
 .section-content {
-    margin-left: 30px; /* girinti */
+    margin-left: 30px;
     margin-bottom: 20px;
-}
-
-/* ===== SECTION ALT AYIRICI ===== */
-.section-divider {
-    height: 1px;
-    width: 100%;
-    background: linear-gradient(
-        to right,
-        rgba(15, 42, 68, 0.9),
-        rgba(15, 42, 68, 0.2)
-    );
-    margin: 6px 0 18px 0;
 }
 
 /* ===== BUTON ===== */
@@ -104,128 +65,6 @@ st.markdown("""
 .stButton > button:hover {
     transform: scale(1.18);
 }
-
-/* ===== SONUÇ KARTI ===== */
-.result-card {
-    background: linear-gradient(135deg, #0f2a44, #123a5f);
-    padding: 30px;
-    border-radius: 18px;
-    text-align: center;
-}
-
-/* ===== TABLO ===== */
-.custom-table {
-    background-color: rgba(15, 42, 68, 0.85);
-    border-radius: 16px;
-    padding: 20px;
-}
-.custom-table th {
-    color: #bcdcff;
-}
-.custom-table td {
-    color: #f2f4f8;
-}
-
-/* ===== INPUT KAYDIRMA ===== */
-.section-title + div,
-.section-title + .stSlider,
-.section-title + .stRadio,
-.section-title + .stSelectbox {
-    margin-left: 100px;
-}
-
-/* ===== SLIDER RENGİ ===== */
-/* ===== SLIDER TOP (THUMB) ===== */
-div[data-baseweb="slider"] div[role="slider"] {
-    background-color: #000000 !important;   /* top */
-    border-color: #1f2933
- !important;
-}
-
-            /* ===== SLIDER VALUE (33 YAZISI) ===== */
-div[data-baseweb="slider-value"] {
-    color: #1f2933
- !important;
-}
-
-/* İçindeki span ihtimaline karşı */
-div[data-baseweb="slider-value"] span {
-    color: #1f2933
- !important;
-}
-div[data-baseweb="slider-value"] * {
-    color: black !important;
-}
-/* ===== SLIDER VALUE ZORLA SİYAH ===== */
-:root {
-    --accent-color: #000000 !important;
-}
-
-div[data-baseweb="slider"] {
-    --accent-color: #000000 !important;
-}
-/* ===== NUMBER INPUT + / - KUTUSU VE SLIDER VALUE ===== */
-
-/* Kutu arka planı ve köşe */
-div[data-baseweb="input"] {
-    background: rgba(64, 224, 208, 0.3) !important; /* turkuaz şeffaf */
-    border: none !important; /* çerçeve kaldırıldı */
-    border-radius: 14px !important;
-}
-
-/* İçindeki sayı ve yazı stili */
-div[data-baseweb="input"] input {
-    color: #ffffff !important; /* beyaz */
-    font-weight: 700 !important; /* kalın */
-    background: transparent !important;
-}
-
-/* Odaklanınca glow efekti */
-[data-baseweb="input"]:focus-within {
-    box-shadow: 0 0 0 2px rgba(64, 224, 208, 0.6) !important; /* glow efekti */
-}
-
-/* Slider value (üstündeki sayı) beyaz ve kalın */
-div[data-baseweb="slider-value"] {
-    color: #ffffff !important; /* beyaz */
-    font-weight: 700 !important; /* kalın */
-}
-
-div[data-baseweb="slider-value"] span {
-    color: #ffffff !important;
-    font-weight: 700 !important;
-}
-
-div[data-baseweb="slider-value"] * {
-    color: #ffffff !important;
-    font-weight: 700 !important;
-}
-
-/* Slider top (thumb) rengi */
-div[data-baseweb="slider"] div[role="slider"] {
-    background-color: #000000 !important; 
-    border-color: #1f2933 !important;
-}
-
-            /* Slider ve Number Input'u aynı yatay çizgide hizalar */
-[data-testid="column"] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Number input'un üstündeki gereksiz boşluğu kaldırır */
-div[data-testid="stNumberInput"] label {
-    display: none;
-}
-
-/* Number input kutusunu biraz daha aşağı kaydırarak slider ile tam hizalar */
-div[data-testid="stNumberInput"] {
-    margin-top: 0px;
-}
-
-
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -239,72 +78,58 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # HEADER
 # =========================
 st.markdown("""
-<div style="background:rgba(15,42,68,.65);padding:30px;border-radius:22px;text-align:center">
+<div class="header-card">
 <h1>Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi</h1>
 <p><b>⚠️ Eğitim amaçlıdır</b></p>
 </div>
 """, unsafe_allow_html=True)
-
 st.divider()
 
 # =========================
-# YARDIMCI FONKSİYON
+# FONKSİYON
 # =========================
 def slider_plus(key, label, minv, maxv, default, step=1, help=None):
     if key not in st.session_state:
         st.session_state[key] = default
-
-    # Başlığı slider'ın hemen üstüne koyalım (Fonksiyon dışına da alınabilir)
     st.markdown(f"**{label}**") 
-    
-    c1, c2 = st.columns([4, 1.2]) # Oranları ekran genişliğine göre ayarladık
-    
+    c1, c2 = st.columns([4, 1.2])
     with c1:
-        st.session_state[key] = st.slider(
-            label, minv, maxv,
-            st.session_state[key],
-            step=step,
-            label_visibility="collapsed",
-            key=f"slider_{key}", # Çakışmayı önlemek için farklı key
-            help=help
-        )
+        st.session_state[key] = st.slider(label, minv, maxv, st.session_state[key],
+                                           step=step, label_visibility="collapsed", key=f"slider_{key}", help=help)
     with c2:
-        # On_change kullanmak istersen buraya ekleyebilirsin
-        st.session_state[key] = st.number_input(
-            label, minv, maxv,
-            st.session_state[key],
-            step=step,
-            label_visibility="collapsed",
-            key=f"num_{key}"
-        )
+        st.session_state[key] = st.number_input(label, minv, maxv, st.session_state[key],
+                                                step=step, label_visibility="collapsed", key=f"num_{key}")
     return st.session_state[key]
-st.markdown('<div class="section-header">Takip ve Tedavi</div>', unsafe_allow_html=True)
+
+# =========================
+# DEMOGRAFİK BİLGİLER
+# =========================
+st.markdown('<div class="section-header">Demografik Bilgiler</div>', unsafe_allow_html=True)
 st.markdown('<div class="section-content">', unsafe_allow_html=True)
 
-n_days = slider_plus(
-    "n_days", "Takip Süresi (gün)",
-    0, 5000, 1000, step=50,
-    help="Tanıdan itibaren takip süresi"
-)
-
-status = st.radio(
-    "Hasta Durumu",
-    ["Stabil", "Komplikasyon gelişmiş", "Vefat"],
-    horizontal=True
-)
-
-drug = st.radio(
-    "Uygulanan Tedavi",
-    ["Plasebo", "D-penisilamin"],
-    horizontal=True
-)
+age = slider_plus("age", "Yaş", 1, 100, 50)
+sex = st.radio("Cinsiyet", ["Kadın", "Erkek"], horizontal=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 
+# =========================
+# TAKİP VE TEDAVİ
+# =========================
+st.markdown('<div class="section-header">Takip ve Tedavi</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-content">', unsafe_allow_html=True)
+
+n_days = slider_plus("n_days", "Takip Süresi (gün)", 0, 5000, 1000, step=50,
+                     help="Tanıdan itibaren takip süresi")
+
+status = st.radio("Hasta Durumu", ["Stabil", "Komplikasyon gelişmiş", "Vefat"], horizontal=True)
+drug = st.radio("Uygulanan Tedavi", ["Plasebo", "D-penisilamin"], horizontal=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+st.divider()
 
 # =========================
-# KLİNİK
+# KLİNİK BULGULAR
 # =========================
 st.markdown('<div class="section-header">Klinik Bulgular</div>', unsafe_allow_html=True)
 st.markdown('<div class="section-content">', unsafe_allow_html=True)
@@ -318,7 +143,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 
 # =========================
-# LABORATUVAR (HEPSİ +/−)
+# LABORATUVAR BULGULARI
 # =========================
 st.markdown('<div class="section-header">Laboratuvar Bulguları</div>', unsafe_allow_html=True)
 st.markdown('<div class="section-content">', unsafe_allow_html=True)
@@ -335,14 +160,12 @@ prothrombin = slider_plus("pt", "Protrombin", 8.0, 20.0, 12.0, 0.1)
 
 st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
+
 # =========================
-# BUTON
+# BUTON VE TAHMİN
 # =========================
 predict_btn = st.button("EVRE TAHMİNİ YAP")
 
-# =========================
-# TAHMİN
-# =========================
 if predict_btn:
     input_df = pd.DataFrame([{
         "N_Days": n_days,
