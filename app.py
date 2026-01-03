@@ -134,6 +134,23 @@ div[data-baseweb="slider"] div[role="slider"] > div {
 div[data-baseweb="slider"] span {
     color: #047857 !important;
 }
+/* ===== MEDİKAL YEŞİL SLIDER ===== */
+
+/* Pasif arka çizgi */
+div[data-baseweb="slider"] div[aria-hidden="true"] {
+    background-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Aktif (dolu) çizgi */
+div[data-baseweb="slider"] div[role="slider"] + div {
+    background-color: #16a34a !important; /* medikal yeşil */
+}
+
+/* Slider topu (thumb) */
+div[data-baseweb="slider"] div[role="slider"] {
+    background-color: #16a34a !important;
+    border-color: #16a34a !important;
+}
 
 
 </style>
