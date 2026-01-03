@@ -279,7 +279,8 @@ if st.button("EVRE TAHMİNİ YAP"):
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
-   # Hasta bazlı parametre etki analizi
+   
+    # Hasta bazlı parametre etki analizi
 st.subheader("⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ")
 st.write(
     "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
@@ -336,11 +337,4 @@ plt.title("Hasta Bazlı Parametre Etkisi")
 plt.gca().invert_yaxis()  # En etkili parametre üstte olsun
 plt.tight_layout()
 st.pyplot(plt)
-
-    st.markdown(f"""
-    <div class="custom-table">
-        {impact_df.to_html(index=False)}
-    </div>
-    """, unsafe_allow_html=True)
-    
 
