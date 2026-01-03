@@ -125,15 +125,6 @@ div[data-baseweb="slider"] div[role="slider"] {
     border-color: #000000 !important;
 }
 
-/* ===== SLIDER ÜSTÜNDEKİ SAYI ===== */
-div[data-baseweb="slider"] div[role="slider"] span {
-    color: #000000 !important;   /* sayı */
-}
-
-/* ===== HOVER / ACTIVE DURUMU ===== */
-div[data-baseweb="slider"] div[role="slider"]:hover {
-    background-color: #000000 !important;
-}
             /* ===== SLIDER VALUE (33 YAZISI) ===== */
 div[data-baseweb="slider-value"] {
     color: #000000 !important;
