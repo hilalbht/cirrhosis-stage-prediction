@@ -120,12 +120,9 @@ st.markdown("""
 
 /* ===== SLIDER RENGİ ===== */
 div[data-baseweb="slider"] {
-    --accent-color: #0f2a44;
+    --accent-color: #000000;
 }
             /* ===== SLIDER THUMB VE DEĞER RENGİ (SİYAH) ===== */
-div[data-baseweb="slider"] {
-    --accent-color: #000000; /* slider topu */
-}
 
 div[data-baseweb="slider"] span {
     color: #000000 !important; /* slider üzerindeki sayı */
