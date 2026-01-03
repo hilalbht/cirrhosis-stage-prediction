@@ -140,6 +140,10 @@ div[data-baseweb="slider-value"] span {
 div[data-baseweb="slider-value"] * {
     color: black !important;
 }
+/* ===== SLIDER VALUE ZORLA SİYAH ===== */
+:root {
+    --accent-color: #000000 !important;
+}
 
 
 
