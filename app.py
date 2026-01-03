@@ -336,22 +336,12 @@ div.stButton > button {
             yorum =( "⚠️ Risk artırıcı etkisi var. "
         "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
         "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir.")
-                    
-        elif diff < 0:
-            yorum = (
-        "⚠️ Risk artırıcı etkisi var. "
-        "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
-        "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir."
-    )
-        else:
-            yorum = "➖ Belirgin etkisi yok"
 
-        impact_results.append({
-            "Parametre": col,
-            "Etki Büyüklüğü": diff,
-            "Klinik Yorum": yorum
-        })
+        font_color = "#0f2a44"  # lacivert
+        font_size = "20px"       # büyük yazı
+        bg_color = "linear-gradient(135deg, #FF4C4C, #B22222)"   
 
+        
     # En etkili 5 parametreyi göster
     impact_df = pd.DataFrame(impact_results)\
         .sort_values("Etki Büyüklüğü", ascending=False)\
@@ -366,6 +356,8 @@ div.stButton > button {
             margin-bottom: 12px;
             border-radius: 12px;
             color: #ffffff;
+            color: {row['font_color']};
+            font-size: {row['font_size']};
             box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
         ">
             <h4 style="margin:0;">{row['Parametre']}</h4>
