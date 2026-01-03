@@ -137,6 +137,9 @@ div[data-baseweb="slider-value"] span {
     color: #1f2933
  !important;
 }
+div[data-baseweb="slider-value"] * {
+    color: black !important;
+}
 
 
 
