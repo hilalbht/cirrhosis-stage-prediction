@@ -317,20 +317,32 @@ if st.button("EVRE TAHMİNİ YAP"):
         .head(5)
 
     # Güzel görselleştirme
-    for idx, row in impact_df.iterrows():
-        st.markdown(f"""
-        <div style="
-            background: linear-gradient(135deg, #FF4C4C, #B22222);
-            padding: 16px;
-            margin-bottom: 12px;
-            border-radius: 12px;
-            color: #ffffff;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
-        ">
-            <h4 style="margin:0;">{row['Parametre']}</h4>
-            <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
-            <p style="margin:0;">{row['Klinik Yorum']}</p>
-        </div>
-        """, unsafe_allow_html=True)
+   
+         # Güzel görselleştirme (hover ile açıklama)
+for idx, row in impact_df.iterrows():
+    # Renkleri yorum türüne göre ayarla
+    if "Risk artırıcı" in row['Klinik Yorum']:
+        bg_color = "linear-gradient(135deg, #FF4C4C, #B22222)"  # kırmızı
+    elif "azaltıcı" in row['Klinik Yorum']:
+        bg_color = "linear-gradient(135deg, #4CAF50, #2E7D32)"  # yeşil
+    else:
+        bg_color = "linear-gradient(135deg, #888888, #555555)"  # gri
+
+    # Kutu
+    st.markdown(f"""
+    <div style="
+        background: {bg_color};
+        padding: 16px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        color: #ffffff;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+    " title="Model bu parametreden dolayı yüksek evre tahmini yapıyor. Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir.">
+        <h4 style="margin:0;">{row['Parametre']}</h4>
+        <p style="margin:0;">Etki Büyüklüğü: {row['Etki Büyüklüğü']:.4f}</p>
+        <p style="margin:0;">{row['Klinik Yorum'].split('.')[0]}...</p>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 
