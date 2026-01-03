@@ -320,7 +320,7 @@ if st.button("EVRE TAHMİNİ YAP"):
     for idx, row in impact_df.iterrows():
         st.markdown(f"""
         <div style="
-            background: linear-gradient(135deg, #123a5f, #0f2a44);
+            background: linear-gradient(135deg, #FF4C4C, #B22222);
             padding: 16px;
             margin-bottom: 12px;
             border-radius: 12px;
