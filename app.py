@@ -237,7 +237,7 @@ if st.button("EVRE TAHMİNİ YAP"):
 div.stButton > button {
     display: block;
     margin-left: auto;
-    margin-right: 50px;  /* px eklemeyi unutma */
+    margin-right: 20px;  /* px eklemeyi unutma */
     padding: 12px 24px;
     font-size: 18px;
     background-color: #0f2a44;
