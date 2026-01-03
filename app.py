@@ -120,42 +120,8 @@ st.markdown("""
 
 /* ===== SLIDER RENGİ ===== */
 div[data-baseweb="slider"] {
-    --accent-color: #047857;
+    --accent-color: #0f2a44;
 }
-/* ===== SLIDER RENK OVERRIDE (KESİN ÇÖZÜM) ===== */
-div[data-baseweb="slider"] div[role="slider"] {
-    background-color: #047857 !important;
-}
-
-div[data-baseweb="slider"] div[role="slider"] > div {
-    background-color: #047857 !important;
-}
-
-div[data-baseweb="slider"] span {
-    color: #047857 !important;
-}
-/* ===== STREAMLIT SLIDER GERÇEK RENK OVERRIDE ===== */
-
-/* Pasif track */
-div[data-baseweb="slider"] [data-testid="stTickBar"] {
-    background-color: rgba(255, 255, 255, 0.35) !important;
-}
-
-/* Aktif (filled) track */
-div[data-baseweb="slider"] [data-testid="stSliderTrack"] {
-    background-color: #16a34a !important; /* medikal yeşil */
-}
-
-/* Slider topu */
-div[data-baseweb="slider"] [role="slider"] {
-    background-color: #16a34a !important;
-    border-color: #16a34a !important;
-}
-div[data-baseweb="slider"] * {
-    accent-color: #16a34a !important;
-}
-
-
 </style>
 """, unsafe_allow_html=True)
 
