@@ -153,7 +153,7 @@ div[data-baseweb="slider"] {
 /* Kutu arka planı ve kenarlık */
 div[data-baseweb="input"] {
     background: rgba(64, 224, 208, 0.3) !important; /* turkuaz şeffaf */
-    border: 1.5px solid rgba(64, 224, 208, 0.6) !important;
+    border: none !important;
     border-radius: 14px !important;
 }
 
