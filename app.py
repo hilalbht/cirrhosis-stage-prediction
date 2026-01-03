@@ -156,10 +156,11 @@ div[data-baseweb="input"] {
 }
 
 div[data-baseweb="input"] input {
-    color: #0f2a44 !important; /* koyu mavi, okunur */
-    font-weight: 600;
+    color: #ffffff !important; /* beyaz */
+    font-weight: 700 !important; /* kalın */
     background: transparent !important;
 }
+
 
 /* focus durumunda turkuaz glow */
 [data-baseweb="input"]:focus-within {
