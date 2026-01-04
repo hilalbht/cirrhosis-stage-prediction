@@ -275,7 +275,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
     border-radius: 22px;
     text-align: center;
     box-shadow: 0px 15px 35px rgba(0,0,0,0.5);
-    color: #FEF0EF;
+    color: #111E67;
     transition: transform 0.3s ease;
 ">
     <h2 style="font-size:28px; margin-bottom:12px;">Tahmin Edilen Siroz Evresi</h2>
@@ -285,12 +285,9 @@ if st.button(" EVRE TAHMİNİ YAP"):
         background: linear-gradient(90deg, #800000, #b22222);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-    ">Stage {stage}</h1>
-    <p style="font-size:16px; margin-top:12px;">
-        ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
-        Klinik kararların yerine geçmez.
-    </p>
-    <p style="font-size:20px; font-weight:bold; color:#ffeb3b; margin-top:8px;">
+    ">EVRE {stage}</h1>
+
+     <p style="font-size:30px; font-weight:bold; color:#ffeb3b; margin-top:8px;">
 <b> </b> 
 {(
     "Hafif siroz, genellikle semptomsuz." if stage=="1" else
@@ -299,6 +296,11 @@ if st.button(" EVRE TAHMİNİ YAP"):
     "Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
 )}
 </p>
+    <p style="font-size:16px; margin-top:12px;">
+        ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
+        Klinik kararların yerine geçmez.
+    </p>
+   
     <p style="font-size:14px; margin-top:10px;">
 
     
