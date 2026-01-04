@@ -315,6 +315,8 @@ div.stButton > button {
         "Tryglicerides": trig,
         "Platelets": platelets,
         "Prothrombin": prothrombin,
+        "Status_label": status_val,
+        "Drug_label": drug_val
         
     }])[model.feature_names_in_]
 
