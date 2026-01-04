@@ -288,7 +288,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
     """, unsafe_allow_html=True)
 
     for s, p in zip(le_stage.classes_, probs):
-    st.markdown(f"""
+     st.markdown(f"""
     <div style="
         display: flex;
         align-items: center;
