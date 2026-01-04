@@ -293,10 +293,10 @@ if st.button(" EVRE TAHMİNİ YAP"):
     <p style="font-size:30px; font-weight:bold; color:#872400; margin-top:8px;">
 <b> </b> 
 {(
-    "Hafif siroz, genellikle semptomsuz." if stage=="1" else
+    "  ⚫Hafif siroz, genellikle semptomsuz." if stage=="1" else
     "Orta siroz, laboratuvar anormallikleri ve hepatomegali görülebilir." if stage=="2" else
     "İleri siroz, asit ve ödem oluşumu başlar." if stage=="3" else
-    "Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
+    "  ⚫Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
 )}
 </p>
     <p style="font-size:14px; margin-top:10px;">
