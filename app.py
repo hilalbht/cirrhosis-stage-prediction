@@ -293,7 +293,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
     <p style="font-size:30px; font-weight:bold; color:#872400; margin-top:8px;">
 <b> </b> 
 {(
-    "  ⚫Hafif siroz, genellikle semptomsuz." if stage=="1" else
+    "  Hafif siroz, genellikle semptomsuz." if stage=="1" else
     "Orta siroz, laboratuvar anormallikleri ve hepatomegali görülebilir." if stage=="2" else
     "İleri siroz, asit ve ödem oluşumu başlar." if stage=="3" else
     "Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
@@ -317,19 +317,22 @@ if st.button(" EVRE TAHMİNİ YAP"):
     """, unsafe_allow_html=True)
 
     for s, p in zip(le_stage.classes_, probs):
-      if p < 0.3:
-        bar_color = "#ffd700"       # düşük olasılık → sarı
-      elif p < 0.7:
-        bar_color = "#ff8c00"       # orta olasılık → turuncu
-      else:
-        bar_color = "#ff4b2b"       # yüksek olasılık → kırmızı
+    # Bar rengini belirle
+     if p < 0.3:
+        bar_color = "#ffd700"       # düşük → sarı
+     elif p < 0.7:
+        bar_color = "#ff8c00"       # orta → turuncu
+     else:
+        bar_color = "#ff4b2b"       # yüksek → kırmızı
 
+    # Medikal açıklama
     med_comment = (
         "Hafif siroz, genellikle semptomsuz." if s=="1" else
         "Orta siroz, laboratuvar anormallikleri ve hepatomegali görülebilir." if s=="2" else
         "İleri siroz, asit ve ödem oluşumu başlar." if s=="3" else
         "Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
     )
+
     st.markdown(f"""
     <div style="
         display: flex;
@@ -343,13 +346,13 @@ if st.button(" EVRE TAHMİNİ YAP"):
         box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
     ">
         <div>
-            <h4 style="margin:0;">Stage {s}</h4>
+            <h4 style="margin:0; color:#800000;">Stage {s}</h4>
             <p style="margin:0; font-size:14px;">Hasta bu evrede olma olasılığı</p>
         </div>
         <div style="width:60%; background: rgba(255,255,255,0.2); border-radius:8px; overflow:hidden;">
             <div style="
                 width:{p*100}%;
-                background: linear-gradient(90deg, #ff416c, #ff4b2b);
+                background: {bar_color};
                 padding:8px 0;
                 text-align:right;
                 font-weight:bold;
@@ -362,7 +365,9 @@ if st.button(" EVRE TAHMİNİ YAP"):
             Hasta %{p*100:.2f} olasılıkla Stage {s} evresinde
         </div>
     </div>
+    <p style="font-size:14px; color:#f2f2f2; margin-bottom:20px;">{med_comment}</p>
     """, unsafe_allow_html=True)
+
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
