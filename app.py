@@ -256,7 +256,10 @@ if st.button(" EVRE TAHMİNİ YAP"):
         "Status_label": status_val,
         "Drug_label": drug_val
     }])[model.feature_names_in_]
-    st.write("MODELE GİDEN DEĞERLER:")
+    
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.write("HASTAYA AİT ALINAN DEĞERLER:")
     st.write(input_df)
 
     # Tahmin olasılıkları ve en yüksek olasılıklı evre
