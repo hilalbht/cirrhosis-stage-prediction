@@ -293,10 +293,10 @@ if st.button(" EVRE TAHMİNİ YAP"):
     <p style="font-size:30px; font-weight:bold; color:#872400; margin-top:8px;">
 <b> </b> 
 {(
-    "  Hafif siroz, genellikle semptomsuz." if stage=="1" else
+    "  ⚫Hafif siroz, genellikle semptomsuz." if stage=="1" else
     "Orta siroz, laboratuvar anormallikleri ve hepatomegali görülebilir." if stage=="2" else
     "İleri siroz, asit ve ödem oluşumu başlar." if stage=="3" else
-    "  Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
+    "Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
 )}
 </p>
     <p style="font-size:14px; margin-top:10px;">
@@ -343,7 +343,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
         box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
     ">
         <div>
-            <h4 style="margin:0;">EVRE {s}</h4>
+            <h4 style="margin:0;">Stage {s}</h4>
             <p style="margin:0; font-size:14px;">Hasta bu evrede olma olasılığı</p>
         </div>
         <div style="width:60%; background: rgba(255,255,255,0.2); border-radius:8px; overflow:hidden;">
@@ -359,7 +359,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
             </div>
         </div>
         <div style="margin-left:10px; min-width:120px; font-size:14px;">
-            Hasta %{p*100:.2f} olasılıkla {s} . evrede
+            Hasta %{p*100:.2f} olasılıkla Stage {s} evresinde
         </div>
     </div>
     """, unsafe_allow_html=True)
