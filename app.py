@@ -290,14 +290,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
         ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
         Klinik kararların yerine geçmez.
     </p>
-    <p style="
-        font-size:14px;
-        margin-top:8px;
-        color:#ffd700;
-        font-weight:bold;
-    ">
-        Hasta için bu evre tahmini, olasılık dağılımına göre en yüksek değeri temsil eder.
-    </p>
+    
 </div>
 """, unsafe_allow_html=True)
 
