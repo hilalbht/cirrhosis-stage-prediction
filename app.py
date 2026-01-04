@@ -275,7 +275,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
     border-radius: 22px;
     text-align: center;
     box-shadow: 0px 15px 35px rgba(0,0,0,0.5);
-    color: #ffffff;
+    color: #BC3B03;
     transition: transform 0.3s ease;
 ">
     <h2 style="font-size:28px; margin-bottom:12px;">Tahmin Edilen Siroz Evresi</h2>
