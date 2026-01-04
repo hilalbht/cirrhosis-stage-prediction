@@ -344,7 +344,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
     ">
         <div>
             <h4 style="margin:0;">Stage {s}</h4>
-           
+            <p style="margin:0; font-size:14px;">Hasta bu evrede olma olasılığı</p>
         </div>
         <div style="width:60%; background: rgba(255,255,255,0.2); border-radius:8px; overflow:hidden;">
             <div style="
