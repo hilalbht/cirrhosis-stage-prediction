@@ -267,15 +267,40 @@ if st.button(" EVRE TAHMİNİ YAP"):
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     # Sonuç kartı
+    # Sonuç kartı - GÜZELLEŞTİRİLMİŞ
     st.markdown(f"""
-    <div class="result-card" style="margin-bottom:40px;">
-        <h2 style="text-align:center;">Tahmin Edilen Siroz Evresi</h2>
-        <h1 style="font-size:48px; text-align:center;">Stage {stage}</h1>
-        <p style="font-size:14px; text-align:center;">
-        ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>. Klinik kararların yerine geçmez.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+<div style="
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    padding: 30px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0px 15px 35px rgba(0,0,0,0.5);
+    color: #ffffff;
+    transition: transform 0.3s ease;
+">
+    <h2 style="font-size:28px; margin-bottom:12px;">Tahmin Edilen Siroz Evresi</h2>
+    <h1 style="
+        font-size:64px;
+        margin:0;
+        background: linear-gradient(90deg, #ff416c, #ff4b2b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    ">Stage {stage}</h1>
+    <p style="font-size:16px; margin-top:12px;">
+        ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
+        Klinik kararların yerine geçmez.
+    </p>
+    <p style="
+        font-size:14px;
+        margin-top:8px;
+        color:#ffd700;
+        font-weight:bold;
+    ">
+        Hasta için bu evre tahmini, olasılık dağılımına göre en yüksek değeri temsil eder.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 
     # Sonuç kartı ile evre olasılıkları arasında boşluk
     st.markdown("<br><br>", unsafe_allow_html=True)
