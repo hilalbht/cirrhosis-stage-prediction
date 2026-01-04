@@ -14,33 +14,29 @@ def slider_with_input(label, min_v, max_v, default, step, key):
     col1, col2 = st.columns([3, 1])
 
     with col1:
-        st.slider(
+        slider_val = st.slider(
             label,
             min_value=min_v,
             max_value=max_v,
             step=step,
             value=st.session_state[key],
-            key=f"{key}_slider",
-            on_change=lambda: st.session_state.update(
-                {key: st.session_state[f"{key}_slider"]}
-            )
+            key=f"{key}_slider"
         )
 
     with col2:
-        st.number_input(
+        input_val = st.number_input(
             " ",
             min_value=min_v,
             max_value=max_v,
             step=step,
             value=st.session_state[key],
-            key=f"{key}_input",
-            on_change=lambda: st.session_state.update(
-                {key: st.session_state[f"{key}_input"]}
-            )
+            key=f"{key}_input"
         )
 
-    return st.session_state[key]
+    # 🔁 SENKRONİZASYON (TEK SATIR, NET)
+    st.session_state[key] = input_val if input_val != st.session_state[key] else slider_val
 
+    return st.session_state[key]
 
 
 # =========================
