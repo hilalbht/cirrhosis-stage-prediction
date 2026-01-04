@@ -290,7 +290,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
         ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
         Klinik kararların yerine geçmez.
     </p>
-    <p style="font-size:30px; font-weight:bold; color:#ffeb3b; margin-top:8px;">
+    <p style="font-size:30px; font-weight:bold; color:#872400; margin-top:8px;">
 <b> </b> 
 {(
     "Hafif siroz, genellikle semptomsuz." if stage=="1" else
