@@ -7,19 +7,18 @@ import numpy as np
 # SAYFA AYARLARI
 # =========================
 def slider_with_input(label, min_v, max_v, default, step, key):
-
     if key not in st.session_state:
         st.session_state[key] = default
 
-    col1, col2 = st.columns([3, 1])
+    col1, col2 = st.columns([4, 1])
 
     with col1:
         slider_val = st.slider(
             label,
             min_value=min_v,
             max_value=max_v,
-            step=step,
             value=st.session_state[key],
+            step=step,
             key=f"{key}_slider"
         )
 
@@ -28,15 +27,18 @@ def slider_with_input(label, min_v, max_v, default, step, key):
             " ",
             min_value=min_v,
             max_value=max_v,
-            step=step,
             value=st.session_state[key],
+            step=step,
             key=f"{key}_input"
         )
 
-    # 🔁 SENKRONİZASYON (TEK SATIR, NET)
-    st.session_state[key] = input_val if input_val != st.session_state[key] else slider_val
+    if slider_val != st.session_state[key]:
+        st.session_state[key] = slider_val
+    if input_val != st.session_state[key]:
+        st.session_state[key] = input_val
 
     return st.session_state[key]
+
 
 
 # =========================
