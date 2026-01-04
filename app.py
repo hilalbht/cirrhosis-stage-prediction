@@ -258,7 +258,6 @@ if st.button(" EVRE TAHMİNİ YAP"):
     }])[model.feature_names_in_]
     
     st.markdown("<br><br>", unsafe_allow_html=True)
-    st.markdown("<br><br>", unsafe_allow_html=True)
     st.write("HASTAYA AİT ALINAN DEĞERLER:")
     st.write(input_df)
 
@@ -288,7 +287,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
         background: linear-gradient(90deg, #800000, #b22222);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-    ">EVRE {stage}</h1>
+    "> {stage} . EVRE</h1>
     <p style="font-size:16px; margin-top:12px;">
         ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
         Klinik kararların yerine geçmez.
