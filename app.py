@@ -290,6 +290,16 @@ if st.button(" EVRE TAHMİNİ YAP"):
         ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
         Klinik kararların yerine geçmez.
     </p>
+    <p style="font-size:14px; margin-top:10px;">
+<b>Medikal Açıklama:</b> 
+"""+(
+f"Hafif siroz, genellikle semptomsuz." if stage=="1" else
+f"Orta siroz, laboratuvar anormallikleri ve hepatomegali görülebilir." if stage=="2" else
+f"İleri siroz, asit ve ödem oluşumu başlar." if stage=="3" else
+f"Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
+)+"""
+</p>
+
     
 </div>
 """, unsafe_allow_html=True)
@@ -306,7 +316,20 @@ if st.button(" EVRE TAHMİNİ YAP"):
     """, unsafe_allow_html=True)
 
     for s, p in zip(le_stage.classes_, probs):
-     st.markdown(f"""
+      if p < 0.3:
+        bar_color = "#ffd700"       # düşük olasılık → sarı
+      elif p < 0.7:
+        bar_color = "#ff8c00"       # orta olasılık → turuncu
+      else:
+        bar_color = "#ff4b2b"       # yüksek olasılık → kırmızı
+
+    med_comment = (
+        "Hafif siroz, genellikle semptomsuz." if s=="1" else
+        "Orta siroz, laboratuvar anormallikleri ve hepatomegali görülebilir." if s=="2" else
+        "İleri siroz, asit ve ödem oluşumu başlar." if s=="3" else
+        "Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
+    )
+    st.markdown(f"""
     <div style="
         display: flex;
         align-items: center;
