@@ -290,19 +290,21 @@ if st.button(" EVRE TAHMİNİ YAP"):
         ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
         Klinik kararların yerine geçmez.
     </p>
-    <p style="font-size:14px; margin-top:10px;">
-<b>Medikal Açıklama:</b> 
-"""+(
-f"Hafif siroz, genellikle semptomsuz." if stage=="1" else
-f"Orta siroz, laboratuvar anormallikleri ve hepatomegali görülebilir." if stage=="2" else
-f"İleri siroz, asit ve ödem oluşumu başlar." if stage=="3" else
-f"Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
-)+"""
-</p>
 
+    <!-- Buraya medikal açıklamayı ekliyoruz -->
+    <p style="font-size:18px; font-weight:bold; color:#ffeb3b; margin-top:12px;">
+        <b>Medikal Açıklama:</b> 
+        {(
+            "Hafif siroz, genellikle semptomsuz." if stage=="1" else
+            "Orta siroz, laboratuvar anormallikleri ve hepatomegali görülebilir." if stage=="2" else
+            "İleri siroz, asit ve ödem oluşumu başlar." if stage=="3" else
+            "Terminal siroz, ciddi klinik bulgular ve komplikasyon riski yüksek."
+        )}
+    </p>
     
 </div>
 """, unsafe_allow_html=True)
+
 
 
     # Sonuç kartı ile evre olasılıkları arasında boşluk
