@@ -6,42 +6,33 @@ import numpy as np
 # =========================
 # SAYFA AYARLARI
 # =========================
-st.set_page_config(
-    page_title="Klinik Parametrelere Dayalı Siroz Evre Tahmin Sistemi",
-    layout="centered"
-)
 def slider_with_input(label, min_v, max_v, default, step, key):
+
     if key not in st.session_state:
         st.session_state[key] = default
 
-    col1, col2 = st.columns([4, 1])
+    col1, col2 = st.columns([3, 1])
 
     with col1:
-        slider_val = st.slider(
+        st.slider(
             label,
             min_value=min_v,
             max_value=max_v,
-            value=st.session_state[key],
             step=step,
-            key=f"{key}_slider"
+            key=key
         )
 
     with col2:
-        input_val = st.number_input(
+        st.number_input(
             " ",
             min_value=min_v,
             max_value=max_v,
-            value=st.session_state[key],
             step=step,
-            key=f"{key}_input"
+            key=key
         )
 
-    if slider_val != st.session_state[key]:
-        st.session_state[key] = slider_val
-    if input_val != st.session_state[key]:
-        st.session_state[key] = input_val
-
     return st.session_state[key]
+
 
 # =========================
 # STİL (CSS)
