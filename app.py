@@ -6,38 +6,39 @@ import numpy as np
 # =========================
 # SAYFA AYARLARI
 # =========================
-def slider_with_input(label, min_v, max_v, default, step, key):
+def synced_slider(label, key, min_val, max_val, step, default):
     if key not in st.session_state:
         st.session_state[key] = default
 
-    col1, col2 = st.columns([4, 1])
+    col1, col2 = st.columns([4,1])
 
     with col1:
         slider_val = st.slider(
             label,
-            min_value=min_v,
-            max_value=max_v,
+            min_value=min_val,
+            max_value=max_val,
             value=st.session_state[key],
             step=step,
             key=f"{key}_slider"
         )
-
     with col2:
         input_val = st.number_input(
             " ",
-            min_value=min_v,
-            max_value=max_v,
+            min_value=min_val,
+            max_value=max_val,
             value=st.session_state[key],
             step=step,
             key=f"{key}_input"
         )
 
+    # Senkronizasyon
     if slider_val != st.session_state[key]:
         st.session_state[key] = slider_val
     if input_val != st.session_state[key]:
         st.session_state[key] = input_val
 
     return st.session_state[key]
+
 
 
 
@@ -185,14 +186,7 @@ st.divider()
 # --- Demografik Bilgiler ---
 st.subheader(" 🔴DEMOGRAFİK BİLGİLER")
 
-age = slider_with_input(
-    "🔹YAŞ (1-100)",
-    1,
-    100,
-    50,
-    1,
-    "age"
-)
+age = synced_slider("🔹YAŞ (1-100)", key="age", min_val=1, max_val=100, step=1, default=50)
 
 
 sex_map = {"Kadın": 0, "Erkek": 1}
@@ -204,14 +198,8 @@ st.divider()
 # --- Takip ve Tedavi ---
 st.subheader(" 🔴TAKİP ve TEDAVİ BİLGİLERİ")
 
-n_days = slider_with_input(
-    "🔹HASTA TAKİP SÜRESİ (Gün)",
-    0,
-    5000,
-    1000,
-    10,
-    "n_days"
-)
+n_days = synced_slider("🔹HASTA TAKİP SÜRESİ (Gün)", key="n_days", min_val=0, max_val=1000, step=10, default=200)
+
 
 
 status_map = {
@@ -262,15 +250,15 @@ st.divider()
 # --- Laboratuvar Bulguları ---
 st.subheader(" 🔴TEST SONUÇLARI")
 
-bilirubin = slider_with_input("Bilirubin (mg/dL)", 0.1, 30.0, 1.0, 0.1, "bilirubin")
-cholesterol = slider_with_input("Cholesterol (mg/dL)", 100.0, 500.0, 250.0, 1.0, "cholesterol")
-albumin = slider_with_input("Albumin (g/dL)", 1.0, 6.0, 3.5, 0.1, "albumin")
-copper = slider_with_input("Copper (µg/dL)", 0.0, 300.0, 50.0, 1.0, "copper")
-alk_phos = slider_with_input("Alk_Phos (IU/L)", 50.0, 3000.0, 500.0, 10.0, "alk_phos")
-sgot = slider_with_input("SGOT (IU/L)", 10.0, 500.0, 50.0, 1.0, "sgot")
-trig = slider_with_input("Tryglicerides (mg/dL)", 50.0, 500.0, 150.0, 1.0, "trig")
-platelets = slider_with_input("Platelets (10^3/µL)", 50.0, 500.0, 250.0, 1.0, "platelets")
-prothrombin = slider_with_input("Prothrombin (%)", 8.0, 20.0, 12.0, 0.1, "prothrombin")
+bilirubin = synced_slider("Bilirubin (mg/dL)", key="bilirubin", min_val=0.1, max_val=30.0, step=0.1, default=1.0)
+cholesterol = synced_slider("Cholesterol (mg/dL)", key="cholesterol", min_val=100.0, max_val=500.0, step=1.0, default=250.0)
+albumin = synced_slider("Albumin (g/dL)", key="albumin", min_val=1.0, max_val=6.0, step=0.1, default=3.5)
+copper = synced_slider("Copper (µg/dL)", key="copper", min_val=0.0, max_val=300.0, step=1.0, default=50.0)
+alk_phos = synced_slider("Alk_Phos (IU/L)", key="alk_phos", min_val=50.0, max_val=3000.0, step=10.0, default=500.0)
+sgot = synced_slider("SGOT (IU/L)", key="sgot", min_val=10.0, max_val=500.0, step=1.0, default=50.0)
+trig = synced_slider("Tryglicerides (mg/dL)", key="trig", min_val=50.0, max_val=500.0, step=1.0, default=150.0)
+platelets = synced_slider("Platelets (10^3/µL)", key="platelets", min_val=50.0, max_val=500.0, step=1.0, default=250.0)
+prothrombin = synced_slider("Prothrombin (%)", key="prothrombin", min_val=8.0, max_val=20.0, step=0.1, default=12.0)
 
 
 
@@ -320,7 +308,7 @@ div.stButton > button {
         
     }])[model.feature_names_in_]
 
-    st.write("MODELE GİDEN INPUT:")
+    st.write("MODELE GİDEN DEĞERLER:")
     st.write(input_df)
 
 
