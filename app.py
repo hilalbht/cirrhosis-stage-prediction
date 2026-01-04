@@ -285,7 +285,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
         background: linear-gradient(90deg, #800000, #b22222);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-    ">EVRE {stage}</h1>
+    ">Stage {stage}</h1>
     <p style="font-size:16px; margin-top:12px;">
         ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
         Klinik kararların yerine geçmez.
@@ -343,10 +343,10 @@ if st.button(" EVRE TAHMİNİ YAP"):
         box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
     ">
         <div>
-            <h4 style="margin:0;">EVRE {s}</h4>
+            <h4 style="margin:0;">Stage {s}</h4>
            
         </div>
-        <div style="width:60%; background: rgba(0, 10, 69); border-radius:8px; overflow:hidden;">
+        <div style="width:60%; background: rgba(255,255,255,0.2); border-radius:8px; overflow:hidden;">
             <div style="
                 width:{p*100}%;
                 background: linear-gradient(90deg, #ff416c, #ff4b2b);
@@ -358,8 +358,8 @@ if st.button(" EVRE TAHMİNİ YAP"):
                 %{p*100:.2f}
             </div>
         </div>
-        <div style="margin-left:10px; min-width:120px; font-size:20px;">
-            Hasta %{p*100:.2f} olasılıkla  {s}. evrede
+        <div style="margin-left:10px; min-width:120px; font-size:14px;">
+            Hasta %{p*100:.2f} olasılıkla Stage {s} evresinde
         </div>
     </div>
     """, unsafe_allow_html=True)
