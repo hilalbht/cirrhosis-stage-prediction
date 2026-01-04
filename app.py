@@ -10,6 +10,38 @@ st.set_page_config(
     page_title="Klinik Parametrelere Dayalı Siroz Evre Tahmin Sistemi",
     layout="centered"
 )
+def slider_with_input(label, min_v, max_v, default, step, key):
+    if key not in st.session_state:
+        st.session_state[key] = default
+
+    col1, col2 = st.columns([4, 1])
+
+    with col1:
+        slider_val = st.slider(
+            label,
+            min_value=min_v,
+            max_value=max_v,
+            value=st.session_state[key],
+            step=step,
+            key=f"{key}_slider"
+        )
+
+    with col2:
+        input_val = st.number_input(
+            " ",
+            min_value=min_v,
+            max_value=max_v,
+            value=st.session_state[key],
+            step=step,
+            key=f"{key}_input"
+        )
+
+    if slider_val != st.session_state[key]:
+        st.session_state[key] = slider_val
+    if input_val != st.session_state[key]:
+        st.session_state[key] = input_val
+
+    return st.session_state[key]
 
 # =========================
 # STİL (CSS)
@@ -155,7 +187,15 @@ st.divider()
 # --- Demografik Bilgiler ---
 st.subheader(" 🔴DEMOGRAFİK BİLGİLER")
 
-age = st.slider("🔹YAŞ (1-100)", 1, 100, 50)
+age = slider_with_input(
+    "🔹YAŞ (1-100)",
+    1,
+    100,
+    50,
+    1,
+    "age"
+)
+
 
 sex_map = {"Kadın": 0, "Erkek": 1}
 sex_input = st.radio("🔹CİNSİYET", list(sex_map.keys()), horizontal=True)
@@ -166,7 +206,15 @@ st.divider()
 # --- Takip ve Tedavi ---
 st.subheader(" 🔴TAKİP ve TEDAVİ BİLGİLERİ")
 
-n_days = st.slider("🔹HASTA TAKİP SÜRESİ (Gün)", 0, 5000, 1000)
+n_days = slider_with_input(
+    "🔹HASTA TAKİP SÜRESİ (Gün)",
+    0,
+    5000,
+    1000,
+    10,
+    "n_days"
+)
+
 
 status_map = {
     "Tam Fonksiyonel / Sağlıklı": 0,
@@ -200,7 +248,7 @@ spiders_map = {
     "Ciltte Örümcek Damarlar Şeklinde Genişleme Yok": 0,
     "Ciltte Örümcek Damarlar Şeklinde Genişleme Var": 1
 }
-spiders_input = st.selectbox("🔹CİLTTE DAMAR GENİŞLEMESİ", list(spiders_map.keys()))
+spiders_input = st.selectbox("🔹ÖRÜMCEK ANJİYOM (Ciltte Damar Genişlemesi)", list(spiders_map.keys()))
 spiders_val = spiders_map[spiders_input]
 
 edema_map = {
@@ -216,15 +264,16 @@ st.divider()
 # --- Laboratuvar Bulguları ---
 st.subheader(" 🔴TEST SONUÇLARI")
 
-bilirubin = st.slider("Bilirubin (mg/dL)", 0.1, 30.0, 1.0)
-cholesterol = st.slider("Cholesterol (mg/dL)", 100.0, 500.0, 250.0)
-albumin = st.slider("Albumin (g/dL)", 1.0, 6.0, 3.5)
-copper = st.slider("Copper (µg/dL)", 0.0, 300.0, 50.0)
-alk_phos = st.slider("Alk_Phos (IU/L)", 50.0, 3000.0, 500.0)
-sgot = st.slider("SGOT (IU/L)", 10.0, 500.0, 50.0)
-trig = st.slider("Tryglicerides (mg/dL)", 50.0, 500.0, 150.0)
-platelets = st.slider("Platelets (10^3/µL)", 50.0, 500.0, 250.0)
-prothrombin = st.slider("Prothrombin (%)", 8.0, 20.0, 12.0)
+bilirubin = slider_with_input("Bilirubin (mg/dL)", 0.1, 30.0, 1.0, 0.1, "bilirubin")
+cholesterol = slider_with_input("Cholesterol (mg/dL)", 100.0, 500.0, 250.0, 1.0, "cholesterol")
+albumin = slider_with_input("Albumin (g/dL)", 1.0, 6.0, 3.5, 0.1, "albumin")
+copper = slider_with_input("Copper (µg/dL)", 0.0, 300.0, 50.0, 1.0, "copper")
+alk_phos = slider_with_input("Alk_Phos (IU/L)", 50.0, 3000.0, 500.0, 10.0, "alk_phos")
+sgot = slider_with_input("SGOT (IU/L)", 10.0, 500.0, 50.0, 1.0, "sgot")
+trig = slider_with_input("Tryglicerides (mg/dL)", 50.0, 500.0, 150.0, 1.0, "trig")
+platelets = slider_with_input("Platelets (10^3/µL)", 50.0, 500.0, 250.0, 1.0, "platelets")
+prothrombin = slider_with_input("Prothrombin (%)", 8.0, 20.0, 12.0, 0.1, "prothrombin")
+
 
 
 # =========================
