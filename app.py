@@ -315,9 +315,12 @@ div.stButton > button {
         "Tryglicerides": trig,
         "Platelets": platelets,
         "Prothrombin": prothrombin,
-        "Status_label": status_val,
-        "Drug_label": drug_val
+        
     }])[model.feature_names_in_]
+
+    st.write("MODELE GİDEN INPUT:")
+    st.write(input_df)
+
 
     # Tahmin olasılıkları ve en yüksek olasılıklı evre
     probs = model.predict_proba(input_df)[0]
