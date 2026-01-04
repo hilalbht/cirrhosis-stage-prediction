@@ -288,7 +288,39 @@ if st.button(" EVRE TAHMİNİ YAP"):
     """, unsafe_allow_html=True)
 
     for s, p in zip(le_stage.classes_, probs):
-        st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
+    st.markdown(f"""
+    <div style="
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        padding: 16px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        color: #ffffff;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+    ">
+        <div>
+            <h4 style="margin:0;">Stage {s}</h4>
+            <p style="margin:0; font-size:14px;">Hasta bu evrede olma olasılığı</p>
+        </div>
+        <div style="width:60%; background: rgba(255,255,255,0.2); border-radius:8px; overflow:hidden;">
+            <div style="
+                width:{p*100}%;
+                background: linear-gradient(90deg, #ff416c, #ff4b2b);
+                padding:8px 0;
+                text-align:right;
+                font-weight:bold;
+                border-radius:8px;
+            ">
+                %{p*100:.2f}
+            </div>
+        </div>
+        <div style="margin-left:10px; min-width:120px; font-size:14px;">
+            Hasta %{p*100:.2f} olasılıkla Stage {s} evresinde
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
