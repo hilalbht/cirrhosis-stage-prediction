@@ -6,38 +6,38 @@ import numpy as np
 # =========================
 # SAYFA AYARLARI
 # =========================
-def synced_slider(label, key, min_val, max_val, step, default):
+def slider_with_input(label, min_v, max_v, default, step, key):
+    # Session state varsa al, yoksa oluştur
     if key not in st.session_state:
         st.session_state[key] = default
 
-    col1, col2 = st.columns([4,1])
+    col1, col2 = st.columns([4, 1])
 
     with col1:
         slider_val = st.slider(
             label,
-            min_value=min_val,
-            max_value=max_val,
+            min_value=min_v,
+            max_value=max_v,
             value=st.session_state[key],
             step=step,
-            key=f"{key}_slider"
+            key=f"{key}_slider",
+            on_change=lambda k=key: st.session_state.update({k: st.session_state[f"{k}_slider"]})
         )
+
     with col2:
         input_val = st.number_input(
             " ",
-            min_value=min_val,
-            max_value=max_val,
+            min_value=min_v,
+            max_value=max_v,
             value=st.session_state[key],
             step=step,
-            key=f"{key}_input"
+            key=f"{key}_input",
+            on_change=lambda k=key: st.session_state.update({k: st.session_state[f"{k}_input"]})
         )
 
-    # Senkronizasyon
-    if slider_val != st.session_state[key]:
-        st.session_state[key] = slider_val
-    if input_val != st.session_state[key]:
-        st.session_state[key] = input_val
-
+    # session_state’den en güncel değeri al
     return st.session_state[key]
+
 
 
 
