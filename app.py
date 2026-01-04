@@ -30,7 +30,10 @@ st.markdown("""
 
 /* ===== ANA BAŞLIK KARTI ===== */
 .header-card {
-    background: rgba(15, 42, 68, 0.65);
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+background-size: 400% 400%;
+animation: gradientBG 10s ease infinite;
+
     padding: 30px;
     border-radius: 22px;
     text-align: center;
@@ -159,14 +162,14 @@ st.divider()
 st.subheader(" 🔴TAKİP ve TEDAVİ BİLGİLERİ")
 n_days = st.slider("🔹HASTA TAKİP SÜRESİ (Gün)", 0, 5000, 1000)
 status_map = {
-    "Tam Fonksiyonel / Sağlıklı": 0,
-    "Kısmen Sağ / Fonksiyonel": 1,
-    "Kaybedilmiş / Fonksiyon Kaybı": 2
+    "Tam fonksiyonel / Sağlıklı": 0,
+    "Kısmen sağ / Fonksiyonel": 1,
+    "Kaybedilmiş / Fonksiyon kaybı": 2
 }
 status_input = st.radio("🔹 HASTA DURUMU", list(status_map.keys()), horizontal=True)
 status_val = status_map[status_input]
 
-drug_map = {"Hiçbir Tedavi Uygulanmıyor (Plasebo)": 0, "D-penisilamin": 1}
+drug_map = {"Hiçbir tedavi uygulanmıyor (Plasebo)": 0, "D-penisilamin": 1}
 drug_input = st.radio("🔹UYGULANAN TEDAVİ DURUMU", list(drug_map.keys()), horizontal=True)
 drug_val = drug_map[drug_input]
 
@@ -175,21 +178,21 @@ st.divider()
 # --- Klinik Bulgular ---
 st.subheader(" 🔴FİZİKSEL BULGULAR")
 ascites_map = {
-    "Karın Boşluğunda Sıvı Birikimi Yok": 0,
-    "Karın Boşluğunda Sıvı Birikimi Var (Asit)": 1
+    "Karın boşluğunda sıvı birikimi yok": 0,
+    "Karın boşluğunda sıvı birikimi var (Asit)": 1
 }
-ascites_input = st.selectbox("🔹ASİT (Karın İçi Sıvı Birikimi)", list(ascites_map.keys()))
+ascites_input = st.selectbox("🔹ASİT (Karın içi sıvı birikimi)", list(ascites_map.keys()))
 ascites_val = ascites_map[ascites_input]
 
-hepatomegaly_map = {"Karaciğer Büyümesi Yok": 0, "Karaciğer Büyümesi Var": 1}
+hepatomegaly_map = {"Karaciğer büyümesi yok": 0, "Karaciğer büyümesi var": 1}
 hepatomegaly_input = st.selectbox("🔹HEPATOMEGALİ", list(hepatomegaly_map.keys()))
 hepatomegaly_val = hepatomegaly_map[hepatomegaly_input]
 
 spiders_map = {
-    "Ciltte Örümcek Damarlar Şeklinde Genişleme Yok": 0,
-    "Ciltte Örümcek Damarlar Şeklinde Genişleme Var": 1
+    "Örümcek damarlar şeklinde genişleme yok": 0,
+    "Örümcek damarlar şeklinde genişleme var": 1
 }
-spiders_input = st.selectbox("🔹ÖRÜMCEK ANJİYOM (Ciltte Damar Genişlemesi)", list(spiders_map.keys()))
+spiders_input = st.selectbox("🔹ÖRÜMCEK ANJİYOM (Ciltte damar genişlemesi)", list(spiders_map.keys()))
 spiders_val = spiders_map[spiders_input]
 
 edema_map = {
@@ -225,7 +228,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
         margin-left: auto;
         margin-right: 20px;
         padding: 12px 24px;
-        font-size: 18px;
+        font-size: 25px;
         background-color: #0f2a44;
         color: white;
         border-radius: 12px;
