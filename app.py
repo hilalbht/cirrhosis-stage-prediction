@@ -30,10 +30,7 @@ st.markdown("""
 
 /* ===== ANA BAŞLIK KARTI ===== */
 .header-card {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-background-size: 400% 400%;
-animation: gradientBG 10s ease infinite;
-
+    background: rgba(15, 42, 68, 0.65);
     padding: 30px;
     border-radius: 22px;
     text-align: center;
