@@ -270,7 +270,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
     # Sonuç kartı - GÜZELLEŞTİRİLMİŞ
     st.markdown(f"""
 <div style="
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    background: linear-gradient(135deg, #d3d3d3, #a9a9a9);
     padding: 30px;
     border-radius: 22px;
     text-align: center;
@@ -282,7 +282,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
     <h1 style="
         font-size:64px;
         margin:0;
-        background: linear-gradient(90deg, #ff416c, #ff4b2b);
+        background: linear-gradient(90deg, #800000, #b22222);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     ">Stage {stage}</h1>
