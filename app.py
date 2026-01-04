@@ -58,7 +58,7 @@ st.markdown("""
     font-size: 26px;
 }
 .stMarkdown h3.section-title {
-    color: #0f2a44 !important;
+    color: A92E01 !important;
 }
 
 /* ===== SECTION ALT AYIRICI ===== */
