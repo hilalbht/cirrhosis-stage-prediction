@@ -343,7 +343,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
         box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
     ">
         <div>
-            <h4 style="margin:0;">Stage {s}</h4>
+            <h4 style="margin:0;">EVRE {s}</h4>
             <p style="margin:0; font-size:14px;">Hasta bu evrede olma olasılığı</p>
         </div>
         <div style="width:60%; background: rgba(255,255,255,0.2); border-radius:8px; overflow:hidden;">
@@ -359,7 +359,7 @@ if st.button(" EVRE TAHMİNİ YAP"):
             </div>
         </div>
         <div style="margin-left:10px; min-width:120px; font-size:14px;">
-            Hasta %{p*100:.2f} olasılıkla Stage {s} evresinde
+            Hasta %{p*100:.2f} olasılıkla {s} . evrede
         </div>
     </div>
     """, unsafe_allow_html=True)
