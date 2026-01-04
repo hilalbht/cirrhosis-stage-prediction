@@ -7,7 +7,7 @@ import numpy as np
 # SAYFA AYARLARI
 # =========================
 def slider_with_input(label, min_v, max_v, default, step, key):
-    # Session state varsa al, yoksa oluştur
+    # Session state yoksa default değer atıyoruz
     if key not in st.session_state:
         st.session_state[key] = default
 
@@ -20,8 +20,7 @@ def slider_with_input(label, min_v, max_v, default, step, key):
             max_value=max_v,
             value=st.session_state[key],
             step=step,
-            key=f"{key}_slider",
-            on_change=lambda k=key: st.session_state.update({k: st.session_state[f"{k}_slider"]})
+            key=f"{key}_slider"
         )
 
     with col2:
@@ -31,12 +30,17 @@ def slider_with_input(label, min_v, max_v, default, step, key):
             max_value=max_v,
             value=st.session_state[key],
             step=step,
-            key=f"{key}_input",
-            on_change=lambda k=key: st.session_state.update({k: st.session_state[f"{k}_input"]})
+            key=f"{key}_input"
         )
 
-    # session_state’den en güncel değeri al
+    # Senkronizasyon
+    if slider_val != st.session_state[key]:
+        st.session_state[key] = slider_val
+    elif input_val != st.session_state[key]:
+        st.session_state[key] = input_val
+
     return st.session_state[key]
+
 
 
 
