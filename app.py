@@ -6,45 +6,10 @@ import numpy as np
 # =========================
 # SAYFA AYARLARI
 # =========================
-def slider_with_input(label, min_v, max_v, default, step, key):
-    # Session state yoksa default değer atıyoruz
-    if key not in st.session_state:
-        st.session_state[key] = default
-
-    col1, col2 = st.columns([4, 1])
-
-    with col1:
-        slider_val = st.slider(
-            label,
-            min_value=min_v,
-            max_value=max_v,
-            value=st.session_state[key],
-            step=step,
-            key=f"{key}_slider"
-        )
-
-    with col2:
-        input_val = st.number_input(
-            " ",
-            min_value=min_v,
-            max_value=max_v,
-            value=st.session_state[key],
-            step=step,
-            key=f"{key}_input"
-        )
-
-    # Senkronizasyon
-    if slider_val != st.session_state[key]:
-        st.session_state[key] = slider_val
-    elif input_val != st.session_state[key]:
-        st.session_state[key] = input_val
-
-    return st.session_state[key]
-
-
-
-
-
+st.set_page_config(
+    page_title="Klinik Parametrelere Dayalı Siroz Evre Tahmin Sistemi",
+    layout="centered"
+)
 
 # =========================
 # STİL (CSS)
@@ -171,59 +136,44 @@ le_stage = joblib.load("stage_label_encoder.pkl")
 # =========================
 st.markdown("""
 <div class="header-card">
-    <h1>Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi</h1>
-    <p><b>⚠️Eğitim ve klinik simülasyon amaçlıdır.</b></p>
-    <p style="font-size:14px;">
-        ⚠️Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir.  
-        Klinik kararların yerine geçmez.
-    </p>
+<h1>Klinik Parametrelere Dayalı<br>Siroz Evre Tahmin Sistemi</h1>
+<p><b>⚠️Eğitim ve klinik simülasyon amaçlıdır.</b></p>
+<p style="font-size:14px;"> ⚠️Bu sistem <b>olasılıksal ve istatistiksel bir tahmin</b> üretir. Klinik kararların yerine geçmez. </p>
 </div>
 """, unsafe_allow_html=True)
-
 st.divider()
 
 # =========================
 # GİRDİLER
 # =========================
-
-
 # --- Demografik Bilgiler ---
 st.subheader(" 🔴DEMOGRAFİK BİLGİLER")
-
-age = slider_with_input("🔹YAŞ (1-100)", 1, 100, 50, 1, "age")
-
-
-
+age = st.slider("🔹YAŞ (1-100)", 1, 100, 50)
 sex_map = {"Kadın": 0, "Erkek": 1}
 sex_input = st.radio("🔹CİNSİYET", list(sex_map.keys()), horizontal=True)
-sex_val = sex_map[sex_input]  # model input
+sex_val = sex_map[sex_input]
 
 st.divider()
 
 # --- Takip ve Tedavi ---
 st.subheader(" 🔴TAKİP ve TEDAVİ BİLGİLERİ")
-
-n_days = slider_with_input("🔹HASTA TAKİP SÜRESİ (Gün)", 0, 5000, 1000, 10, "n_days")
-
-
-
+n_days = st.slider("🔹HASTA TAKİP SÜRESİ (Gün)", 0, 5000, 1000)
 status_map = {
     "Tam Fonksiyonel / Sağlıklı": 0,
     "Kısmen Sağ / Fonksiyonel": 1,
     "Kaybedilmiş / Fonksiyon Kaybı": 2
 }
 status_input = st.radio("🔹 HASTA DURUMU", list(status_map.keys()), horizontal=True)
-status_val = status_map[status_input]  # model input
+status_val = status_map[status_input]
 
 drug_map = {"Hiçbir Tedavi Uygulanmıyor (Plasebo)": 0, "D-penisilamin": 1}
 drug_input = st.radio("🔹UYGULANAN TEDAVİ DURUMU", list(drug_map.keys()), horizontal=True)
-drug_val = drug_map[drug_input]  # model input
+drug_val = drug_map[drug_input]
 
 st.divider()
 
 # --- Klinik Bulgular ---
 st.subheader(" 🔴FİZİKSEL BULGULAR")
-
 ascites_map = {
     "Karın Boşluğunda Sıvı Birikimi Yok": 0,
     "Karın Boşluğunda Sıvı Birikimi Var (Asit)": 1
@@ -254,39 +204,34 @@ st.divider()
 
 # --- Laboratuvar Bulguları ---
 st.subheader(" 🔴TEST SONUÇLARI")
-
-bilirubin = slider_with_input("Bilirubin (mg/dL)", 0.1, 30.0, 1.0, 0.1, "bilirubin")
-cholesterol = slider_with_input("Cholesterol (mg/dL)", 100.0, 500.0, 250.0, 1.0, "cholesterol")
-albumin = slider_with_input("Albumin (g/dL)", 1.0, 6.0, 3.5, 0.1, "albumin")
-copper = slider_with_input("Copper (µg/dL)", 0.0, 300.0, 50.0, 1.0, "copper")
-alk_phos = slider_with_input("Alk_Phos (IU/L)", 50.0, 3000.0, 500.0, 10.0, "alk_phos")
-sgot = slider_with_input("SGOT (IU/L)", 10.0, 500.0, 50.0, 1.0, "sgot")
-trig = slider_with_input("Tryglicerides (mg/dL)", 50.0, 500.0, 150.0, 1.0, "trig")
-platelets = slider_with_input("Platelets (10^3/µL)", 50.0, 500.0, 250.0, 1.0, "platelets")
-prothrombin = slider_with_input("Prothrombin (%)", 8.0, 20.0, 12.0, 0.1, "prothrombin")
-
-
+bilirubin = st.slider("Bilirubin (mg/dL)", 0.1, 30.0, 1.0)
+cholesterol = st.slider("Cholesterol (mg/dL)", 100.0, 500.0, 250.0)
+albumin = st.slider("Albumin (g/dL)", 1.0, 6.0, 3.5)
+copper = st.slider("Copper (µg/dL)", 0.0, 300.0, 50.0)
+alk_phos = st.slider("Alk_Phos (IU/L)", 50.0, 3000.0, 500.0)
+sgot = st.slider("SGOT (IU/L)", 10.0, 500.0, 50.0)
+trig = st.slider("Tryglicerides (mg/dL)", 50.0, 500.0, 150.0)
+platelets = st.slider("Platelets (10^3/µL)", 50.0, 500.0, 250.0)
+prothrombin = st.slider("Prothrombin (%)", 8.0, 20.0, 12.0)
 
 # =========================
 # TAHMİN BUTONU
 # =========================
 if st.button(" EVRE TAHMİNİ YAP"):
-    
     st.markdown("""
-<style>
-div.stButton > button {
-    display: block;
-    margin-left: auto;
-    margin-right: 20px;  /* px eklemeyi unutma */
-    padding: 12px 24px;
-    font-size: 18px;
-    background-color: #0f2a44;
-    color: white;
-    border-radius: 12px;
-}
-</style>
-""", unsafe_allow_html=True)
-
+    <style>
+    div.stButton > button {
+        display: block;
+        margin-left: auto;
+        margin-right: 20px;
+        padding: 12px 24px;
+        font-size: 18px;
+        background-color: #0f2a44;
+        color: white;
+        border-radius: 12px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
     # Modelin beklediği input dataframe
     input_df = pd.DataFrame([{
@@ -310,18 +255,13 @@ div.stButton > button {
         "Prothrombin": prothrombin,
         "Status_label": status_val,
         "Drug_label": drug_val
-        
     }])[model.feature_names_in_]
-
-    st.write("MODELE GİDEN DEĞERLER:")
-    st.write(input_df)
-
 
     # Tahmin olasılıkları ve en yüksek olasılıklı evre
     probs = model.predict_proba(input_df)[0]
     stage = le_stage.inverse_transform([np.argmax(probs)])[0]
 
-    # Boşluk eklemek için st.markdown kullanabiliriz
+    # Boşluk eklemek için
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     # Sonuç kartı
@@ -330,8 +270,7 @@ div.stButton > button {
         <h2 style="text-align:center;">Tahmin Edilen Siroz Evresi</h2>
         <h1 style="font-size:48px; text-align:center;">Stage {stage}</h1>
         <p style="font-size:14px; text-align:center;">
-      ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>.
-        Klinik kararların yerine geçmez.
+        ❗Bu çıktı, modelin mevcut verilere dayanarak yaptığı <b>istatistiksel bir tahmindir</b>. Klinik kararların yerine geçmez.
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -339,22 +278,15 @@ div.stButton > button {
     # Sonuç kartı ile evre olasılıkları arasında boşluk
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    # Evre olasılıkları başlığı ortalanmış, büyütülmüş ve renkli
+    # Evre olasılıkları başlığı
     st.markdown("""
-    <h2 style="
-        text-align:center; 
-        font-size:32px; 
-        color:#0f2a44; 
-        font-weight:bold;
-        margin-bottom:20px;
-    ">EVRE OLASILIKLARI</h2>
+    <h2 style=" text-align:center; font-size:32px; color:#0f2a44; font-weight:bold; margin-bottom:20px; ">
+    EVRE OLASILIKLARI
+    </h2>
     """, unsafe_allow_html=True)
 
     for s, p in zip(le_stage.classes_, probs):
         st.progress(float(p), text=f"Stage {s}: %{p*100:.2f}")
-
-        
-
 
     st.markdown("<br><br><br>", unsafe_allow_html=True)
 
@@ -362,8 +294,8 @@ div.stButton > button {
     # Hasta bazlı parametre etki analizi
     # =========================
     st.markdown("""
-<h3 style="color:#0f2a44;">⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ</h3>
-""", unsafe_allow_html=True)
+    <h3 style="color:#0f2a44;">⚠️ HASTA BAZLI PARAMETRE ETKİ ANALİZİ</h3>
+    """, unsafe_allow_html=True)
 
     st.write(
         "Aşağıda, modelin **bu hasta için** tahmin edilen evreye "
@@ -379,23 +311,16 @@ div.stButton > button {
         temp_proba = model.predict_proba(temp_df)[0]
         diff = probs[base_index] - temp_proba[base_index]
         effect_percent = diff * 100
-
-
         if diff > 0:
             yorum =( "⚠️ Risk artırıcı etkisi var. "
-        "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
-        "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir.")
-         
-                    
+                     "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
+                     "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir.")
         elif diff < 0:
-            yorum = (
-        "⚠️ Risk artırıcı etkisi var. "
-        "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
-        "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir."
-    )
+            yorum = ( "⚠️ Risk artırıcı etkisi var. "
+                      "Model bu parametreden dolayı yüksek evre tahmini yapıyor. "
+                      "Klinik olarak bu parametreyi izlemek ve gerekirse müdahale etmek gerekir." )
         else:
             yorum = "➖ Belirgin etkisi yok"
-
         impact_results.append({
             "Parametre": f"🔵 Klinik Parametre: {col}",
             "Etki Büyüklüğü (%)": round(effect_percent, 2),
@@ -423,5 +348,3 @@ div.stButton > button {
             <p style="margin-top:8px; line-height:1.5;">{row['Klinik Yorum']}</p>
         </div>
         """, unsafe_allow_html=True)
-
-
