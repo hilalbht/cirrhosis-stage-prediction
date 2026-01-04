@@ -44,8 +44,8 @@ st.markdown("""
 /* ===== BÖLÜM BAŞLIKLARI ===== */
 .section-title {
     font-family: "Times New Roman", Georgia, serif;
-    font-size: 26px;
-    color: #0f2a44;
+    font-size: 35px;
+    color: #A92E01;
     transition: transform 0.25s ease;
 }
 .section-title:hover {
