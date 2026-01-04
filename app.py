@@ -19,7 +19,11 @@ def slider_with_input(label, min_v, max_v, default, step, key):
             min_value=min_v,
             max_value=max_v,
             step=step,
-            key=key
+            value=st.session_state[key],
+            key=f"{key}_slider",
+            on_change=lambda: st.session_state.update(
+                {key: st.session_state[f"{key}_slider"]}
+            )
         )
 
     with col2:
@@ -28,10 +32,15 @@ def slider_with_input(label, min_v, max_v, default, step, key):
             min_value=min_v,
             max_value=max_v,
             step=step,
-            key=key
+            value=st.session_state[key],
+            key=f"{key}_input",
+            on_change=lambda: st.session_state.update(
+                {key: st.session_state[f"{key}_input"]}
+            )
         )
 
     return st.session_state[key]
+
 
 
 # =========================
